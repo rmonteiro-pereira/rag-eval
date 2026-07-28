@@ -1,0 +1,44 @@
+# --- secrets ---
+.env
+.env.local
+*.key
+
+# --- corpus & artifacts (never commit raw docs or weights) ---
+# (`data/*` not `data/` — git cannot re-include a file whose parent dir is excluded)
+data/*
+!data/manifest.json
+models/
+*.pdf
+*.safetensors
+*.bin
+*.gguf
+*.onnx
+
+# --- python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.uv/
+uv.lock.bak
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+build/
+dist/
+
+# --- local infra state ---
+.docker-data/
+qdrant_storage/
+langfuse_data/
+
+# --- editors / os ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- eval run outputs (reports are regenerated) ---
+eval/reports/*.json
+eval/reports/*.html

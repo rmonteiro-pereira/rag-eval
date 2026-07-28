@@ -1,0 +1,49 @@
+[project]
+name = "rag-eval"
+version = "0.1.0"
+description = "Production-grade RAG over Brazilian financial regulatory documents, with a rigorous evaluation harness."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Rodrigo Monteiro Pereira" }]
+
+dependencies = [
+    # corpus acquisition + parsing
+    "httpx>=0.27",
+    "pypdf>=5.1",
+    # embeddings (bge-m3, local CPU)
+    "sentence-transformers>=3.3",
+    "torch>=2.4",
+    # vector store
+    "qdrant-client>=1.12",
+    # observability
+    "langfuse>=2.53,<3",
+    # generation / config / cli
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "python-dotenv>=1.0",
+    "typer>=0.15",
+    "rich>=13.9",
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.8", "pytest>=8.3"]
+
+[project.scripts]
+rag-ask = "rag.ask:main"
+rag-ingest = "ingest.pipeline:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# Flat layout: the repo structure mandated by the spec doubles as the package set.
+packages = ["rag", "ingest", "retrieval", "generation", "serving"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
