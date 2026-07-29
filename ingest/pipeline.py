@@ -1,7 +1,7 @@
 """End-to-end ingest: manifest -> PDF text -> chunks -> bge-m3 -> Qdrant.
 
-    uv run python -m ingest.pipeline --download 30
-    uv run python -m ingest.pipeline            # reuse whatever is in data/raw
+uv run python -m ingest.pipeline --download 30
+uv run python -m ingest.pipeline            # reuse whatever is in data/raw
 """
 
 from __future__ import annotations
@@ -67,8 +67,10 @@ def run(download: int | None = None, batch_size: int | None = None) -> int:
         batch_size=batch_size or settings.embedding_batch_size,
     )
     elapsed = time.perf_counter() - started
-    print(f"  embedded {len(vectors)} chunks in {elapsed:.0f}s "
-          f"({len(vectors) / max(elapsed, 1e-6):.1f} chunks/s)")
+    print(
+        f"  embedded {len(vectors)} chunks in {elapsed:.0f}s "
+        f"({len(vectors) / max(elapsed, 1e-6):.1f} chunks/s)"
+    )
 
     # 3. upsert
     client = get_client()

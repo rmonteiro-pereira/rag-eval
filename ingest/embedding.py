@@ -37,7 +37,11 @@ class Embedder:
 
     @property
     def dimension(self) -> int:
-        return self.model.get_sentence_embedding_dimension()
+        # sentence-transformers 5.x renamed this; keep working on both lines.
+        getter = getattr(self.model, "get_embedding_dimension", None)
+        if getter is None:
+            getter = self.model.get_sentence_embedding_dimension
+        return getter()
 
     def embed_documents(self, texts: list[str], batch_size: int | None = None) -> list[list[float]]:
         vectors = self.model.encode(

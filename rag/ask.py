@@ -1,7 +1,7 @@
 """CLI entrypoint.
 
-    uv run python -m rag.ask "qual a decisao do Copom sobre a Selic?"
-    uv run python -m rag.ask --top-k 8 --mode extractive "..."
+uv run python -m rag.ask "qual a decisao do Copom sobre a Selic?"
+uv run python -m rag.ask --top-k 8 --mode extractive "..."
 """
 
 from __future__ import annotations

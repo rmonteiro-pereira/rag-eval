@@ -32,7 +32,9 @@ def get_client(url: str | None = None) -> QdrantClient:
 
 def recreate_collection(client: QdrantClient, dimension: int, name: str | None = None) -> str:
     name = name or settings.qdrant_collection
-    client.recreate_collection(
+    if client.collection_exists(name):
+        client.delete_collection(name)
+    client.create_collection(
         collection_name=name,
         vectors_config=qmodels.VectorParams(
             size=dimension,
