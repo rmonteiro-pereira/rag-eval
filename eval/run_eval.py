@@ -2,10 +2,10 @@
 
     uv run python -m eval.run_eval --min-status draft --out eval/reports/baseline_dense.json
 
-Scores the current retriever against the gold set and writes a JSON report with
-per-query and aggregate `recall@k`, `hit_rate@k`, `nDCG@k` and `MRR`.
+Scores one named retrieval configuration against the gold set and writes a JSON
+report with per-query and aggregate `recall@k`, `hit_rate@k`, `nDCG@k` and `MRR`.
 
-Two design choices are worth stating plainly, because they are what makes the
+Three design choices are worth stating plainly, because they are what makes the
 numbers mean anything:
 
 1. **Complete qrels.** Relevance is judged against every chunk in the
@@ -17,6 +17,11 @@ numbers mean anything:
    command with `--min-status validated` reports the number that counts. That
    is the whole reason the flag exists: the human pass is a re-run, not a
    rewrite.
+3. **`--config` defaults to `dense`, not to the best arm.** The command above
+   is the one that produced the committed M1/M2 baseline, and it has to keep
+   producing that same baseline after M4 shipped a better retriever — otherwise
+   the "before" half of every before/after number quietly moves. Scoring the
+   improved arms is what `eval.ablation` is for.
 
 Abstention rows carry no span, so they have no relevant chunk and are excluded
 from retrieval metrics. They are counted in the report; the abstention metric
@@ -31,10 +36,10 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from eval.corpus import load_chunks
+from eval.corpus import to_chunk_refs
 from eval.gold import DEFAULT_GOLD_PATH, GoldRow, GoldSetError, load_gold, status_counts
-from eval.metrics.retrieval import DEFAULT_KS, RetrievalScores, aggregate, score_ranking
-from eval.qrels import build_row_qrels, chunk_key
+from eval.metrics.retrieval import DEFAULT_KS
+from eval.scoring import score_rows
 from rag.config import REPO_ROOT, settings
 
 SCHEMA_VERSION = 1
@@ -50,19 +55,11 @@ def _parse_ks(raw: str) -> tuple[int, ...]:
     return ks
 
 
-def _breakdown(
-    scored: list[tuple[GoldRow, RetrievalScores]],
-    attribute: str,
-) -> dict[str, dict[str, float | int]]:
-    """Aggregate the same metrics per capability / per difficulty.
-
-    Cheap, and it is where the interesting failures show up: a healthy headline
-    number can hide a capability that never retrieves anything.
-    """
-    buckets: dict[str, list[RetrievalScores]] = {}
-    for row, scores in scored:
-        buckets.setdefault(getattr(row, attribute), []).append(scores)
-    return {name: aggregate(group) for name, group in sorted(buckets.items())}
+DRAFT_CAVEAT = (
+    "DRAFT GOLD SET. Every row was written by an agent and none has been "
+    "validated by a human, so these numbers measure the harness, not the "
+    "system. Re-run with --min-status validated after the human pass."
+)
 
 
 def build_report(
@@ -71,95 +68,29 @@ def build_report(
     min_status: str,
     ks: tuple[int, ...],
     label: str,
+    config_name: str = "dense",
 ) -> dict:
-    from retrieval.dense import DenseRetriever
-    from retrieval.store import get_client
+    from retrieval.configs import CONFIGS_BY_NAME, RetrievalContext, build_retriever
 
     top_k = max(ks)
-    client = get_client()
-    chunks = load_chunks(client)
-    if not chunks:
-        raise SystemExit(
-            f"collection {settings.qdrant_collection!r} is empty — "
-            "run `uv run python -m ingest.pipeline` before evaluating"
-        )
+    context = RetrievalContext.build()
+    chunks = to_chunk_refs(context.corpus)
+    retriever = build_retriever(config_name, context, top_k=top_k)
 
-    retriever = DenseRetriever(top_k=top_k)
-
-    per_query: list[dict] = []
-    scored: list[tuple[GoldRow, RetrievalScores]] = []
-    abstention: list[dict] = []
-    skipped: list[dict] = []
-
-    for row in rows:
-        if row.is_abstention:
-            abstention.append(
-                {"id": row.id, "question": row.question, "capability": row.capability}
-            )
-            continue
-
-        assert row.source_doc_id is not None  # guaranteed by the gold loader
-        row_qrels = build_row_qrels(
-            source_doc_id=row.source_doc_id,
-            source_page=row.source_page,
-            source_span=row.source_span,
-            chunks=chunks,
-        )
-        if not row_qrels.qrels:
-            skipped.append(
-                {
-                    "id": row.id,
-                    "reason": "no chunk in the collection matches this row's document/page",
-                    "source_doc_id": row.source_doc_id,
-                    "source_page": row.source_page,
-                }
-            )
-            continue
-
-        hits = retriever.retrieve(row.question, top_k=top_k)
-        ranking = [chunk_key(hit.doc_id, hit.chunk_index) for hit in hits]
-        scores = score_ranking(ranking, row_qrels.qrels, ks=ks)
-        scored.append((row, scores))
-
-        per_query.append(
-            {
-                "id": row.id,
-                "question": row.question,
-                "capability": row.capability,
-                "difficulty": row.difficulty,
-                "answer_type": row.answer_type,
-                "source_doc_id": row.source_doc_id,
-                "source_page": row.source_page,
-                "span_matched": row_qrels.span_matched,
-                "metrics": scores.to_json(),
-                "retrieved": [
-                    {
-                        "rank": rank,
-                        "doc_id": hit.doc_id,
-                        "page": hit.page_number,
-                        "chunk_index": hit.chunk_index,
-                        "score": round(hit.score, 6),
-                        "gain": row_qrels.qrels.get(chunk_key(hit.doc_id, hit.chunk_index), 0),
-                    }
-                    for rank, hit in enumerate(hits, start=1)
-                ],
-            }
-        )
-
-    if not scored:
+    result = score_rows(retriever, rows, chunks, ks=ks, top_k=top_k)
+    if not result.scored:
         raise SystemExit(
             "no answerable gold rows survived the filters — nothing to measure. "
             f"(--min-status {min_status}, {len(rows)} rows loaded)"
         )
-
-    unmatched = [q["id"] for q in per_query if not q["span_matched"]]
 
     return {
         "schema_version": SCHEMA_VERSION,
         "label": label,
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "config": {
-            "retriever": "dense",
+            "retriever": config_name,
+            "retriever_detail": CONFIGS_BY_NAME[config_name].to_json(),
             "collection": settings.qdrant_collection,
             "embedding_model": settings.embedding_model,
             "chunk_size": settings.chunk_size,
@@ -180,29 +111,25 @@ def build_report(
         "gold": {
             "status_counts_in_file": status_counts(gold_path),
             "n_rows_after_status_filter": len(rows),
-            "n_scored": len(scored),
-            "n_abstention_excluded": len(abstention),
-            "n_skipped": len(skipped),
+            "n_scored": len(result.scored),
+            "n_abstention_excluded": len(result.abstention),
+            "n_skipped": len(result.skipped),
         },
-        "aggregate": aggregate([scores for _, scores in scored]),
-        "by_capability": _breakdown(scored, "capability"),
-        "by_difficulty": _breakdown(scored, "difficulty"),
-        "abstention_rows": abstention,
+        "aggregate": result.aggregate(),
+        "by_capability": result.breakdown("capability"),
+        "by_difficulty": result.breakdown("difficulty"),
+        "abstention_rows": result.abstention,
         "diagnostics": {
-            "rows_with_unmatched_span": unmatched,
-            "rows_skipped": skipped,
+            "rows_with_unmatched_span": result.unmatched_span_ids(),
+            "rows_skipped": result.skipped,
             "note": (
                 "rows_with_unmatched_span are gold rows whose span could not be located "
                 "verbatim in any chunk (chunk boundary or a typo in the gold file); they "
                 "are still scored, at page-level relevance only"
             ),
         },
-        "per_query": per_query,
-        "caveat": (
-            "DRAFT GOLD SET. Every row was written by an agent and none has been "
-            "validated by a human, so these numbers measure the harness, not the "
-            "system. Re-run with --min-status validated after the human pass."
-        ),
+        "per_query": [sq.to_json(ks) for sq in result.scored],
+        "caveat": DRAFT_CAVEAT,
     }
 
 
@@ -269,10 +196,27 @@ def main(argv: list[str] | None = None) -> int:
         default=DEFAULT_KS,
         help="comma-separated cutoffs (default: 1,3,5,10)",
     )
+    parser.add_argument(
+        "--config",
+        default="dense",
+        help=(
+            "named retrieval arm from retrieval.configs "
+            "(default: dense — the committed baseline; see the module docstring)"
+        ),
+    )
     parser.add_argument("--out", type=Path, default=None, help="write the JSON report here")
-    parser.add_argument("--label", default="dense", help="name for this configuration")
+    parser.add_argument("--label", default=None, help="name for this run (default: --config)")
     parser.add_argument("--quiet", action="store_true", help="suppress the console summary")
     args = parser.parse_args(argv)
+
+    from retrieval.configs import CONFIGS_BY_NAME
+
+    if args.config not in CONFIGS_BY_NAME:
+        print(
+            f"unknown --config {args.config!r}; known: {', '.join(CONFIGS_BY_NAME)}",
+            file=sys.stderr,
+        )
+        return 2
 
     gold_path = args.gold if args.gold is not None else None
     try:
@@ -295,7 +239,8 @@ def main(argv: list[str] | None = None) -> int:
         gold_path=Path(gold_path) if gold_path else DEFAULT_GOLD_PATH,
         min_status=args.min_status,
         ks=tuple(args.k),
-        label=args.label,
+        label=args.label or args.config,
+        config_name=args.config,
     )
 
     if args.out:

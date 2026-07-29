@@ -1,9 +1,19 @@
 {
   "schema_version": 1,
   "label": "dense",
-  "generated_at": "2026-07-29T04:08:52+00:00",
+  "generated_at": "2026-07-29T04:43:47+00:00",
   "config": {
     "retriever": "dense",
+    "retriever_detail": {
+      "name": "dense",
+      "description": "M1 baseline: bge-m3 cosine top-k, nothing else.",
+      "dense": true,
+      "sparse": false,
+      "metadata_filter": false,
+      "rerank": false,
+      "candidate_k": null,
+      "rrf_k": null
+    },
     "collection": "bacen_copom",
     "embedding_model": "BAAI/bge-m3",
     "chunk_size": 1200,
@@ -456,6 +466,8 @@
       "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -481,6 +493,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.682918,
+          "signals": {
+            "dense": 0.682918
+          },
           "gain": 0
         },
         {
@@ -489,6 +504,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.664653,
+          "signals": {
+            "dense": 0.664653
+          },
           "gain": 0
         },
         {
@@ -497,6 +515,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.648045,
+          "signals": {
+            "dense": 0.648045
+          },
           "gain": 0
         },
         {
@@ -505,6 +526,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.646122,
+          "signals": {
+            "dense": 0.646122
+          },
           "gain": 2
         },
         {
@@ -513,6 +537,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.645111,
+          "signals": {
+            "dense": 0.645111
+          },
           "gain": 0
         },
         {
@@ -521,6 +548,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.630485,
+          "signals": {
+            "dense": 0.630485
+          },
           "gain": 0
         },
         {
@@ -529,6 +559,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.626601,
+          "signals": {
+            "dense": 0.626601
+          },
           "gain": 0
         },
         {
@@ -537,6 +570,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.624787,
+          "signals": {
+            "dense": 0.624787
+          },
           "gain": 0
         },
         {
@@ -545,6 +581,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.621037,
+          "signals": {
+            "dense": 0.621037
+          },
           "gain": 0
         },
         {
@@ -553,6 +592,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.620241,
+          "signals": {
+            "dense": 0.620241
+          },
           "gain": 0
         }
       ]
@@ -566,6 +608,8 @@
       "source_doc_id": "2025-09-17-273ª-reunião-16-17-setembro-2025",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -591,6 +635,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.696298,
+          "signals": {
+            "dense": 0.696298
+          },
           "gain": 0
         },
         {
@@ -599,6 +646,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.67498,
+          "signals": {
+            "dense": 0.67498
+          },
           "gain": 0
         },
         {
@@ -607,6 +657,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.674288,
+          "signals": {
+            "dense": 0.674288
+          },
           "gain": 0
         },
         {
@@ -615,6 +668,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.672405,
+          "signals": {
+            "dense": 0.672405
+          },
           "gain": 0
         },
         {
@@ -623,6 +679,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.667513,
+          "signals": {
+            "dense": 0.667513
+          },
           "gain": 0
         },
         {
@@ -631,6 +690,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.655312,
+          "signals": {
+            "dense": 0.655312
+          },
           "gain": 0
         },
         {
@@ -639,6 +701,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.650757,
+          "signals": {
+            "dense": 0.650757
+          },
           "gain": 0
         },
         {
@@ -647,6 +712,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.650699,
+          "signals": {
+            "dense": 0.650699
+          },
           "gain": 0
         },
         {
@@ -655,6 +723,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.646761,
+          "signals": {
+            "dense": 0.646761
+          },
           "gain": 0
         },
         {
@@ -663,6 +734,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.643883,
+          "signals": {
+            "dense": 0.643883
+          },
           "gain": 0
         }
       ]
@@ -676,6 +750,8 @@
       "source_doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -701,6 +777,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.666882,
+          "signals": {
+            "dense": 0.666882
+          },
           "gain": 0
         },
         {
@@ -709,6 +788,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.655805,
+          "signals": {
+            "dense": 0.655805
+          },
           "gain": 0
         },
         {
@@ -717,6 +799,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.646612,
+          "signals": {
+            "dense": 0.646612
+          },
           "gain": 0
         },
         {
@@ -725,6 +810,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.614775,
+          "signals": {
+            "dense": 0.614775
+          },
           "gain": 0
         },
         {
@@ -733,6 +821,9 @@
           "page": 6,
           "chunk_index": 21,
           "score": 0.609644,
+          "signals": {
+            "dense": 0.609644
+          },
           "gain": 0
         },
         {
@@ -741,6 +832,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.607306,
+          "signals": {
+            "dense": 0.607306
+          },
           "gain": 0
         },
         {
@@ -749,6 +843,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.595172,
+          "signals": {
+            "dense": 0.595172
+          },
           "gain": 0
         },
         {
@@ -757,6 +854,9 @@
           "page": 5,
           "chunk_index": 16,
           "score": 0.593537,
+          "signals": {
+            "dense": 0.593537
+          },
           "gain": 0
         },
         {
@@ -765,6 +865,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.584273,
+          "signals": {
+            "dense": 0.584273
+          },
           "gain": 0
         },
         {
@@ -773,6 +876,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.5822,
+          "signals": {
+            "dense": 0.5822
+          },
           "gain": 0
         }
       ]
@@ -786,6 +892,8 @@
       "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -811,6 +919,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.661338,
+          "signals": {
+            "dense": 0.661338
+          },
           "gain": 0
         },
         {
@@ -819,6 +930,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.646639,
+          "signals": {
+            "dense": 0.646639
+          },
           "gain": 0
         },
         {
@@ -827,6 +941,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.643285,
+          "signals": {
+            "dense": 0.643285
+          },
           "gain": 0
         },
         {
@@ -835,6 +952,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.635604,
+          "signals": {
+            "dense": 0.635604
+          },
           "gain": 0
         },
         {
@@ -843,6 +963,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.635373,
+          "signals": {
+            "dense": 0.635373
+          },
           "gain": 0
         },
         {
@@ -851,6 +974,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.634426,
+          "signals": {
+            "dense": 0.634426
+          },
           "gain": 1
         },
         {
@@ -859,6 +985,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.633749,
+          "signals": {
+            "dense": 0.633749
+          },
           "gain": 0
         },
         {
@@ -867,6 +996,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.632699,
+          "signals": {
+            "dense": 0.632699
+          },
           "gain": 0
         },
         {
@@ -875,6 +1007,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.630754,
+          "signals": {
+            "dense": 0.630754
+          },
           "gain": 0
         },
         {
@@ -883,6 +1018,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.629544,
+          "signals": {
+            "dense": 0.629544
+          },
           "gain": 0
         }
       ]
@@ -896,6 +1034,8 @@
       "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -921,6 +1061,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.634937,
+          "signals": {
+            "dense": 0.634937
+          },
           "gain": 0
         },
         {
@@ -929,6 +1072,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.617873,
+          "signals": {
+            "dense": 0.617873
+          },
           "gain": 0
         },
         {
@@ -937,6 +1083,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.617366,
+          "signals": {
+            "dense": 0.617366
+          },
           "gain": 0
         },
         {
@@ -945,6 +1094,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.605036,
+          "signals": {
+            "dense": 0.605036
+          },
           "gain": 0
         },
         {
@@ -953,6 +1105,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.600416,
+          "signals": {
+            "dense": 0.600416
+          },
           "gain": 0
         },
         {
@@ -961,6 +1116,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.600045,
+          "signals": {
+            "dense": 0.600045
+          },
           "gain": 1
         },
         {
@@ -969,6 +1127,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.596171,
+          "signals": {
+            "dense": 0.596171
+          },
           "gain": 0
         },
         {
@@ -977,6 +1138,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.592164,
+          "signals": {
+            "dense": 0.592164
+          },
           "gain": 0
         },
         {
@@ -985,6 +1149,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.592006,
+          "signals": {
+            "dense": 0.592006
+          },
           "gain": 0
         },
         {
@@ -993,6 +1160,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.591746,
+          "signals": {
+            "dense": 0.591746
+          },
           "gain": 0
         }
       ]
@@ -1006,6 +1176,8 @@
       "source_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.25,
@@ -1031,6 +1203,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.712576,
+          "signals": {
+            "dense": 0.712576
+          },
           "gain": 0
         },
         {
@@ -1039,6 +1214,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.71071,
+          "signals": {
+            "dense": 0.71071
+          },
           "gain": 2
         },
         {
@@ -1047,6 +1225,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.701919,
+          "signals": {
+            "dense": 0.701919
+          },
           "gain": 0
         },
         {
@@ -1055,6 +1236,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.693902,
+          "signals": {
+            "dense": 0.693902
+          },
           "gain": 0
         },
         {
@@ -1063,6 +1247,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.691921,
+          "signals": {
+            "dense": 0.691921
+          },
           "gain": 1
         },
         {
@@ -1071,6 +1258,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.68498,
+          "signals": {
+            "dense": 0.68498
+          },
           "gain": 0
         },
         {
@@ -1079,6 +1269,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.683009,
+          "signals": {
+            "dense": 0.683009
+          },
           "gain": 0
         },
         {
@@ -1087,6 +1280,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.674991,
+          "signals": {
+            "dense": 0.674991
+          },
           "gain": 0
         },
         {
@@ -1095,6 +1291,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.673737,
+          "signals": {
+            "dense": 0.673737
+          },
           "gain": 0
         },
         {
@@ -1103,6 +1302,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.668936,
+          "signals": {
+            "dense": 0.668936
+          },
           "gain": 0
         }
       ]
@@ -1116,6 +1318,8 @@
       "source_doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -1141,6 +1345,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.586097,
+          "signals": {
+            "dense": 0.586097
+          },
           "gain": 0
         },
         {
@@ -1149,6 +1356,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.579124,
+          "signals": {
+            "dense": 0.579124
+          },
           "gain": 0
         },
         {
@@ -1157,6 +1367,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.577218,
+          "signals": {
+            "dense": 0.577218
+          },
           "gain": 0
         },
         {
@@ -1165,6 +1378,9 @@
           "page": 3,
           "chunk_index": 4,
           "score": 0.574028,
+          "signals": {
+            "dense": 0.574028
+          },
           "gain": 0
         },
         {
@@ -1173,6 +1389,9 @@
           "page": 3,
           "chunk_index": 4,
           "score": 0.571809,
+          "signals": {
+            "dense": 0.571809
+          },
           "gain": 0
         },
         {
@@ -1181,6 +1400,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.570364,
+          "signals": {
+            "dense": 0.570364
+          },
           "gain": 0
         },
         {
@@ -1189,6 +1411,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.569238,
+          "signals": {
+            "dense": 0.569238
+          },
           "gain": 0
         },
         {
@@ -1197,6 +1422,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.568514,
+          "signals": {
+            "dense": 0.568514
+          },
           "gain": 1
         },
         {
@@ -1205,6 +1433,9 @@
           "page": 5,
           "chunk_index": 13,
           "score": 0.567902,
+          "signals": {
+            "dense": 0.567902
+          },
           "gain": 0
         },
         {
@@ -1213,6 +1444,9 @@
           "page": 3,
           "chunk_index": 4,
           "score": 0.567197,
+          "signals": {
+            "dense": 0.567197
+          },
           "gain": 0
         }
       ]
@@ -1226,6 +1460,8 @@
       "source_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.25,
@@ -1251,6 +1487,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.669746,
+          "signals": {
+            "dense": 0.669746
+          },
           "gain": 0
         },
         {
@@ -1259,6 +1498,9 @@
           "page": 7,
           "chunk_index": 23,
           "score": 0.664222,
+          "signals": {
+            "dense": 0.664222
+          },
           "gain": 0
         },
         {
@@ -1267,6 +1509,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.66157,
+          "signals": {
+            "dense": 0.66157
+          },
           "gain": 2
         },
         {
@@ -1275,6 +1520,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.660077,
+          "signals": {
+            "dense": 0.660077
+          },
           "gain": 0
         },
         {
@@ -1283,6 +1531,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.659757,
+          "signals": {
+            "dense": 0.659757
+          },
           "gain": 0
         },
         {
@@ -1291,6 +1542,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.655604,
+          "signals": {
+            "dense": 0.655604
+          },
           "gain": 0
         },
         {
@@ -1299,6 +1553,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.652491,
+          "signals": {
+            "dense": 0.652491
+          },
           "gain": 0
         },
         {
@@ -1307,6 +1564,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.651268,
+          "signals": {
+            "dense": 0.651268
+          },
           "gain": 0
         },
         {
@@ -1315,6 +1575,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.648316,
+          "signals": {
+            "dense": 0.648316
+          },
           "gain": 0
         },
         {
@@ -1323,6 +1586,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.64713,
+          "signals": {
+            "dense": 0.64713
+          },
           "gain": 0
         }
       ]
@@ -1336,6 +1602,8 @@
       "source_doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -1361,6 +1629,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.712722,
+          "signals": {
+            "dense": 0.712722
+          },
           "gain": 0
         },
         {
@@ -1369,6 +1640,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.706263,
+          "signals": {
+            "dense": 0.706263
+          },
           "gain": 0
         },
         {
@@ -1377,6 +1651,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.654735,
+          "signals": {
+            "dense": 0.654735
+          },
           "gain": 0
         },
         {
@@ -1385,6 +1662,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.646882,
+          "signals": {
+            "dense": 0.646882
+          },
           "gain": 0
         },
         {
@@ -1393,6 +1673,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.644117,
+          "signals": {
+            "dense": 0.644117
+          },
           "gain": 0
         },
         {
@@ -1401,6 +1684,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.642259,
+          "signals": {
+            "dense": 0.642259
+          },
           "gain": 0
         },
         {
@@ -1409,6 +1695,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.623398,
+          "signals": {
+            "dense": 0.623398
+          },
           "gain": 0
         },
         {
@@ -1417,6 +1706,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.622601,
+          "signals": {
+            "dense": 0.622601
+          },
           "gain": 0
         },
         {
@@ -1425,6 +1717,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.618878,
+          "signals": {
+            "dense": 0.618878
+          },
           "gain": 0
         },
         {
@@ -1433,6 +1728,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.614458,
+          "signals": {
+            "dense": 0.614458
+          },
           "gain": 0
         }
       ]
@@ -1446,6 +1744,8 @@
       "source_doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -1471,6 +1771,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.665526,
+          "signals": {
+            "dense": 0.665526
+          },
           "gain": 0
         },
         {
@@ -1479,6 +1782,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.659285,
+          "signals": {
+            "dense": 0.659285
+          },
           "gain": 0
         },
         {
@@ -1487,6 +1793,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.641175,
+          "signals": {
+            "dense": 0.641175
+          },
           "gain": 0
         },
         {
@@ -1495,6 +1804,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.617494,
+          "signals": {
+            "dense": 0.617494
+          },
           "gain": 0
         },
         {
@@ -1503,6 +1815,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.617068,
+          "signals": {
+            "dense": 0.617068
+          },
           "gain": 2
         },
         {
@@ -1511,6 +1826,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.61553,
+          "signals": {
+            "dense": 0.61553
+          },
           "gain": 0
         },
         {
@@ -1519,6 +1837,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.612216,
+          "signals": {
+            "dense": 0.612216
+          },
           "gain": 0
         },
         {
@@ -1527,6 +1848,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.61146,
+          "signals": {
+            "dense": 0.61146
+          },
           "gain": 0
         },
         {
@@ -1535,6 +1859,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.608905,
+          "signals": {
+            "dense": 0.608905
+          },
           "gain": 0
         },
         {
@@ -1543,6 +1870,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.608608,
+          "signals": {
+            "dense": 0.608608
+          },
           "gain": 0
         }
       ]
@@ -1556,6 +1886,8 @@
       "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
       "source_page": 7,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -1581,6 +1913,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.584489,
+          "signals": {
+            "dense": 0.584489
+          },
           "gain": 0
         },
         {
@@ -1589,6 +1924,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.582036,
+          "signals": {
+            "dense": 0.582036
+          },
           "gain": 0
         },
         {
@@ -1597,6 +1935,9 @@
           "page": 6,
           "chunk_index": 21,
           "score": 0.581206,
+          "signals": {
+            "dense": 0.581206
+          },
           "gain": 0
         },
         {
@@ -1605,6 +1946,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.579993,
+          "signals": {
+            "dense": 0.579993
+          },
           "gain": 0
         },
         {
@@ -1613,6 +1957,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.571222,
+          "signals": {
+            "dense": 0.571222
+          },
           "gain": 0
         },
         {
@@ -1621,6 +1968,9 @@
           "page": 7,
           "chunk_index": 25,
           "score": 0.557068,
+          "signals": {
+            "dense": 0.557068
+          },
           "gain": 2
         },
         {
@@ -1629,6 +1979,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.555165,
+          "signals": {
+            "dense": 0.555165
+          },
           "gain": 0
         },
         {
@@ -1637,6 +1990,9 @@
           "page": 7,
           "chunk_index": 23,
           "score": 0.54919,
+          "signals": {
+            "dense": 0.54919
+          },
           "gain": 0
         },
         {
@@ -1645,6 +2001,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.548924,
+          "signals": {
+            "dense": 0.548924
+          },
           "gain": 0
         },
         {
@@ -1653,6 +2012,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.54801,
+          "signals": {
+            "dense": 0.54801
+          },
           "gain": 0
         }
       ]
@@ -1666,6 +2028,8 @@
       "source_doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
       "source_page": 7,
       "span_matched": true,
+      "rank1_doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -1691,6 +2055,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.652548,
+          "signals": {
+            "dense": 0.652548
+          },
           "gain": 0
         },
         {
@@ -1699,6 +2066,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.646651,
+          "signals": {
+            "dense": 0.646651
+          },
           "gain": 0
         },
         {
@@ -1707,6 +2077,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.641953,
+          "signals": {
+            "dense": 0.641953
+          },
           "gain": 0
         },
         {
@@ -1715,6 +2088,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.638219,
+          "signals": {
+            "dense": 0.638219
+          },
           "gain": 0
         },
         {
@@ -1723,6 +2099,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.637102,
+          "signals": {
+            "dense": 0.637102
+          },
           "gain": 0
         },
         {
@@ -1731,6 +2110,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.628077,
+          "signals": {
+            "dense": 0.628077
+          },
           "gain": 0
         },
         {
@@ -1739,6 +2121,9 @@
           "page": 7,
           "chunk_index": 25,
           "score": 0.621603,
+          "signals": {
+            "dense": 0.621603
+          },
           "gain": 0
         },
         {
@@ -1747,6 +2132,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.615259,
+          "signals": {
+            "dense": 0.615259
+          },
           "gain": 0
         },
         {
@@ -1755,6 +2143,9 @@
           "page": 7,
           "chunk_index": 23,
           "score": 0.613332,
+          "signals": {
+            "dense": 0.613332
+          },
           "gain": 2
         },
         {
@@ -1763,6 +2154,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.61189,
+          "signals": {
+            "dense": 0.61189
+          },
           "gain": 0
         }
       ]
@@ -1776,6 +2170,8 @@
       "source_doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
       "source_page": 7,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -1801,6 +2197,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.68209,
+          "signals": {
+            "dense": 0.68209
+          },
           "gain": 0
         },
         {
@@ -1809,6 +2208,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.6711,
+          "signals": {
+            "dense": 0.6711
+          },
           "gain": 0
         },
         {
@@ -1817,6 +2219,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.635526,
+          "signals": {
+            "dense": 0.635526
+          },
           "gain": 0
         },
         {
@@ -1825,6 +2230,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.62604,
+          "signals": {
+            "dense": 0.62604
+          },
           "gain": 0
         },
         {
@@ -1833,6 +2241,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.625561,
+          "signals": {
+            "dense": 0.625561
+          },
           "gain": 0
         },
         {
@@ -1841,6 +2252,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.624094,
+          "signals": {
+            "dense": 0.624094
+          },
           "gain": 0
         },
         {
@@ -1849,6 +2263,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.623794,
+          "signals": {
+            "dense": 0.623794
+          },
           "gain": 0
         },
         {
@@ -1857,6 +2274,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.61773,
+          "signals": {
+            "dense": 0.61773
+          },
           "gain": 0
         },
         {
@@ -1865,6 +2285,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.613879,
+          "signals": {
+            "dense": 0.613879
+          },
           "gain": 0
         },
         {
@@ -1873,6 +2296,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.612188,
+          "signals": {
+            "dense": 0.612188
+          },
           "gain": 0
         }
       ]
@@ -1886,6 +2312,8 @@
       "source_doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -1911,6 +2339,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.63713,
+          "signals": {
+            "dense": 0.63713
+          },
           "gain": 0
         },
         {
@@ -1919,6 +2350,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.621408,
+          "signals": {
+            "dense": 0.621408
+          },
           "gain": 0
         },
         {
@@ -1927,6 +2361,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.59075,
+          "signals": {
+            "dense": 0.59075
+          },
           "gain": 0
         },
         {
@@ -1935,6 +2372,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.59053,
+          "signals": {
+            "dense": 0.59053
+          },
           "gain": 0
         },
         {
@@ -1943,6 +2383,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.583832,
+          "signals": {
+            "dense": 0.583832
+          },
           "gain": 1
         },
         {
@@ -1951,6 +2394,9 @@
           "page": 6,
           "chunk_index": 21,
           "score": 0.58153,
+          "signals": {
+            "dense": 0.58153
+          },
           "gain": 0
         },
         {
@@ -1959,6 +2405,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.575091,
+          "signals": {
+            "dense": 0.575091
+          },
           "gain": 0
         },
         {
@@ -1967,6 +2416,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.571673,
+          "signals": {
+            "dense": 0.571673
+          },
           "gain": 0
         },
         {
@@ -1975,6 +2427,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.566662,
+          "signals": {
+            "dense": 0.566662
+          },
           "gain": 0
         },
         {
@@ -1983,6 +2438,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.565646,
+          "signals": {
+            "dense": 0.565646
+          },
           "gain": 0
         }
       ]
@@ -1996,6 +2454,8 @@
       "source_doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
       "source_page": 7,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -2021,6 +2481,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.670031,
+          "signals": {
+            "dense": 0.670031
+          },
           "gain": 0
         },
         {
@@ -2029,6 +2492,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.638351,
+          "signals": {
+            "dense": 0.638351
+          },
           "gain": 0
         },
         {
@@ -2037,6 +2503,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.617871,
+          "signals": {
+            "dense": 0.617871
+          },
           "gain": 0
         },
         {
@@ -2045,6 +2514,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.604931,
+          "signals": {
+            "dense": 0.604931
+          },
           "gain": 0
         },
         {
@@ -2053,6 +2525,9 @@
           "page": 6,
           "chunk_index": 21,
           "score": 0.597326,
+          "signals": {
+            "dense": 0.597326
+          },
           "gain": 0
         },
         {
@@ -2061,6 +2536,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.586487,
+          "signals": {
+            "dense": 0.586487
+          },
           "gain": 0
         },
         {
@@ -2069,6 +2547,9 @@
           "page": 5,
           "chunk_index": 16,
           "score": 0.583365,
+          "signals": {
+            "dense": 0.583365
+          },
           "gain": 0
         },
         {
@@ -2077,6 +2558,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.580759,
+          "signals": {
+            "dense": 0.580759
+          },
           "gain": 0
         },
         {
@@ -2085,6 +2569,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.579905,
+          "signals": {
+            "dense": 0.579905
+          },
           "gain": 0
         },
         {
@@ -2093,6 +2580,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.579214,
+          "signals": {
+            "dense": 0.579214
+          },
           "gain": 0
         }
       ]
@@ -2106,6 +2596,8 @@
       "source_doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -2131,6 +2623,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.552039,
+          "signals": {
+            "dense": 0.552039
+          },
           "gain": 0
         },
         {
@@ -2139,6 +2634,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.543056,
+          "signals": {
+            "dense": 0.543056
+          },
           "gain": 0
         },
         {
@@ -2147,6 +2645,9 @@
           "page": 7,
           "chunk_index": 23,
           "score": 0.542836,
+          "signals": {
+            "dense": 0.542836
+          },
           "gain": 0
         },
         {
@@ -2155,6 +2656,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.542396,
+          "signals": {
+            "dense": 0.542396
+          },
           "gain": 0
         },
         {
@@ -2163,6 +2667,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.539629,
+          "signals": {
+            "dense": 0.539629
+          },
           "gain": 0
         },
         {
@@ -2171,6 +2678,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.538331,
+          "signals": {
+            "dense": 0.538331
+          },
           "gain": 0
         },
         {
@@ -2179,6 +2689,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.537946,
+          "signals": {
+            "dense": 0.537946
+          },
           "gain": 0
         },
         {
@@ -2187,6 +2700,9 @@
           "page": 2,
           "chunk_index": 1,
           "score": 0.537652,
+          "signals": {
+            "dense": 0.537652
+          },
           "gain": 0
         },
         {
@@ -2195,6 +2711,9 @@
           "page": 5,
           "chunk_index": 13,
           "score": 0.535825,
+          "signals": {
+            "dense": 0.535825
+          },
           "gain": 0
         },
         {
@@ -2203,6 +2722,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.535606,
+          "signals": {
+            "dense": 0.535606
+          },
           "gain": 0
         }
       ]
@@ -2216,6 +2738,8 @@
       "source_doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -2241,6 +2765,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.62868,
+          "signals": {
+            "dense": 0.62868
+          },
           "gain": 0
         },
         {
@@ -2249,6 +2776,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.616041,
+          "signals": {
+            "dense": 0.616041
+          },
           "gain": 0
         },
         {
@@ -2257,6 +2787,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.592644,
+          "signals": {
+            "dense": 0.592644
+          },
           "gain": 0
         },
         {
@@ -2265,6 +2798,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.570602,
+          "signals": {
+            "dense": 0.570602
+          },
           "gain": 0
         },
         {
@@ -2273,6 +2809,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.568024,
+          "signals": {
+            "dense": 0.568024
+          },
           "gain": 0
         },
         {
@@ -2281,6 +2820,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.555395,
+          "signals": {
+            "dense": 0.555395
+          },
           "gain": 0
         },
         {
@@ -2289,6 +2831,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.550606,
+          "signals": {
+            "dense": 0.550606
+          },
           "gain": 0
         },
         {
@@ -2297,6 +2842,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.550448,
+          "signals": {
+            "dense": 0.550448
+          },
           "gain": 0
         },
         {
@@ -2305,6 +2853,9 @@
           "page": 6,
           "chunk_index": 21,
           "score": 0.549038,
+          "signals": {
+            "dense": 0.549038
+          },
           "gain": 0
         },
         {
@@ -2313,6 +2864,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.548727,
+          "signals": {
+            "dense": 0.548727
+          },
           "gain": 0
         }
       ]
@@ -2326,6 +2880,8 @@
       "source_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": true,
       "metrics": {
         "recall@1": 0.3333333333333333,
         "recall@3": 0.3333333333333333,
@@ -2351,6 +2907,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.706814,
+          "signals": {
+            "dense": 0.706814
+          },
           "gain": 1
         },
         {
@@ -2359,6 +2918,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.670564,
+          "signals": {
+            "dense": 0.670564
+          },
           "gain": 0
         },
         {
@@ -2367,6 +2929,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.656517,
+          "signals": {
+            "dense": 0.656517
+          },
           "gain": 0
         },
         {
@@ -2375,6 +2940,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.646792,
+          "signals": {
+            "dense": 0.646792
+          },
           "gain": 0
         },
         {
@@ -2383,6 +2951,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.63801,
+          "signals": {
+            "dense": 0.63801
+          },
           "gain": 0
         },
         {
@@ -2391,6 +2962,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.637057,
+          "signals": {
+            "dense": 0.637057
+          },
           "gain": 0
         },
         {
@@ -2399,6 +2973,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.636965,
+          "signals": {
+            "dense": 0.636965
+          },
           "gain": 0
         },
         {
@@ -2407,6 +2984,9 @@
           "page": 7,
           "chunk_index": 23,
           "score": 0.636812,
+          "signals": {
+            "dense": 0.636812
+          },
           "gain": 0
         },
         {
@@ -2415,6 +2995,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.633642,
+          "signals": {
+            "dense": 0.633642
+          },
           "gain": 0
         },
         {
@@ -2423,6 +3006,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.63343,
+          "signals": {
+            "dense": 0.63343
+          },
           "gain": 0
         }
       ]
@@ -2436,6 +3022,8 @@
       "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.25,
@@ -2461,6 +3049,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.672803,
+          "signals": {
+            "dense": 0.672803
+          },
           "gain": 0
         },
         {
@@ -2469,6 +3060,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.665832,
+          "signals": {
+            "dense": 0.665832
+          },
           "gain": 2
         },
         {
@@ -2477,6 +3071,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.661926,
+          "signals": {
+            "dense": 0.661926
+          },
           "gain": 0
         },
         {
@@ -2485,6 +3082,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.651378,
+          "signals": {
+            "dense": 0.651378
+          },
           "gain": 0
         },
         {
@@ -2493,6 +3093,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.647579,
+          "signals": {
+            "dense": 0.647579
+          },
           "gain": 0
         },
         {
@@ -2501,6 +3104,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.645327,
+          "signals": {
+            "dense": 0.645327
+          },
           "gain": 0
         },
         {
@@ -2509,6 +3115,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.637516,
+          "signals": {
+            "dense": 0.637516
+          },
           "gain": 0
         },
         {
@@ -2517,6 +3126,9 @@
           "page": 7,
           "chunk_index": 24,
           "score": 0.63684,
+          "signals": {
+            "dense": 0.63684
+          },
           "gain": 0
         },
         {
@@ -2525,6 +3137,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.632192,
+          "signals": {
+            "dense": 0.632192
+          },
           "gain": 0
         },
         {
@@ -2533,6 +3148,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.631863,
+          "signals": {
+            "dense": 0.631863
+          },
           "gain": 0
         }
       ]
@@ -2546,6 +3164,8 @@
       "source_doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
       "source_page": 7,
       "span_matched": true,
+      "rank1_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -2571,6 +3191,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.681174,
+          "signals": {
+            "dense": 0.681174
+          },
           "gain": 0
         },
         {
@@ -2579,6 +3202,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.673793,
+          "signals": {
+            "dense": 0.673793
+          },
           "gain": 0
         },
         {
@@ -2587,6 +3213,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.662977,
+          "signals": {
+            "dense": 0.662977
+          },
           "gain": 0
         },
         {
@@ -2595,6 +3224,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.649833,
+          "signals": {
+            "dense": 0.649833
+          },
           "gain": 2
         },
         {
@@ -2603,6 +3235,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.636721,
+          "signals": {
+            "dense": 0.636721
+          },
           "gain": 0
         },
         {
@@ -2611,6 +3246,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.620115,
+          "signals": {
+            "dense": 0.620115
+          },
           "gain": 0
         },
         {
@@ -2619,6 +3257,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.61904,
+          "signals": {
+            "dense": 0.61904
+          },
           "gain": 0
         },
         {
@@ -2627,6 +3268,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.617579,
+          "signals": {
+            "dense": 0.617579
+          },
           "gain": 0
         },
         {
@@ -2635,6 +3279,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.614359,
+          "signals": {
+            "dense": 0.614359
+          },
           "gain": 0
         },
         {
@@ -2643,6 +3290,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.613869,
+          "signals": {
+            "dense": 0.613869
+          },
           "gain": 0
         }
       ]
@@ -2656,6 +3306,8 @@
       "source_doc_id": "2026-03-18-277ª-reunião-17-18-março-2026",
       "source_page": 5,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -2681,6 +3333,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.691779,
+          "signals": {
+            "dense": 0.691779
+          },
           "gain": 0
         },
         {
@@ -2689,6 +3344,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.675123,
+          "signals": {
+            "dense": 0.675123
+          },
           "gain": 0
         },
         {
@@ -2697,6 +3355,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.647152,
+          "signals": {
+            "dense": 0.647152
+          },
           "gain": 0
         },
         {
@@ -2705,6 +3366,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.638405,
+          "signals": {
+            "dense": 0.638405
+          },
           "gain": 0
         },
         {
@@ -2713,6 +3377,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.635035,
+          "signals": {
+            "dense": 0.635035
+          },
           "gain": 0
         },
         {
@@ -2721,6 +3388,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.63077,
+          "signals": {
+            "dense": 0.63077
+          },
           "gain": 0
         },
         {
@@ -2729,6 +3399,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.625683,
+          "signals": {
+            "dense": 0.625683
+          },
           "gain": 0
         },
         {
@@ -2737,6 +3410,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.624139,
+          "signals": {
+            "dense": 0.624139
+          },
           "gain": 0
         },
         {
@@ -2745,6 +3421,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.619985,
+          "signals": {
+            "dense": 0.619985
+          },
           "gain": 0
         },
         {
@@ -2753,6 +3432,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.619006,
+          "signals": {
+            "dense": 0.619006
+          },
           "gain": 0
         }
       ]
@@ -2766,6 +3448,8 @@
       "source_doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -2791,6 +3475,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.693595,
+          "signals": {
+            "dense": 0.693595
+          },
           "gain": 0
         },
         {
@@ -2799,6 +3486,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.689152,
+          "signals": {
+            "dense": 0.689152
+          },
           "gain": 0
         },
         {
@@ -2807,6 +3497,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.678039,
+          "signals": {
+            "dense": 0.678039
+          },
           "gain": 0
         },
         {
@@ -2815,6 +3508,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.677897,
+          "signals": {
+            "dense": 0.677897
+          },
           "gain": 0
         },
         {
@@ -2823,6 +3519,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.674399,
+          "signals": {
+            "dense": 0.674399
+          },
           "gain": 0
         },
         {
@@ -2831,6 +3530,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.667573,
+          "signals": {
+            "dense": 0.667573
+          },
           "gain": 0
         },
         {
@@ -2839,6 +3541,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.662347,
+          "signals": {
+            "dense": 0.662347
+          },
           "gain": 0
         },
         {
@@ -2847,6 +3552,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.659149,
+          "signals": {
+            "dense": 0.659149
+          },
           "gain": 0
         },
         {
@@ -2855,6 +3563,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.659091,
+          "signals": {
+            "dense": 0.659091
+          },
           "gain": 0
         },
         {
@@ -2863,6 +3574,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.656953,
+          "signals": {
+            "dense": 0.656953
+          },
           "gain": 0
         }
       ]
@@ -2876,6 +3590,8 @@
       "source_doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -2901,6 +3617,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.697891,
+          "signals": {
+            "dense": 0.697891
+          },
           "gain": 0
         },
         {
@@ -2909,6 +3628,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.689653,
+          "signals": {
+            "dense": 0.689653
+          },
           "gain": 0
         },
         {
@@ -2917,6 +3639,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.688536,
+          "signals": {
+            "dense": 0.688536
+          },
           "gain": 0
         },
         {
@@ -2925,6 +3650,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.686718,
+          "signals": {
+            "dense": 0.686718
+          },
           "gain": 0
         },
         {
@@ -2933,6 +3661,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.686492,
+          "signals": {
+            "dense": 0.686492
+          },
           "gain": 0
         },
         {
@@ -2941,6 +3672,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.685132,
+          "signals": {
+            "dense": 0.685132
+          },
           "gain": 0
         },
         {
@@ -2949,6 +3683,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.682774,
+          "signals": {
+            "dense": 0.682774
+          },
           "gain": 0
         },
         {
@@ -2957,6 +3694,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.674918,
+          "signals": {
+            "dense": 0.674918
+          },
           "gain": 0
         },
         {
@@ -2965,6 +3705,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.674706,
+          "signals": {
+            "dense": 0.674706
+          },
           "gain": 0
         },
         {
@@ -2973,6 +3716,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.674368,
+          "signals": {
+            "dense": 0.674368
+          },
           "gain": 0
         }
       ]
@@ -2986,6 +3732,8 @@
       "source_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -3011,6 +3759,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.66856,
+          "signals": {
+            "dense": 0.66856
+          },
           "gain": 0
         },
         {
@@ -3019,6 +3770,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.658778,
+          "signals": {
+            "dense": 0.658778
+          },
           "gain": 0
         },
         {
@@ -3027,6 +3781,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.658386,
+          "signals": {
+            "dense": 0.658386
+          },
           "gain": 0
         },
         {
@@ -3035,6 +3792,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.657729,
+          "signals": {
+            "dense": 0.657729
+          },
           "gain": 0
         },
         {
@@ -3043,6 +3803,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.653373,
+          "signals": {
+            "dense": 0.653373
+          },
           "gain": 0
         },
         {
@@ -3051,6 +3814,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.652776,
+          "signals": {
+            "dense": 0.652776
+          },
           "gain": 0
         },
         {
@@ -3059,6 +3825,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.645173,
+          "signals": {
+            "dense": 0.645173
+          },
           "gain": 0
         },
         {
@@ -3067,6 +3836,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.640293,
+          "signals": {
+            "dense": 0.640293
+          },
           "gain": 0
         },
         {
@@ -3075,6 +3847,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.638236,
+          "signals": {
+            "dense": 0.638236
+          },
           "gain": 0
         },
         {
@@ -3083,6 +3858,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.638156,
+          "signals": {
+            "dense": 0.638156
+          },
           "gain": 0
         }
       ]
@@ -3096,6 +3874,8 @@
       "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -3121,6 +3901,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.683833,
+          "signals": {
+            "dense": 0.683833
+          },
           "gain": 0
         },
         {
@@ -3129,6 +3912,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.663855,
+          "signals": {
+            "dense": 0.663855
+          },
           "gain": 0
         },
         {
@@ -3137,6 +3923,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.660706,
+          "signals": {
+            "dense": 0.660706
+          },
           "gain": 0
         },
         {
@@ -3145,6 +3934,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.65688,
+          "signals": {
+            "dense": 0.65688
+          },
           "gain": 0
         },
         {
@@ -3153,6 +3945,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.653133,
+          "signals": {
+            "dense": 0.653133
+          },
           "gain": 0
         },
         {
@@ -3161,6 +3956,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.647024,
+          "signals": {
+            "dense": 0.647024
+          },
           "gain": 0
         },
         {
@@ -3169,6 +3967,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.644419,
+          "signals": {
+            "dense": 0.644419
+          },
           "gain": 0
         },
         {
@@ -3177,6 +3978,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.643446,
+          "signals": {
+            "dense": 0.643446
+          },
           "gain": 0
         },
         {
@@ -3185,6 +3989,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.642944,
+          "signals": {
+            "dense": 0.642944
+          },
           "gain": 0
         },
         {
@@ -3193,6 +4000,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.641655,
+          "signals": {
+            "dense": 0.641655
+          },
           "gain": 0
         }
       ]
@@ -3206,6 +4016,8 @@
       "source_doc_id": "2025-11-05-274ª-reunião-4-5-novembro-2025",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -3231,6 +4043,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.664094,
+          "signals": {
+            "dense": 0.664094
+          },
           "gain": 0
         },
         {
@@ -3239,6 +4054,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.654712,
+          "signals": {
+            "dense": 0.654712
+          },
           "gain": 0
         },
         {
@@ -3247,6 +4065,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.64779,
+          "signals": {
+            "dense": 0.64779
+          },
           "gain": 0
         },
         {
@@ -3255,6 +4076,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.644726,
+          "signals": {
+            "dense": 0.644726
+          },
           "gain": 0
         },
         {
@@ -3263,6 +4087,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.644312,
+          "signals": {
+            "dense": 0.644312
+          },
           "gain": 0
         },
         {
@@ -3271,6 +4098,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.629864,
+          "signals": {
+            "dense": 0.629864
+          },
           "gain": 0
         },
         {
@@ -3279,6 +4109,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.6288,
+          "signals": {
+            "dense": 0.6288
+          },
           "gain": 0
         },
         {
@@ -3287,6 +4120,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.627043,
+          "signals": {
+            "dense": 0.627043
+          },
           "gain": 0
         },
         {
@@ -3295,6 +4131,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.626712,
+          "signals": {
+            "dense": 0.626712
+          },
           "gain": 0
         },
         {
@@ -3303,6 +4142,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.626334,
+          "signals": {
+            "dense": 0.626334
+          },
           "gain": 0
         }
       ]
@@ -3316,6 +4158,8 @@
       "source_doc_id": "2026-04-29-278ª-reunião-28-29-abril-2026",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -3341,6 +4185,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.65063,
+          "signals": {
+            "dense": 0.65063
+          },
           "gain": 0
         },
         {
@@ -3349,6 +4196,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.626952,
+          "signals": {
+            "dense": 0.626952
+          },
           "gain": 0
         },
         {
@@ -3357,6 +4207,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.626215,
+          "signals": {
+            "dense": 0.626215
+          },
           "gain": 0
         },
         {
@@ -3365,6 +4218,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.623964,
+          "signals": {
+            "dense": 0.623964
+          },
           "gain": 0
         },
         {
@@ -3373,6 +4229,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.621214,
+          "signals": {
+            "dense": 0.621214
+          },
           "gain": 0
         },
         {
@@ -3381,6 +4240,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.619916,
+          "signals": {
+            "dense": 0.619916
+          },
           "gain": 0
         },
         {
@@ -3389,6 +4251,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.616995,
+          "signals": {
+            "dense": 0.616995
+          },
           "gain": 0
         },
         {
@@ -3397,6 +4262,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.615937,
+          "signals": {
+            "dense": 0.615937
+          },
           "gain": 0
         },
         {
@@ -3405,6 +4273,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.613731,
+          "signals": {
+            "dense": 0.613731
+          },
           "gain": 0
         },
         {
@@ -3413,6 +4284,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.611923,
+          "signals": {
+            "dense": 0.611923
+          },
           "gain": 0
         }
       ]
@@ -3426,6 +4300,8 @@
       "source_doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+      "rank1_doc_correct": true,
       "metrics": {
         "recall@1": 0.25,
         "recall@3": 0.25,
@@ -3451,6 +4327,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.767314,
+          "signals": {
+            "dense": 0.767314
+          },
           "gain": 2
         },
         {
@@ -3459,6 +4338,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.745512,
+          "signals": {
+            "dense": 0.745512
+          },
           "gain": 0
         },
         {
@@ -3467,6 +4349,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.698322,
+          "signals": {
+            "dense": 0.698322
+          },
           "gain": 0
         },
         {
@@ -3475,6 +4360,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.697763,
+          "signals": {
+            "dense": 0.697763
+          },
           "gain": 0
         },
         {
@@ -3483,6 +4371,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.692228,
+          "signals": {
+            "dense": 0.692228
+          },
           "gain": 0
         },
         {
@@ -3491,6 +4382,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.69125,
+          "signals": {
+            "dense": 0.69125
+          },
           "gain": 0
         },
         {
@@ -3499,6 +4393,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.686311,
+          "signals": {
+            "dense": 0.686311
+          },
           "gain": 0
         },
         {
@@ -3507,6 +4404,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.677594,
+          "signals": {
+            "dense": 0.677594
+          },
           "gain": 0
         },
         {
@@ -3515,6 +4415,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.675309,
+          "signals": {
+            "dense": 0.675309
+          },
           "gain": 0
         },
         {
@@ -3523,6 +4426,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.669114,
+          "signals": {
+            "dense": 0.669114
+          },
           "gain": 0
         }
       ]
@@ -3536,6 +4442,8 @@
       "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -3561,6 +4469,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.743282,
+          "signals": {
+            "dense": 0.743282
+          },
           "gain": 0
         },
         {
@@ -3569,6 +4480,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.732248,
+          "signals": {
+            "dense": 0.732248
+          },
           "gain": 0
         },
         {
@@ -3577,6 +4491,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.695376,
+          "signals": {
+            "dense": 0.695376
+          },
           "gain": 0
         },
         {
@@ -3585,6 +4502,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.693738,
+          "signals": {
+            "dense": 0.693738
+          },
           "gain": 0
         },
         {
@@ -3593,6 +4513,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.687957,
+          "signals": {
+            "dense": 0.687957
+          },
           "gain": 0
         },
         {
@@ -3601,6 +4524,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.677439,
+          "signals": {
+            "dense": 0.677439
+          },
           "gain": 0
         },
         {
@@ -3609,6 +4535,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.671203,
+          "signals": {
+            "dense": 0.671203
+          },
           "gain": 0
         },
         {
@@ -3617,6 +4546,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.669205,
+          "signals": {
+            "dense": 0.669205
+          },
           "gain": 0
         },
         {
@@ -3625,6 +4557,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.666653,
+          "signals": {
+            "dense": 0.666653
+          },
           "gain": 0
         },
         {
@@ -3633,6 +4568,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.664435,
+          "signals": {
+            "dense": 0.664435
+          },
           "gain": 0
         }
       ]
@@ -3646,6 +4584,8 @@
       "source_doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -3671,6 +4611,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.766189,
+          "signals": {
+            "dense": 0.766189
+          },
           "gain": 0
         },
         {
@@ -3679,6 +4622,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.740664,
+          "signals": {
+            "dense": 0.740664
+          },
           "gain": 0
         },
         {
@@ -3687,6 +4633,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.706935,
+          "signals": {
+            "dense": 0.706935
+          },
           "gain": 0
         },
         {
@@ -3695,6 +4644,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.705882,
+          "signals": {
+            "dense": 0.705882
+          },
           "gain": 2
         },
         {
@@ -3703,6 +4655,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.696989,
+          "signals": {
+            "dense": 0.696989
+          },
           "gain": 0
         },
         {
@@ -3711,6 +4666,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.695669,
+          "signals": {
+            "dense": 0.695669
+          },
           "gain": 0
         },
         {
@@ -3719,6 +4677,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.685549,
+          "signals": {
+            "dense": 0.685549
+          },
           "gain": 0
         },
         {
@@ -3727,6 +4688,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.684723,
+          "signals": {
+            "dense": 0.684723
+          },
           "gain": 0
         },
         {
@@ -3735,6 +4699,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.676075,
+          "signals": {
+            "dense": 0.676075
+          },
           "gain": 0
         },
         {
@@ -3743,6 +4710,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.671273,
+          "signals": {
+            "dense": 0.671273
+          },
           "gain": 0
         }
       ]
@@ -3756,6 +4726,8 @@
       "source_doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -3781,6 +4753,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.708503,
+          "signals": {
+            "dense": 0.708503
+          },
           "gain": 0
         },
         {
@@ -3789,6 +4764,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.702599,
+          "signals": {
+            "dense": 0.702599
+          },
           "gain": 0
         },
         {
@@ -3797,6 +4775,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.674588,
+          "signals": {
+            "dense": 0.674588
+          },
           "gain": 0
         },
         {
@@ -3805,6 +4786,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.6737,
+          "signals": {
+            "dense": 0.6737
+          },
           "gain": 0
         },
         {
@@ -3813,6 +4797,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.673587,
+          "signals": {
+            "dense": 0.673587
+          },
           "gain": 0
         },
         {
@@ -3821,6 +4808,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.672766,
+          "signals": {
+            "dense": 0.672766
+          },
           "gain": 0
         },
         {
@@ -3829,6 +4819,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.670423,
+          "signals": {
+            "dense": 0.670423
+          },
           "gain": 0
         },
         {
@@ -3837,6 +4830,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.662567,
+          "signals": {
+            "dense": 0.662567
+          },
           "gain": 0
         },
         {
@@ -3845,6 +4841,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.658951,
+          "signals": {
+            "dense": 0.658951
+          },
           "gain": 0
         },
         {
@@ -3853,6 +4852,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.654392,
+          "signals": {
+            "dense": 0.654392
+          },
           "gain": 0
         }
       ]
@@ -3866,6 +4868,8 @@
       "source_doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -3891,6 +4895,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.77858,
+          "signals": {
+            "dense": 0.77858
+          },
           "gain": 0
         },
         {
@@ -3899,6 +4906,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.74971,
+          "signals": {
+            "dense": 0.74971
+          },
           "gain": 0
         },
         {
@@ -3907,6 +4917,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.729658,
+          "signals": {
+            "dense": 0.729658
+          },
           "gain": 0
         },
         {
@@ -3915,6 +4928,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.720626,
+          "signals": {
+            "dense": 0.720626
+          },
           "gain": 0
         },
         {
@@ -3923,6 +4939,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.72035,
+          "signals": {
+            "dense": 0.72035
+          },
           "gain": 2
         },
         {
@@ -3931,6 +4950,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.717057,
+          "signals": {
+            "dense": 0.717057
+          },
           "gain": 0
         },
         {
@@ -3939,6 +4961,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.712776,
+          "signals": {
+            "dense": 0.712776
+          },
           "gain": 0
         },
         {
@@ -3947,6 +4972,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.694885,
+          "signals": {
+            "dense": 0.694885
+          },
           "gain": 0
         },
         {
@@ -3955,6 +4983,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.694867,
+          "signals": {
+            "dense": 0.694867
+          },
           "gain": 0
         },
         {
@@ -3963,6 +4994,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.687836,
+          "signals": {
+            "dense": 0.687836
+          },
           "gain": 0
         }
       ]
@@ -3976,6 +5010,8 @@
       "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
       "source_page": 5,
       "span_matched": true,
+      "rank1_doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -4001,6 +5037,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.574267,
+          "signals": {
+            "dense": 0.574267
+          },
           "gain": 0
         },
         {
@@ -4009,6 +5048,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.563408,
+          "signals": {
+            "dense": 0.563408
+          },
           "gain": 0
         },
         {
@@ -4017,6 +5059,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.55891,
+          "signals": {
+            "dense": 0.55891
+          },
           "gain": 0
         },
         {
@@ -4025,6 +5070,9 @@
           "page": 4,
           "chunk_index": 11,
           "score": 0.558438,
+          "signals": {
+            "dense": 0.558438
+          },
           "gain": 0
         },
         {
@@ -4033,6 +5081,9 @@
           "page": 5,
           "chunk_index": 13,
           "score": 0.558202,
+          "signals": {
+            "dense": 0.558202
+          },
           "gain": 2
         },
         {
@@ -4041,6 +5092,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.557161,
+          "signals": {
+            "dense": 0.557161
+          },
           "gain": 0
         },
         {
@@ -4049,6 +5103,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.550183,
+          "signals": {
+            "dense": 0.550183
+          },
           "gain": 0
         },
         {
@@ -4057,6 +5114,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.548968,
+          "signals": {
+            "dense": 0.548968
+          },
           "gain": 0
         },
         {
@@ -4065,6 +5125,9 @@
           "page": 4,
           "chunk_index": 11,
           "score": 0.547068,
+          "signals": {
+            "dense": 0.547068
+          },
           "gain": 0
         },
         {
@@ -4073,6 +5136,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.544256,
+          "signals": {
+            "dense": 0.544256
+          },
           "gain": 0
         }
       ]
@@ -4086,6 +5152,8 @@
       "source_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -4111,6 +5179,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.508645,
+          "signals": {
+            "dense": 0.508645
+          },
           "gain": 0
         },
         {
@@ -4119,6 +5190,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.504934,
+          "signals": {
+            "dense": 0.504934
+          },
           "gain": 0
         },
         {
@@ -4127,6 +5201,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.502532,
+          "signals": {
+            "dense": 0.502532
+          },
           "gain": 0
         },
         {
@@ -4135,6 +5212,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.49596,
+          "signals": {
+            "dense": 0.49596
+          },
           "gain": 0
         },
         {
@@ -4143,6 +5223,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.494541,
+          "signals": {
+            "dense": 0.494541
+          },
           "gain": 2
         },
         {
@@ -4151,6 +5234,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.491591,
+          "signals": {
+            "dense": 0.491591
+          },
           "gain": 0
         },
         {
@@ -4159,6 +5245,9 @@
           "page": 5,
           "chunk_index": 13,
           "score": 0.491251,
+          "signals": {
+            "dense": 0.491251
+          },
           "gain": 0
         },
         {
@@ -4167,6 +5256,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.487082,
+          "signals": {
+            "dense": 0.487082
+          },
           "gain": 0
         },
         {
@@ -4175,6 +5267,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.484518,
+          "signals": {
+            "dense": 0.484518
+          },
           "gain": 0
         },
         {
@@ -4183,6 +5278,9 @@
           "page": 7,
           "chunk_index": 23,
           "score": 0.483844,
+          "signals": {
+            "dense": 0.483844
+          },
           "gain": 0
         }
       ]
@@ -4196,6 +5294,8 @@
       "source_doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -4221,6 +5321,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.559515,
+          "signals": {
+            "dense": 0.559515
+          },
           "gain": 0
         },
         {
@@ -4229,6 +5332,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.559512,
+          "signals": {
+            "dense": 0.559512
+          },
           "gain": 0
         },
         {
@@ -4237,6 +5343,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.557788,
+          "signals": {
+            "dense": 0.557788
+          },
           "gain": 0
         },
         {
@@ -4245,6 +5354,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.553687,
+          "signals": {
+            "dense": 0.553687
+          },
           "gain": 0
         },
         {
@@ -4253,6 +5365,9 @@
           "page": 5,
           "chunk_index": 13,
           "score": 0.548545,
+          "signals": {
+            "dense": 0.548545
+          },
           "gain": 0
         },
         {
@@ -4261,6 +5376,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.547294,
+          "signals": {
+            "dense": 0.547294
+          },
           "gain": 0
         },
         {
@@ -4269,6 +5387,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.530879,
+          "signals": {
+            "dense": 0.530879
+          },
           "gain": 0
         },
         {
@@ -4277,6 +5398,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.530867,
+          "signals": {
+            "dense": 0.530867
+          },
           "gain": 2
         },
         {
@@ -4285,6 +5409,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.52956,
+          "signals": {
+            "dense": 0.52956
+          },
           "gain": 0
         },
         {
@@ -4293,6 +5420,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.529231,
+          "signals": {
+            "dense": 0.529231
+          },
           "gain": 0
         }
       ]
@@ -4306,6 +5436,8 @@
       "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
       "source_page": 4,
       "span_matched": true,
+      "rank1_doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -4331,6 +5463,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.482612,
+          "signals": {
+            "dense": 0.482612
+          },
           "gain": 0
         },
         {
@@ -4339,6 +5474,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.481019,
+          "signals": {
+            "dense": 0.481019
+          },
           "gain": 0
         },
         {
@@ -4347,6 +5485,9 @@
           "page": 1,
           "chunk_index": 0,
           "score": 0.480065,
+          "signals": {
+            "dense": 0.480065
+          },
           "gain": 0
         },
         {
@@ -4355,6 +5496,9 @@
           "page": 5,
           "chunk_index": 13,
           "score": 0.472867,
+          "signals": {
+            "dense": 0.472867
+          },
           "gain": 0
         },
         {
@@ -4363,6 +5507,9 @@
           "page": 4,
           "chunk_index": 11,
           "score": 0.465973,
+          "signals": {
+            "dense": 0.465973
+          },
           "gain": 0
         },
         {
@@ -4371,6 +5518,9 @@
           "page": 5,
           "chunk_index": 16,
           "score": 0.45914,
+          "signals": {
+            "dense": 0.45914
+          },
           "gain": 0
         },
         {
@@ -4379,6 +5529,9 @@
           "page": 4,
           "chunk_index": 10,
           "score": 0.458155,
+          "signals": {
+            "dense": 0.458155
+          },
           "gain": 0
         },
         {
@@ -4387,6 +5540,9 @@
           "page": 1,
           "chunk_index": 0,
           "score": 0.45805,
+          "signals": {
+            "dense": 0.45805
+          },
           "gain": 0
         },
         {
@@ -4395,6 +5551,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.457166,
+          "signals": {
+            "dense": 0.457166
+          },
           "gain": 0
         },
         {
@@ -4403,6 +5562,9 @@
           "page": 1,
           "chunk_index": 0,
           "score": 0.456105,
+          "signals": {
+            "dense": 0.456105
+          },
           "gain": 0
         }
       ]
@@ -4416,6 +5578,8 @@
       "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
       "source_page": 8,
       "span_matched": true,
+      "rank1_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "rank1_doc_correct": true,
       "metrics": {
         "recall@1": 1.0,
         "recall@3": 1.0,
@@ -4441,6 +5605,9 @@
           "page": 8,
           "chunk_index": 27,
           "score": 0.656106,
+          "signals": {
+            "dense": 0.656106
+          },
           "gain": 2
         },
         {
@@ -4449,6 +5616,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.576888,
+          "signals": {
+            "dense": 0.576888
+          },
           "gain": 0
         },
         {
@@ -4457,6 +5627,9 @@
           "page": 8,
           "chunk_index": 26,
           "score": 0.57453,
+          "signals": {
+            "dense": 0.57453
+          },
           "gain": 0
         },
         {
@@ -4465,6 +5638,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.572979,
+          "signals": {
+            "dense": 0.572979
+          },
           "gain": 0
         },
         {
@@ -4473,6 +5649,9 @@
           "page": 7,
           "chunk_index": 25,
           "score": 0.572514,
+          "signals": {
+            "dense": 0.572514
+          },
           "gain": 0
         },
         {
@@ -4481,6 +5660,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.567344,
+          "signals": {
+            "dense": 0.567344
+          },
           "gain": 0
         },
         {
@@ -4489,6 +5671,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.564743,
+          "signals": {
+            "dense": 0.564743
+          },
           "gain": 0
         },
         {
@@ -4497,6 +5682,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.561499,
+          "signals": {
+            "dense": 0.561499
+          },
           "gain": 0
         },
         {
@@ -4505,6 +5693,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.557532,
+          "signals": {
+            "dense": 0.557532
+          },
           "gain": 0
         },
         {
@@ -4513,6 +5704,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.55586,
+          "signals": {
+            "dense": 0.55586
+          },
           "gain": 0
         }
       ]
@@ -4526,6 +5720,8 @@
       "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
       "source_page": 8,
       "span_matched": true,
+      "rank1_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "rank1_doc_correct": true,
       "metrics": {
         "recall@1": 1.0,
         "recall@3": 1.0,
@@ -4551,6 +5747,9 @@
           "page": 8,
           "chunk_index": 27,
           "score": 0.689893,
+          "signals": {
+            "dense": 0.689893
+          },
           "gain": 2
         },
         {
@@ -4559,6 +5758,9 @@
           "page": 8,
           "chunk_index": 26,
           "score": 0.617786,
+          "signals": {
+            "dense": 0.617786
+          },
           "gain": 0
         },
         {
@@ -4567,6 +5769,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.615509,
+          "signals": {
+            "dense": 0.615509
+          },
           "gain": 0
         },
         {
@@ -4575,6 +5780,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.611776,
+          "signals": {
+            "dense": 0.611776
+          },
           "gain": 0
         },
         {
@@ -4583,6 +5791,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.6068,
+          "signals": {
+            "dense": 0.6068
+          },
           "gain": 0
         },
         {
@@ -4591,6 +5802,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.603584,
+          "signals": {
+            "dense": 0.603584
+          },
           "gain": 0
         },
         {
@@ -4599,6 +5813,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.602318,
+          "signals": {
+            "dense": 0.602318
+          },
           "gain": 0
         },
         {
@@ -4607,6 +5824,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.597389,
+          "signals": {
+            "dense": 0.597389
+          },
           "gain": 0
         },
         {
@@ -4615,6 +5835,9 @@
           "page": 2,
           "chunk_index": 1,
           "score": 0.58074,
+          "signals": {
+            "dense": 0.58074
+          },
           "gain": 0
         },
         {
@@ -4623,6 +5846,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.580011,
+          "signals": {
+            "dense": 0.580011
+          },
           "gain": 0
         }
       ]
@@ -4636,6 +5862,8 @@
       "source_doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2025-11-05-274ª-reunião-4-5-novembro-2025",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -4661,6 +5889,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.58274,
+          "signals": {
+            "dense": 0.58274
+          },
           "gain": 0
         },
         {
@@ -4669,6 +5900,9 @@
           "page": 2,
           "chunk_index": 1,
           "score": 0.570424,
+          "signals": {
+            "dense": 0.570424
+          },
           "gain": 0
         },
         {
@@ -4677,6 +5911,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.566489,
+          "signals": {
+            "dense": 0.566489
+          },
           "gain": 0
         },
         {
@@ -4685,6 +5922,9 @@
           "page": 2,
           "chunk_index": 1,
           "score": 0.553275,
+          "signals": {
+            "dense": 0.553275
+          },
           "gain": 0
         },
         {
@@ -4693,6 +5933,9 @@
           "page": 2,
           "chunk_index": 1,
           "score": 0.54901,
+          "signals": {
+            "dense": 0.54901
+          },
           "gain": 0
         },
         {
@@ -4701,6 +5944,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.548874,
+          "signals": {
+            "dense": 0.548874
+          },
           "gain": 0
         },
         {
@@ -4709,6 +5955,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.546105,
+          "signals": {
+            "dense": 0.546105
+          },
           "gain": 0
         },
         {
@@ -4717,6 +5966,9 @@
           "page": 8,
           "chunk_index": 26,
           "score": 0.540518,
+          "signals": {
+            "dense": 0.540518
+          },
           "gain": 0
         },
         {
@@ -4725,6 +5977,9 @@
           "page": 8,
           "chunk_index": 27,
           "score": 0.54045,
+          "signals": {
+            "dense": 0.54045
+          },
           "gain": 0
         },
         {
@@ -4733,6 +5988,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.538142,
+          "signals": {
+            "dense": 0.538142
+          },
           "gain": 0
         }
       ]
@@ -4746,6 +6004,8 @@
       "source_doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.25,
@@ -4771,6 +6031,9 @@
           "page": 8,
           "chunk_index": 27,
           "score": 0.618182,
+          "signals": {
+            "dense": 0.618182
+          },
           "gain": 0
         },
         {
@@ -4779,6 +6042,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.593477,
+          "signals": {
+            "dense": 0.593477
+          },
           "gain": 0
         },
         {
@@ -4787,6 +6053,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.579027,
+          "signals": {
+            "dense": 0.579027
+          },
           "gain": 2
         },
         {
@@ -4795,6 +6064,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.560874,
+          "signals": {
+            "dense": 0.560874
+          },
           "gain": 0
         },
         {
@@ -4803,6 +6075,9 @@
           "page": 7,
           "chunk_index": 25,
           "score": 0.559862,
+          "signals": {
+            "dense": 0.559862
+          },
           "gain": 0
         },
         {
@@ -4811,6 +6086,9 @@
           "page": 8,
           "chunk_index": 26,
           "score": 0.559004,
+          "signals": {
+            "dense": 0.559004
+          },
           "gain": 0
         },
         {
@@ -4819,6 +6097,9 @@
           "page": 6,
           "chunk_index": 21,
           "score": 0.55829,
+          "signals": {
+            "dense": 0.55829
+          },
           "gain": 0
         },
         {
@@ -4827,6 +6108,9 @@
           "page": 7,
           "chunk_index": 23,
           "score": 0.553301,
+          "signals": {
+            "dense": 0.553301
+          },
           "gain": 0
         },
         {
@@ -4835,6 +6119,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.551358,
+          "signals": {
+            "dense": 0.551358
+          },
           "gain": 0
         },
         {
@@ -4843,6 +6130,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.548833,
+          "signals": {
+            "dense": 0.548833
+          },
           "gain": 0
         }
       ]
@@ -4856,6 +6146,8 @@
       "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
       "source_page": 7,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -4881,6 +6173,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.653825,
+          "signals": {
+            "dense": 0.653825
+          },
           "gain": 0
         },
         {
@@ -4889,6 +6184,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.647832,
+          "signals": {
+            "dense": 0.647832
+          },
           "gain": 0
         },
         {
@@ -4897,6 +6195,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.647303,
+          "signals": {
+            "dense": 0.647303
+          },
           "gain": 0
         },
         {
@@ -4905,6 +6206,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.644562,
+          "signals": {
+            "dense": 0.644562
+          },
           "gain": 0
         },
         {
@@ -4913,6 +6217,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.641077,
+          "signals": {
+            "dense": 0.641077
+          },
           "gain": 0
         },
         {
@@ -4921,6 +6228,9 @@
           "page": 7,
           "chunk_index": 25,
           "score": 0.64038,
+          "signals": {
+            "dense": 0.64038
+          },
           "gain": 2
         },
         {
@@ -4929,6 +6239,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.634336,
+          "signals": {
+            "dense": 0.634336
+          },
           "gain": 0
         },
         {
@@ -4937,6 +6250,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.634121,
+          "signals": {
+            "dense": 0.634121
+          },
           "gain": 0
         },
         {
@@ -4945,6 +6261,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.632595,
+          "signals": {
+            "dense": 0.632595
+          },
           "gain": 0
         },
         {
@@ -4953,6 +6272,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.63128,
+          "signals": {
+            "dense": 0.63128
+          },
           "gain": 0
         }
       ]
@@ -4966,6 +6288,8 @@
       "source_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.3333333333333333,
@@ -4991,6 +6315,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.74595,
+          "signals": {
+            "dense": 0.74595
+          },
           "gain": 0
         },
         {
@@ -4999,6 +6326,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.74375,
+          "signals": {
+            "dense": 0.74375
+          },
           "gain": 1
         },
         {
@@ -5007,6 +6337,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.672554,
+          "signals": {
+            "dense": 0.672554
+          },
           "gain": 0
         },
         {
@@ -5015,6 +6348,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.661748,
+          "signals": {
+            "dense": 0.661748
+          },
           "gain": 0
         },
         {
@@ -5023,6 +6359,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.661265,
+          "signals": {
+            "dense": 0.661265
+          },
           "gain": 2
         },
         {
@@ -5031,6 +6370,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.65292,
+          "signals": {
+            "dense": 0.65292
+          },
           "gain": 0
         },
         {
@@ -5039,6 +6381,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.652556,
+          "signals": {
+            "dense": 0.652556
+          },
           "gain": 0
         },
         {
@@ -5047,6 +6392,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.641673,
+          "signals": {
+            "dense": 0.641673
+          },
           "gain": 0
         },
         {
@@ -5055,6 +6403,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.63769,
+          "signals": {
+            "dense": 0.63769
+          },
           "gain": 0
         },
         {
@@ -5063,6 +6414,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.63643,
+          "signals": {
+            "dense": 0.63643
+          },
           "gain": 0
         }
       ]
@@ -5076,6 +6430,8 @@
       "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
       "source_page": 5,
       "span_matched": true,
+      "rank1_doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -5101,6 +6457,9 @@
           "page": 5,
           "chunk_index": 17,
           "score": 0.600147,
+          "signals": {
+            "dense": 0.600147
+          },
           "gain": 0
         },
         {
@@ -5109,6 +6468,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.593565,
+          "signals": {
+            "dense": 0.593565
+          },
           "gain": 0
         },
         {
@@ -5117,6 +6479,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.587961,
+          "signals": {
+            "dense": 0.587961
+          },
           "gain": 0
         },
         {
@@ -5125,6 +6490,9 @@
           "page": 2,
           "chunk_index": 1,
           "score": 0.584385,
+          "signals": {
+            "dense": 0.584385
+          },
           "gain": 0
         },
         {
@@ -5133,6 +6501,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.580645,
+          "signals": {
+            "dense": 0.580645
+          },
           "gain": 0
         },
         {
@@ -5141,6 +6512,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.580616,
+          "signals": {
+            "dense": 0.580616
+          },
           "gain": 0
         },
         {
@@ -5149,6 +6523,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.579764,
+          "signals": {
+            "dense": 0.579764
+          },
           "gain": 0
         },
         {
@@ -5157,6 +6534,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.579091,
+          "signals": {
+            "dense": 0.579091
+          },
           "gain": 0
         },
         {
@@ -5165,6 +6545,9 @@
           "page": 4,
           "chunk_index": 11,
           "score": 0.577989,
+          "signals": {
+            "dense": 0.577989
+          },
           "gain": 0
         },
         {
@@ -5173,6 +6556,9 @@
           "page": 2,
           "chunk_index": 1,
           "score": 0.577614,
+          "signals": {
+            "dense": 0.577614
+          },
           "gain": 0
         }
       ]
@@ -5186,6 +6572,8 @@
       "source_doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -5211,6 +6599,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.699905,
+          "signals": {
+            "dense": 0.699905
+          },
           "gain": 0
         },
         {
@@ -5219,6 +6610,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.677137,
+          "signals": {
+            "dense": 0.677137
+          },
           "gain": 0
         },
         {
@@ -5227,6 +6621,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.666105,
+          "signals": {
+            "dense": 0.666105
+          },
           "gain": 0
         },
         {
@@ -5235,6 +6632,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.637211,
+          "signals": {
+            "dense": 0.637211
+          },
           "gain": 0
         },
         {
@@ -5243,6 +6643,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.618695,
+          "signals": {
+            "dense": 0.618695
+          },
           "gain": 0
         },
         {
@@ -5251,6 +6654,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.612954,
+          "signals": {
+            "dense": 0.612954
+          },
           "gain": 0
         },
         {
@@ -5259,6 +6665,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.61295,
+          "signals": {
+            "dense": 0.61295
+          },
           "gain": 0
         },
         {
@@ -5267,6 +6676,9 @@
           "page": 7,
           "chunk_index": 21,
           "score": 0.605326,
+          "signals": {
+            "dense": 0.605326
+          },
           "gain": 0
         },
         {
@@ -5275,6 +6687,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.597811,
+          "signals": {
+            "dense": 0.597811
+          },
           "gain": 0
         },
         {
@@ -5283,6 +6698,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.597129,
+          "signals": {
+            "dense": 0.597129
+          },
           "gain": 0
         }
       ]
@@ -5296,6 +6714,8 @@
       "source_doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
       "source_page": 7,
       "span_matched": true,
+      "rank1_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -5321,6 +6741,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.622151,
+          "signals": {
+            "dense": 0.622151
+          },
           "gain": 0
         },
         {
@@ -5329,6 +6752,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.592802,
+          "signals": {
+            "dense": 0.592802
+          },
           "gain": 0
         },
         {
@@ -5337,6 +6763,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.571743,
+          "signals": {
+            "dense": 0.571743
+          },
           "gain": 0
         },
         {
@@ -5345,6 +6774,9 @@
           "page": 6,
           "chunk_index": 21,
           "score": 0.571551,
+          "signals": {
+            "dense": 0.571551
+          },
           "gain": 0
         },
         {
@@ -5353,6 +6785,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.570412,
+          "signals": {
+            "dense": 0.570412
+          },
           "gain": 0
         },
         {
@@ -5361,6 +6796,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.564856,
+          "signals": {
+            "dense": 0.564856
+          },
           "gain": 0
         },
         {
@@ -5369,6 +6807,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.564673,
+          "signals": {
+            "dense": 0.564673
+          },
           "gain": 0
         },
         {
@@ -5377,6 +6818,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.560065,
+          "signals": {
+            "dense": 0.560065
+          },
           "gain": 0
         },
         {
@@ -5385,6 +6829,9 @@
           "page": 7,
           "chunk_index": 25,
           "score": 0.555718,
+          "signals": {
+            "dense": 0.555718
+          },
           "gain": 0
         },
         {
@@ -5393,6 +6840,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.554725,
+          "signals": {
+            "dense": 0.554725
+          },
           "gain": 0
         }
       ]
@@ -5406,6 +6856,8 @@
       "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -5431,6 +6883,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.643044,
+          "signals": {
+            "dense": 0.643044
+          },
           "gain": 0
         },
         {
@@ -5439,6 +6894,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.636387,
+          "signals": {
+            "dense": 0.636387
+          },
           "gain": 0
         },
         {
@@ -5447,6 +6905,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.6313,
+          "signals": {
+            "dense": 0.6313
+          },
           "gain": 0
         },
         {
@@ -5455,6 +6916,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.625634,
+          "signals": {
+            "dense": 0.625634
+          },
           "gain": 0
         },
         {
@@ -5463,6 +6927,9 @@
           "page": 4,
           "chunk_index": 11,
           "score": 0.624799,
+          "signals": {
+            "dense": 0.624799
+          },
           "gain": 0
         },
         {
@@ -5471,6 +6938,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.615665,
+          "signals": {
+            "dense": 0.615665
+          },
           "gain": 0
         },
         {
@@ -5479,6 +6949,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.614769,
+          "signals": {
+            "dense": 0.614769
+          },
           "gain": 0
         },
         {
@@ -5487,6 +6960,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.612181,
+          "signals": {
+            "dense": 0.612181
+          },
           "gain": 0
         },
         {
@@ -5495,6 +6971,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.610134,
+          "signals": {
+            "dense": 0.610134
+          },
           "gain": 0
         },
         {
@@ -5503,6 +6982,9 @@
           "page": 3,
           "chunk_index": 5,
           "score": 0.60929,
+          "signals": {
+            "dense": 0.60929
+          },
           "gain": 1
         }
       ]
@@ -5516,6 +6998,8 @@
       "source_doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
       "source_page": 6,
       "span_matched": true,
+      "rank1_doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.25,
@@ -5541,6 +7025,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.650124,
+          "signals": {
+            "dense": 0.650124
+          },
           "gain": 0
         },
         {
@@ -5549,6 +7036,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.649809,
+          "signals": {
+            "dense": 0.649809
+          },
           "gain": 0
         },
         {
@@ -5557,6 +7047,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.645559,
+          "signals": {
+            "dense": 0.645559
+          },
           "gain": 2
         },
         {
@@ -5565,6 +7058,9 @@
           "page": 7,
           "chunk_index": 22,
           "score": 0.639787,
+          "signals": {
+            "dense": 0.639787
+          },
           "gain": 0
         },
         {
@@ -5573,6 +7069,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.634012,
+          "signals": {
+            "dense": 0.634012
+          },
           "gain": 0
         },
         {
@@ -5581,6 +7080,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.623103,
+          "signals": {
+            "dense": 0.623103
+          },
           "gain": 1
         },
         {
@@ -5589,6 +7091,9 @@
           "page": 7,
           "chunk_index": 25,
           "score": 0.620726,
+          "signals": {
+            "dense": 0.620726
+          },
           "gain": 0
         },
         {
@@ -5597,6 +7102,9 @@
           "page": 5,
           "chunk_index": 17,
           "score": 0.618178,
+          "signals": {
+            "dense": 0.618178
+          },
           "gain": 0
         },
         {
@@ -5605,6 +7113,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.618151,
+          "signals": {
+            "dense": 0.618151
+          },
           "gain": 0
         },
         {
@@ -5613,6 +7124,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.616341,
+          "signals": {
+            "dense": 0.616341
+          },
           "gain": 0
         }
       ]
@@ -5626,6 +7140,8 @@
       "source_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -5651,6 +7167,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.609396,
+          "signals": {
+            "dense": 0.609396
+          },
           "gain": 0
         },
         {
@@ -5659,6 +7178,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.60524,
+          "signals": {
+            "dense": 0.60524
+          },
           "gain": 0
         },
         {
@@ -5667,6 +7189,9 @@
           "page": 6,
           "chunk_index": 20,
           "score": 0.598778,
+          "signals": {
+            "dense": 0.598778
+          },
           "gain": 0
         },
         {
@@ -5675,6 +7200,9 @@
           "page": 4,
           "chunk_index": 10,
           "score": 0.598473,
+          "signals": {
+            "dense": 0.598473
+          },
           "gain": 0
         },
         {
@@ -5683,6 +7211,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.59261,
+          "signals": {
+            "dense": 0.59261
+          },
           "gain": 0
         },
         {
@@ -5691,6 +7222,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.588556,
+          "signals": {
+            "dense": 0.588556
+          },
           "gain": 0
         },
         {
@@ -5699,6 +7233,9 @@
           "page": 4,
           "chunk_index": 8,
           "score": 0.579758,
+          "signals": {
+            "dense": 0.579758
+          },
           "gain": 0
         },
         {
@@ -5707,6 +7244,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.575163,
+          "signals": {
+            "dense": 0.575163
+          },
           "gain": 0
         },
         {
@@ -5715,6 +7255,9 @@
           "page": 6,
           "chunk_index": 18,
           "score": 0.570098,
+          "signals": {
+            "dense": 0.570098
+          },
           "gain": 0
         },
         {
@@ -5723,6 +7266,9 @@
           "page": 6,
           "chunk_index": 21,
           "score": 0.567955,
+          "signals": {
+            "dense": 0.567955
+          },
           "gain": 0
         }
       ]
@@ -5736,6 +7282,8 @@
       "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
       "source_page": 3,
       "span_matched": true,
+      "rank1_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "rank1_doc_correct": false,
       "metrics": {
         "recall@1": 0.0,
         "recall@3": 0.0,
@@ -5761,6 +7309,9 @@
           "page": 3,
           "chunk_index": 6,
           "score": 0.695637,
+          "signals": {
+            "dense": 0.695637
+          },
           "gain": 0
         },
         {
@@ -5769,6 +7320,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.693294,
+          "signals": {
+            "dense": 0.693294
+          },
           "gain": 0
         },
         {
@@ -5777,6 +7331,9 @@
           "page": 5,
           "chunk_index": 14,
           "score": 0.680168,
+          "signals": {
+            "dense": 0.680168
+          },
           "gain": 0
         },
         {
@@ -5785,6 +7342,9 @@
           "page": 6,
           "chunk_index": 19,
           "score": 0.67207,
+          "signals": {
+            "dense": 0.67207
+          },
           "gain": 0
         },
         {
@@ -5793,6 +7353,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.671669,
+          "signals": {
+            "dense": 0.671669
+          },
           "gain": 0
         },
         {
@@ -5801,6 +7364,9 @@
           "page": 5,
           "chunk_index": 15,
           "score": 0.667825,
+          "signals": {
+            "dense": 0.667825
+          },
           "gain": 0
         },
         {
@@ -5809,6 +7375,9 @@
           "page": 6,
           "chunk_index": 17,
           "score": 0.665994,
+          "signals": {
+            "dense": 0.665994
+          },
           "gain": 0
         },
         {
@@ -5817,6 +7386,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.658896,
+          "signals": {
+            "dense": 0.658896
+          },
           "gain": 0
         },
         {
@@ -5825,6 +7397,9 @@
           "page": 6,
           "chunk_index": 16,
           "score": 0.655412,
+          "signals": {
+            "dense": 0.655412
+          },
           "gain": 0
         },
         {
@@ -5833,6 +7408,9 @@
           "page": 3,
           "chunk_index": 7,
           "score": 0.654901,
+          "signals": {
+            "dense": 0.654901
+          },
           "gain": 0
         }
       ]

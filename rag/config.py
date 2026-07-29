@@ -38,6 +38,13 @@ class Settings(BaseSettings):
 
     # --- retrieval ---
     top_k: int = 5
+    #: Named arm from `retrieval.configs` used by the CLI and serving layer.
+    retrieval_config: str = "hybrid+rerank+metadata"
+
+    # --- reranking (local cross-encoder, CPU) ---
+    reranker_model: str = "BAAI/bge-reranker-base"
+    reranker_device: str = "cpu"
+    reranker_max_length: int = 512
 
     # --- generation ---
     # "auto" -> use Ollama when reachable, otherwise fall back to extractive.
