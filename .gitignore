@@ -42,6 +42,9 @@ Thumbs.db
 # --- eval run outputs (reports are regenerated) ---
 eval/reports/*.json
 eval/reports/*.html
-# ...except the committed baselines, which are the reference every later
-# milestone reports a delta against.
+# ...except the reports a milestone actually claims a result from. These are
+# the evidence behind every number in docs/, so they are committed with their
+# full per-query audit trail rather than summarised: a report you cannot drill
+# into is a number you have to take on faith.
 !eval/reports/baseline_dense.json
+!eval/reports/ablation.json
