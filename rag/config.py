@@ -62,6 +62,13 @@ class Settings(BaseSettings):
     #: floor, not a competitor: a verbatim quote cannot hallucinate.
     generation_arms: str = "extractive,qwen2.5:3b,llama3.1"
 
+    # --- agent mode (M6) ---
+    #: Read-only DuckDB export of the Open-Finance-LakeHouse gold marts. Produced
+    #: by that project, lives outside this repo, and is never committed here.
+    gold_duckdb_path: Path = REPO_ROOT.parent / "_artifacts" / "ofl_gold.duckdb"
+    agent_model: str = "llama3.1"
+    agent_max_steps: int = 4
+
     # --- governance (M5) ---
     #: How many of the most recent meetings are treated as embargoed. The
     #: classification is SYNTHETIC — these are public BACEN documents — and every
