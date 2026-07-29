@@ -79,13 +79,11 @@ services:
       LANGFUSE_INIT_USER_NAME: Local
       LANGFUSE_INIT_USER_PASSWORD: ragevallocal123
     healthcheck:
+      # Self-probe via the compose service name, not localhost/127.0.0.1: the
+      # Next.js server binds to the container's network IP only, so loopback
+      # gets connection-refused even while the service is perfectly healthy.
       test:
-        [
-          "CMD",
-          "node",
-          "-e",
-          "fetch('http://localhost:3000/api/public/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
-        ]
+        ["CMD", "wget", "--spider", "-q", "http://langfuse:3000/api/public/health"]
       interval: 10s
       timeout: 5s
       retries: 30
