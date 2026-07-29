@@ -1,3 +1,13 @@
+This directory holds the two artefacts that gate the science of this project, and
+both are waiting on the same person:
+
+| file | what it is | human gate |
+|---|---|---|
+| `gold_seed.jsonl` | 56 Q/A pairs with source spans | flip `status` to `validated` |
+| `judge_calibration_sheet.jsonl` | 30 judged answers | fill `human_faithfulness` / `human_answer_relevance` |
+
+---
+
 # Gold evaluation set
 
 > **`gold_seed.jsonl` is a DRAFT — PENDING HUMAN VALIDATION.**
@@ -106,3 +116,73 @@ refusal itself is a generation metric and arrives in M5.
 M2's target was 50–100 rows; the file is at 56. Growing it further is cheap —
 what is expensive, and what actually gates the science, is the human validation
 pass.
+
+---
+
+# Judge calibration sheet (M3)
+
+`judge_calibration_sheet.jsonl` — **30 judged answers, human column empty.**
+
+The LLM judge in `generation/judge.py` scores every generated answer for
+faithfulness and answer relevance on a 0–2 rubric. It is a local 3B/8B model
+grading answers written by a local 3B/8B model. Nothing about that arrangement
+produces a trustworthy number, and reporting its scores as *the* generation
+result would be measuring one unvalidated model with another.
+
+So `eval/reports/generation.json` reports **`agreement: null`** — meaning
+*unknown*, not *good* — and this file is how that changes.
+
+## Protocol
+
+For each row, read `question`, `answer` and the `retrieved_doc_ids`, then fill:
+
+| field | scale |
+|---|---|
+| `human_faithfulness` | `0` unsupported claim / contradicts the passages · `1` mostly supported · `2` every claim appears in the passages |
+| `human_answer_relevance` | `0` does not answer the question asked · `1` partial or padded · `2` direct and complete |
+| `human_notes` | free text, optional |
+
+The rubric the judge was given is in `generation/judge.py` — use the same one, or
+the disagreement measures two different questions rather than judge error.
+
+Two rules:
+
+- **Do not edit the `judge_*` fields.** They are the prediction under test.
+- **Faithfulness is about support, not truth.** An answer that is factually
+  correct but not present in the retrieved passages scores `0`, because a RAG
+  system answering from parametric memory is broken even when it is right.
+
+Then:
+
+```bash
+uv run python -m eval.calibration
+```
+
+which reports Cohen's kappa, raw agreement and the confusion matrix per criterion.
+
+## Why these 30 rows
+
+Not a random sample. A random sample over a system that mostly works would be
+~28 easy agreements and two interesting rows. The selection is deterministic and
+stratified, highest-information first:
+
+1. **Judge/arithmetic conflicts** — the judge called an answer faithful while it
+   asserts a number found nowhere in the context (or the reverse). These are rows
+   where the judge is provably one thing or the other.
+2. **Negatives** — where refusal is correct and the rubric is most awkward.
+3. **Judge parse failures and low scores.**
+4. **Spread across arms**, round-robin, so no single model owns the sheet.
+
+## Kappa, not raw agreement
+
+On a 3-point scale where most answers genuinely deserve a 2, a judge that has
+learned to answer "2" and nothing else scores **100% raw agreement and kappa 0**.
+Both are reported, and the gap between them is itself the finding.
+
+## Re-running is safe
+
+`eval.run_generation` rewrites this file every run, merging by `gold_id` + `arm`
+so any human labels already entered survive. There is a test for it
+(`tests/test_calibration.py::test_rewriting_the_sheet_preserves_human_labels`),
+because silently wiping an afternoon of labelling is the one bug this file cannot
+survive.

@@ -1,7 +1,13 @@
-"""The M1 naive RAG pipeline: retrieve -> stuff -> answer, fully traced.
+"""The RAG pipeline: retrieve -> stuff -> answer, fully traced.
 
-One class, one method. Kept separate from the CLI so the eval harness (M3) can
-call the exact same code path the user calls.
+One class, one method. Kept separate from the CLI so the eval harness calls the
+exact same code path the user calls.
+
+Since M4 the retriever is whichever arm `settings.retrieval_config` names, which
+defaults to the ablation winner (`hybrid+rerank+metadata`). `eval.run_eval` still
+defaults to `dense` — the committed baseline has to keep reproducing, and the
+serving path has to use the best thing measured. Those are different jobs and
+they get different defaults, stated in both places rather than inferred.
 """
 
 from __future__ import annotations
@@ -14,7 +20,7 @@ from generation.llm import LLM, build_llm
 from generation.prompt import PROMPT_VERSION
 from rag.config import settings
 from rag.tracing import Tracer, span
-from retrieval.dense import DenseRetriever
+from retrieval.configs import build_retriever
 from retrieval.store import Retrieved
 
 
@@ -29,11 +35,11 @@ class AskResult:
 class RagPipeline:
     def __init__(
         self,
-        retriever: DenseRetriever | None = None,
+        retriever=None,
         llm: LLM | None = None,
         tracer: Tracer | None = None,
     ) -> None:
-        self.retriever = retriever or DenseRetriever()
+        self.retriever = retriever or build_retriever(settings.retrieval_config)
         self.llm = llm or build_llm()
         self.tracer = tracer if tracer is not None else Tracer()
 
@@ -46,9 +52,11 @@ class RagPipeline:
             input={"question": question},
             user_id=user_id,
             metadata={
-                "milestone": "M1-naive-baseline",
+                "milestone": "M4-hybrid-rerank-metadata",
                 "prompt_version": PROMPT_VERSION,
+                "retrieval_config": getattr(self.retriever, "name", "custom"),
                 "embedding_model": settings.embedding_model,
+                "reranker_model": settings.reranker_model,
                 "collection": settings.qdrant_collection,
                 "top_k": top_k,
                 "llm_backend": self.llm.backend,
@@ -56,7 +64,7 @@ class RagPipeline:
                 "chunk_size": settings.chunk_size,
                 "chunk_overlap": settings.chunk_overlap,
             },
-            tags=["m1", "naive", self.llm.backend],
+            tags=["m4", getattr(self.retriever, "name", "custom"), self.llm.backend],
         )
 
         with span(trace, "retrieve", input={"question": question, "top_k": top_k}) as s:

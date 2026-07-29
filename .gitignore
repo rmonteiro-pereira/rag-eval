@@ -48,3 +48,4 @@ eval/reports/*.html
 # into is a number you have to take on faith.
 !eval/reports/baseline_dense.json
 !eval/reports/ablation.json
+!eval/reports/generation.json
