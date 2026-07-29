@@ -6,7 +6,10 @@ The corpus is the public minutes of the **Copom** — the Brazilian Central Bank
 
 The point of the project is not the RAG pipeline. Plenty of those exist. The point is the part almost all of them skip: **measuring whether it actually works**, separately for retrieval and generation, with a versioned gold set and an ablation that proves each component earns its place. This repo also doubles as the core of a master's thesis.
 
-> Current milestone: **M4 — retrieval ablation.** The naive M1 baseline measured
+> **Start here: [`docs/writeup.md`](docs/writeup.md)** — architecture, every measured
+> number, the failure modes, and the honest-limits section.
+
+> Current status: **M0–M7 complete; two human gates open.** The naive M1 baseline measured
 > **MRR 0.191 / hit@5 0.367**. Seven measured retrieval arms later it is
 > **MRR 0.741 / hit@5 0.959**, and the defect that caused it — returning the right
 > paragraph from the *wrong Copom meeting* — is closed on all 41 gold questions that
@@ -155,8 +158,45 @@ uv run python -m eval.run_eval --suite adversarial
 # judge-vs-human agreement, once the sheet has been labelled
 uv run python -m eval.calibration
 
+# the CI gate: exit 0 on the committed report, exit 1 on the degraded fixture
+uv run python -m eval.regression_gate \
+    --baseline eval/reports/ablation.json --candidate eval/reports/ablation.json
+uv run python -m eval.regression_gate \
+    --baseline tests/fixtures/gate_baseline.json --candidate tests/fixtures/gate_degraded.json
+
 uv run pytest -q
 ```
+
+### 6. Serve
+
+```bash
+uv run uvicorn serving.api:app --port 8000
+```
+
+`/` is a minimal UI, `/ask` the JSON endpoint, `/health` and `/config` the
+introspection ones. Everything goes through the **governed** pipeline — there is
+no code path to retrieval that skips PII masking, injection detection, the ACL or
+the audit log.
+
+```bash
+curl -s localhost:8000/ask -H 'content-type: application/json' \
+  -d '{"question":"Qual foi a decisao do Copom em junho de 2026?","user":"supervisor"}'
+```
+
+Switching `user` between `analyst` and `supervisor` shows the ACL working from a
+browser tab: the analyst abstains with zero sources on a restricted meeting, the
+supervisor gets the answer with its sources marked `restricted`.
+
+### 7. Agent mode
+
+```bash
+uv run python -m rag.agent --demo                     # regenerates docs/agent_demo.md
+uv run python -m rag.agent --gate interactive "..."   # confirm each SQL by hand
+```
+
+Needs `_artifacts/ofl_gold.duckdb`, the read-only mart export from the
+Open-Finance-LakeHouse project. It lives outside this repo and is never committed
+here.
 
 `run_eval` flags: `--gold`, `--min-status {draft,validated}`, `--config`,
 `--k 1,3,5,10`, `--out`, `--label`, `--quiet`.
@@ -230,7 +270,12 @@ anything other than what it retrieved.
 | **M3 — generative mode** | done | `qwen2.5:3b` + `llama3.1` local; `eval/reports/generation.json` |
 | **M3 — judge calibration** | **awaiting human** | `eval/datasets/judge_calibration_sheet.jsonl` — 30 items, human column empty |
 | **M5 — guardrails + governance** | done | `eval/reports/adversarial.json`, [`docs/governance.md`](docs/governance.md) |
-| M6 → M8 | in progress | — |
+| **M6 — agent mode** | done | [`docs/agent_demo.md`](docs/agent_demo.md) — 10 questions, 6 via SQL over real marts |
+| **M6 — CI regression gate** | done | `eval/regression_gate.py`; passes clean, **fails the degraded fixture** (both asserted) |
+| **M7 — serving** | done | `serving/api.py` — FastAPI `/ask` + UI over the *governed* pipeline |
+| **M8 — writeup** | done | [`docs/writeup.md`](docs/writeup.md) |
+| **gold-set validation** | **awaiting human** | `eval/datasets/gold_seed.jsonl` — 56 rows, all `draft` |
+| **judge calibration** | **awaiting human** | `eval/datasets/judge_calibration_sheet.jsonl` — 30 items, human column empty |
 
 ### The M1 baseline — what M4 had to beat
 

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "_fixture_note": "DELIBERATELY DEGRADED. Simulates the meeting resolver being broken: rank-1 disambiguation accuracy collapses from 1.000 to 0.146 and the aggregate metrics lose ~45%. The gate MUST reject this; tests/test_regression_gate.py asserts exit code 1.",
+  "baseline_arm": "dense",
+  "arms": [
+    {
+      "name": "hybrid+rerank+metadata",
+      "aggregate": {
+        "recall@1": 0.10217,
+        "recall@3": 0.39229834791059276,
+        "recall@5": 0.256653,
+        "recall@10": 0.6272108843537414,
+        "hit_rate@1": 0.32551,
+        "hit_rate@3": 0.8979591836734694,
+        "hit_rate@5": 0.527551,
+        "hit_rate@10": 0.9591836734693877,
+        "ndcg@1": 0.5408163265306123,
+        "ndcg@3": 0.5778343947069384,
+        "ndcg@5": 0.310771,
+        "ndcg@10": 0.342778,
+        "mrr": 0.407636,
+        "n_queries": 49
+      },
+      "probes": {
+        "meeting_disambiguation": {
+          "rank1_doc_accuracy": 0.146
+        },
+        "reverse_lookup": {
+          "rank1_doc_accuracy": 0.5
+        }
+      }
+    }
+  ]
+}
