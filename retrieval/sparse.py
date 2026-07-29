@@ -134,16 +134,3 @@ class BM25Index:
                 )
             )
         return hits
-
-
-class BM25Retriever:
-    """`DenseRetriever`-shaped wrapper so the two are interchangeable in eval."""
-
-    name = "bm25"
-
-    def __init__(self, index: BM25Index, top_k: int = 5) -> None:
-        self.index = index
-        self.top_k = top_k
-
-    def retrieve(self, question: str, top_k: int | None = None) -> list[Retrieved]:
-        return self.index.search(question, top_k or self.top_k)

@@ -6,10 +6,14 @@ The corpus is the public minutes of the **Copom** — the Brazilian Central Bank
 
 The point of the project is not the RAG pipeline. Plenty of those exist. The point is the part almost all of them skip: **measuring whether it actually works**, separately for retrieval and generation, with a versioned gold set and an ablation that proves each component earns its place. This repo also doubles as the core of a master's thesis.
 
-> Current milestone: **M2 — eval harness + gold set.** The naive baseline from M1 is
-> now measured rather than described: **hit_rate@10 = 0.531, MRR = 0.191** over 49
-> answerable gold questions. It is deliberately unoptimised, and that is the number
-> the rest of the project has to beat.
+> Current milestone: **M4 — retrieval ablation.** The naive M1 baseline measured
+> **MRR 0.191 / hit@5 0.367**. Seven measured retrieval arms later it is
+> **MRR 0.741 / hit@5 0.959**, and the defect that caused it — returning the right
+> paragraph from the *wrong Copom meeting* — is closed on all 41 gold questions that
+> name their meeting. The interesting part is which component did it: not the
+> cross-encoder reranker (which costs 2.2 s of latency and does not pay for itself),
+> but a regex that reads the date out of the question. Full numbers and the
+> controlled contrasts: **[`docs/ablation.md`](docs/ablation.md)**.
 
 ---
 
@@ -25,12 +29,17 @@ flowchart LR
 
     D --> Q[("Qdrant<br/>cosine, 1024-d")]
 
-    subgraph ask["rag/ — online"]
-        E["question"] --> F["retrieval/dense.py<br/>embed + top-k"]
+    subgraph ask["rag/ + retrieval/ — online"]
+        E["question"] --> M1["metadata.py<br/>which meeting?"]
+        M1 --> F["dense (bge-m3)<br/>+ Qdrant payload filter"]
+        M1 --> S["sparse.py<br/>BM25"]
         F --> Q
-        Q --> G["generation/prompt.py<br/>stuff top-k"]
+        Q --> RRF["fusion.py<br/>RRF k=60"]
+        S --> RRF
+        RRF --> RR["rerank.py<br/>bge-reranker cross-encoder"]
+        RR --> G["generation/prompt.py<br/>stuff top-k"]
         G --> H{"generation/llm.py"}
-        H -->|ollama| I["llama3.1 local"]
+        H -->|ollama| I["qwen2.5:3b / llama3.1"]
         H -->|extractive| J["verbatim passages"]
         I --> K["answer + citations"]
         J --> K
@@ -38,12 +47,13 @@ flowchart LR
 
     ask -.->|traces| L[("Langfuse<br/>self-hosted")]
 
-    subgraph evalsg["eval/ — M2"]
-        M["gold set<br/>56 draft Q/A + spans"] --> N["run_eval.py<br/>recall / hit_rate / nDCG / MRR"]
+    subgraph evalsg["eval/"]
+        M["gold set<br/>56 draft Q/A + spans"] --> N["run_eval.py + ablation.py<br/>recall / hit_rate / nDCG / MRR / probes"]
         Q -.->|complete qrels| N
+        K -.-> N2["run_generation.py<br/>numeric recall / groundedness /<br/>hallucinated numbers / abstention"]
+        N2 --> JD["judge.py<br/>LLM-as-judge, uncalibrated"]
+        JD --> CAL["judge_calibration_sheet.jsonl<br/>30 items, human column EMPTY"]
     end
-
-    K -.-> N
 ```
 
 Repository layout follows the project spec (`docs/spec.md`):
@@ -51,12 +61,12 @@ Repository layout follows the project spec (`docs/spec.md`):
 | path | role |
 |---|---|
 | `ingest/` | corpus download, PDF loading, chunking, embedding |
-| `retrieval/` | Qdrant access; dense retriever (hybrid + reranking arrive in M4) |
-| `generation/` | prompt, LLM backends, cited answers |
+| `retrieval/` | Qdrant access, BM25, RRF fusion, meeting-metadata resolution, cross-encoder reranking, and the named ablation arms |
+| `generation/` | prompt, LLM backends, cited answers, the LLM judge |
 | `rag/` | config, tracing, the pipeline, the CLI |
-| `eval/` | gold dataset, retrieval metrics, the harness, reports |
+| `eval/` | gold dataset, metrics, the harnesses (`run_eval`, `ablation`, `run_generation`, `calibration`), reports |
 | `serving/` | FastAPI + UI placeholder (M7) |
-| `docs/` | the spec of record |
+| `docs/` | the spec of record, `ablation.md` |
 
 ---
 
@@ -64,9 +74,12 @@ Repository layout follows the project spec (`docs/spec.md`):
 
 | layer | choice | why |
 |---|---|---|
-| Vector store | **Qdrant** (Docker) | open, self-hosted, good metadata filtering for M4/M5 |
+| Vector store | **Qdrant** (Docker) | open, self-hosted; its payload filter is what M4's meeting filter and M5's ACL both compile down to |
 | Embeddings | **bge-m3** via `sentence-transformers` | multilingual, strong on Portuguese, runs on CPU |
-| LLM | **Ollama** (`llama3.1`), with an extractive fallback | free, local, no vendor lock-in |
+| Sparse retrieval | **BM25, written in-repo** | forty lines of arithmetic; an ablation is more defensible when the thing it compares against is visible rather than behind a dependency pin |
+| Reranker | **bge-reranker-base** (local cross-encoder) | multilingual (XLM-R based), a third the size of `v2-m3`, CPU-viable |
+| LLM | **Ollama** (`qwen2.5:3b`, `llama3.1`), with an extractive fallback | free, local, no vendor lock-in |
+| Judge | **Ollama**, a *different* model from the generator | grading your own homework has a known direction of bias |
 | Tracing | **Langfuse v2** (Docker) | open, self-hosted; v2 needs only Postgres |
 | Config | `pydantic-settings` | one `.env`, no hardcoded hosts |
 
@@ -124,16 +137,36 @@ Flags: `--top-k`, `--mode {auto,ollama,extractive}`, `--show-passages`, `--json`
 ### 5. Measure
 
 ```bash
+# retrieval, one named arm (default `dense` — the committed baseline)
 uv run python -m eval.run_eval --min-status draft --out eval/reports/baseline_dense.json
+uv run python -m eval.run_eval --config hybrid+rerank+metadata
+
+# the full M4 ablation: seven arms, controlled contrasts, wrong-meeting probes
+uv run python -m eval.ablation --out eval/reports/ablation.json
+
+# generation: three backends, deterministic metrics + LLM judge + calibration sheet
+uv run python -m eval.run_generation --out eval/reports/generation.json
+
+# judge-vs-human agreement, once the sheet has been labelled
+uv run python -m eval.calibration
+
 uv run pytest -q
 ```
 
-Scores the retriever against the gold set and writes a JSON report with
-per-query and aggregate `recall@k`, `hit_rate@k`, `nDCG@k` and `MRR`. Flags:
-`--gold`, `--min-status {draft,validated}`, `--k 1,3,5,10`, `--out`, `--label`,
-`--quiet`.
+`run_eval` flags: `--gold`, `--min-status {draft,validated}`, `--config`,
+`--k 1,3,5,10`, `--out`, `--label`, `--quiet`.
 
-`--min-status` is the flag that matters. Today everything is `draft`, so
+Two defaults are deliberately different and worth stating, because getting them
+backwards would quietly corrupt every before/after number in this repo:
+
+- **`eval.run_eval` defaults to `--config dense`.** That command produced the
+  committed M1/M2 baseline and has to keep producing it. If it silently upgraded
+  to the best arm, the "before" half of every comparison would move.
+- **`rag.ask` and the serving path default to `hybrid+rerank+metadata`**
+  (`settings.retrieval_config`), the M4 winner. Serving should use the best thing
+  measured.
+
+`--min-status` is the flag that matters most. Today everything is `draft`, so
 `--min-status draft` exercises the harness and `--min-status validated` returns
 nothing (by design, and exit code 3). After the human validation pass, the same
 command with `--min-status validated` produces the number that counts — the
@@ -157,33 +190,22 @@ Two backends sit behind one interface (`generation/llm.py`):
 `--mode auto` (the default) probes Ollama once and degrades to extractive if it is
 not reachable, so the same command works on any machine.
 
-### What shipped in M1: **extractive mode**
+### Generative mode landed in M3
 
-Ollama itself **is installed** on the dev machine (`winget install Ollama.Ollama`,
-v0.32.5, server reachable on `:11434`). What did not complete is the *model pull*:
-both `llama3.1` (4.9 GB) and `qwen2.5:3b` (1.9 GB) download to ~95–97 % and then
-stall with zero throughput, repeatedly, against an otherwise healthy connection —
-the same machine pulled 7 GB of HuggingFace weights and 30 PDFs without trouble in
-this same session. That is an environment problem, not a code problem, so it was not
-worth grinding on.
+M1 shipped in extractive mode only, because both model pulls stalled at ~95–97 %
+against an otherwise healthy connection. Retried in the M3 session, both completed
+without incident — `qwen2.5:3b` (1.9 GB) and `llama3.1:8b` (4.9 GB) are now local.
+No code changed: `build_llm("auto")` probes `:11434/api/tags` and switches backends
+on its own, exactly as M1 said it would.
 
-So **M1 ships in extractive mode**, and every observation reported below was produced
-with it. The
-Ollama backend is fully implemented and exercised by the same interface; finishing it
-is one successful command away:
+Both are evaluated as arms in `eval/run_generation.py`, alongside extractive.
 
-```bash
-ollama pull llama3.1               # or qwen2.5
-uv run python -m rag.ask --mode ollama "..."   # --mode auto picks it up automatically
-```
-
-No code change is required — `build_llm("auto")` probes `:11434/api/tags` and
-switches backends on its own.
-
-The extractive backend is not a stopgap to be embarrassed about — it is the honest
-floor for groundedness. A verbatim quote cannot hallucinate, so it is a useful
-control arm in the M3 harness: it isolates *retrieval* quality from *generation*
-quality, which is exactly the separation this project is built to measure.
+The extractive backend stays, and not as a stopgap — it is the **groundedness
+floor**. A verbatim quote cannot hallucinate, so it bounds what generation can be
+blamed for and isolates *retrieval* quality from *generation* quality, which is the
+separation this project exists to measure. It also has one hard limitation the
+report makes explicit: it cannot abstain, because it has no mechanism to say
+anything other than what it retrieved.
 
 ---
 
@@ -197,15 +219,16 @@ quality, which is exactly the separation this project is built to measure.
 | **M1 — baseline** | done | `rag.ask` answers end to end with citations |
 | **M1 — tracing** | done | `rag.ask` traces visible in Langfuse with `retrieve` + `generate` spans |
 | **M2 — gold set** | draft | **56 Q/A pairs**, 24 documents cited, **pending human validation** |
-| **M2 — eval harness** | done | `eval/run_eval.py`; 88 unit tests on the metric math |
-| **M2 — baseline measured** | done | `eval/reports/baseline_dense.json` — numbers below |
-| M3 → M8 | not started | — |
+| **M2 — eval harness** | done | `eval/run_eval.py` |
+| **M2 — baseline measured** | done | `eval/reports/baseline_dense.json` — MRR 0.191 |
+| **M4 — retrieval ablation** | done | `eval/reports/ablation.json`, [`docs/ablation.md`](docs/ablation.md) — 7 arms, MRR 0.191 → 0.741 |
+| **M3 — generative mode** | done | `qwen2.5:3b` + `llama3.1` local; `eval/reports/generation.json` |
+| **M3 — judge calibration** | **awaiting human** | `eval/datasets/judge_calibration_sheet.jsonl` — 30 items, human column empty |
+| M5 → M8 | in progress | — |
 
-### The measured baseline
+### The M1 baseline — what M4 had to beat
 
-`uv run python -m eval.run_eval --min-status draft`, dense retrieval only,
-bge-m3, 636 chunks, 49 answerable gold rows (7 abstention negatives excluded),
-macro-averaged:
+Dense retrieval only, bge-m3, 636 chunks, 49 answerable gold rows, macro-averaged:
 
 | metric | @1 | @3 | @5 | @10 |
 |---|---|---|---|---|
@@ -213,51 +236,71 @@ macro-averaged:
 | `hit_rate` | 0.082 | 0.204 | 0.367 | **0.531** |
 | `nDCG` | 0.071 | 0.098 | 0.138 | 0.161 |
 
-**MRR = 0.191.**
+**MRR = 0.191.** For 47% of gold questions, ten retrieved chunks contained nothing
+relevant at all.
 
-Read `hit_rate@10` first: **for 47% of the gold questions, ten retrieved chunks
-contain nothing relevant at all.** `recall@k` is lower still because a gold span
-typically spans several chunks, so it is capped by construction at small `k` —
-that is why both are reported.
+The diagnosis was not subtle: **dense similarity found the right topic and was
+blind to the date.** Every ata phrases its decision paragraph near-identically, so
+asked about June 2026 the baseline would happily return March 2025's copy. On the
+41 questions that *named their meeting outright*, it got the right meeting at rank
+1 exactly **4 times**.
 
-This is a bad baseline, and it is the finding. M1 predicted the failure mode
-qualitatively; M2 puts a number on it. The breakdown says the same thing more
-precisely (`by_capability` in the report):
+### What M4 did about it, and what it cost
 
-- `numeric extraction, two values` — hit@10 **0.333** (n=3). The Focus-expectation
-  paragraph is phrased near-identically in all 30 atas, so dense similarity has
-  almost nothing to discriminate on.
-- `numeric extraction, near-duplicate of gold-004` — hit@10 **0.000** (n=1). That row
-  exists specifically to ask the same question one meeting earlier. It fails.
-- `reverse lookup (value → meeting)` — hit@10 **0.500** (n=6).
-- `multi-hop within one document (pages 3 and 6)` — hit@10 **0.000** (n=2).
-- `single-hop lookup, non-standard phrasing` — hit@10 **1.000**, MRR 1.000 (n=1).
-  The one ata that words its decision differently is the one retrieved perfectly,
-  which is the same story from the other side.
+| arm | MRR | hit@5 | rank-1 correct meeting | p95 ms |
+|---|--:|--:|--:|--:|
+| `dense` (M1 baseline) | 0.191 | 0.367 | 0.098 | 7 |
+| `bm25` | 0.382 | 0.592 | 0.927 | 0.5 |
+| `hybrid` | 0.381 | 0.510 | 0.341 | 7 |
+| `hybrid+rerank` | 0.342 | 0.510 | 0.195 | 2553 |
+| **`hybrid+rerank+metadata`** | **0.741** | **0.959** | **1.000** | 2217 |
 
-Dense similarity finds the right *topic* and is blind to the *date*, because every
-ata phrases these paragraphs almost identically. That is now a concrete, measured
-target for M4 — metadata filtering on `reference_date`, hybrid retrieval so the
-meeting number is matched lexically, and reranking — each of which has to show a
-delta against the table above.
+Three findings, none of which a leaderboard would have shown — which is why the
+arms are laid out as **controlled pairs differing in one component** rather than as
+a cumulative ladder:
 
-**Caveat, and it is not a small one:** these numbers are computed against a gold
-set no human has validated. They measure that the harness works end to end. They
-do not yet measure the system. `--min-status validated` is what will.
+1. **The cheapest component won by an order of magnitude.** Resolving the meeting
+   named in the question and applying it as a Qdrant payload filter is ~120 lines
+   of regex. It moved MRR **+0.498** on the bare baseline, at *negative* latency
+   cost, with **41/41 hint precision** (zero false positives — the number that
+   licenses using it as a hard filter instead of a soft boost).
+2. **The expensive, fashionable component did not pay for itself.** The
+   cross-encoder reranker costs **+2.2 s of p95 latency** and is *actively harmful*
+   without the metadata filter (MRR −0.039, rank-1 meeting accuracy −0.146): it
+   reorders by semantic fit, and semantic fit is precisely the signal that cannot
+   tell two Copom meetings apart. With the filter it is +0.005 MRR. In a system
+   with a latency budget it would be cut.
+3. **Fusing a strong arm with a weak one drags the strong one down.** BM25 alone
+   gets 0.927 rank-1 meeting accuracy; fused with dense (0.098) it gives 0.341. RRF
+   weights arms equally, which is the wrong prior when one is near-random on the
+   decisive axis.
 
-### What is deliberately naive
+The honest remaining gap is **reverse lookup** — questions that name no meeting and
+must identify one from content ("*Em qual reuniao a Selic foi reduzida para 12,75%
+a.a.?*"). Metadata filtering structurally cannot help, and 4 of 8 still rank the
+wrong ata first. All four have the right document in the top 5, so it is a ranking
+failure rather than a retrieval one.
 
-M1 is the baseline, so it does the dumbest reasonable thing at every step:
+Full numbers, per-metric deltas, latency, probe definitions and limits:
+**[`docs/ablation.md`](docs/ablation.md)**.
 
-- **Fixed-size character chunking** (1200 chars, 200 overlap), split per page so every
-  chunk can cite a page number. No semantic or structural splitting.
-- **Dense retrieval only.** No BM25, no hybrid fusion, no reranking, no query rewriting.
-- **Stuff-the-context prompting.** Top-k passages concatenated, one shot, temperature 0.
-- **No metadata used at query time.** `reference_date` is indexed and ignored, which
-  is precisely what the numbers above punish.
+**Caveat, and it is not a small one:** every number above is computed against a
+gold set no human has validated. Relative movement between arms on a fixed
+question set is the defensible reading; absolute levels are not.
+`--min-status validated` is what changes that.
 
-Each of those is a knob M4 turns one at a time, with a measured delta. That ablation
-is the scientific core of the project — not the pipeline itself.
+### What is still deliberately naive
+
+M4 turned the retrieval knobs. These are untouched, on purpose, so they remain
+available as future ablation arms rather than as unmeasured changes:
+
+- **Fixed-size character chunking** (1200 chars, 200 overlap), split per page so
+  every chunk can cite a page number. No semantic or structural splitting, and
+  chunk size was held fixed across all seven arms.
+- **Stuff-the-context prompting.** Top-k passages concatenated, one shot,
+  temperature 0. No query rewriting, no multi-step retrieval.
+- **Unweighted RRF at k=60**, the constant from the original paper. Tuning it
+  against a 49-row draft gold set would be fitting noise and calling it a result.
 
 ---
 
@@ -284,9 +327,66 @@ nothing, so `"status": "validated"` is a flag no agent sets; there is a test in
 The protocol is in `eval/datasets/README.md`. Until it has been run, every number
 in this README is a harness smoke test wearing a lab coat.
 
-Roadmap: **M3** generation metrics + calibrated LLM-judge → **M4** ablation
-(hybrid, reranking, chunking, date filtering) → **M5** guardrails and governance
-→ **M6** CI regression gate → **M7** serving → **M8** writeup.
+### Generation: what the numbers say — and what the judge does not
+
+Three backends over all 56 gold rows, sharing one retrieval pass so arm
+differences are generation differences only ([`docs/generation.md`](docs/generation.md)):
+
+| arm | numeric recall | groundedness | hallucinated numbers | abstention ok | false refusal |
+|---|--:|--:|--:|--:|--:|
+| `extractive` | **0.913** | **0.988** | **0.000** | **0.000** | 0.000 |
+| `qwen2.5:3b` | 0.777 | 0.838 | **0.000** | 1.000 | 0.082 |
+| `llama3.1` | 0.826 | 0.907 | **0.000** | 1.000 | 0.041 |
+
+- **Zero hallucinated numbers across all 168 answers.** No arm asserted a rate
+  that was not in the retrieved evidence or the question.
+- **The mode with the best groundedness cannot say "I don't know".** `extractive`
+  wins numeric recall and groundedness and scores **0.000 on abstention** — on all
+  seven out-of-scope questions it returned five passages of Copom minutes as
+  though they were an answer. A dashboard ranking backends on groundedness alone
+  would have picked exactly the wrong one.
+- **Abstention is not free.** Both generative arms refuse correctly on all seven
+  negatives and pay for it with false refusals on answerable questions (qwen 8.2%,
+  llama 4.1%).
+
+And the part that matters most for a project about evaluation:
+
+> **Two local LLM judges agree on faithfulness only 44% of the time (Cohen's
+> κ = 0.138).** Barely better than chance. On top of that, the judge in the first
+> run *was* `llama3.1` and it graded its own arm's answers — rating them highest.
+> Both facts are measured and recorded in the report (`judge_is_generator`,
+> `judge_self_preference_warning`, `agreement.judge_vs_judge2`), not waved at.
+
+So the judge's faithfulness column carries almost no information, and the
+deterministic metrics are the ones to believe. This is exactly why the harness
+computes arithmetic first and treats the judge as the flexible, suspect
+instrument — and why the human gate below exists.
+
+### The second human gate: judge calibration
+
+`eval/datasets/judge_calibration_sheet.jsonl` holds **30 judged answers with
+`human_faithfulness` and `human_answer_relevance` left null.** Same principle,
+different target: the LLM judge in `generation/judge.py` is a local 3B/8B model
+grading answers written by a local 3B/8B model, and nothing about that arrangement
+produces a trustworthy number.
+
+So the report says **`agreement: null`** — *unknown*, not *good*. The sheet is
+stratified to over-select the rows that discriminate (judge/arithmetic conflicts
+first, then negatives, then low scores), and re-running the generation suite
+**preserves labels already entered** — there is a test for that, because silently
+wiping an afternoon of human labelling is the one bug this file cannot survive.
+
+Every row carries the **retrieved passages verbatim** — "is every claim supported
+by the evidence" is not answerable from a list of document ids, so the evidence
+travels with the row.
+
+Once filled, `uv run python -m eval.calibration` reports Cohen's kappa and the
+confusion matrix. Kappa rather than raw agreement, deliberately: on a 3-point
+scale where most answers really are fine, a judge that has learned to say "2" and
+nothing else scores 100% raw agreement and kappa 0.
+
+Roadmap: **M5** guardrails and governance → **M6** CI regression gate → **M7**
+serving → **M8** writeup.
 
 ---
 

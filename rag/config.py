@@ -53,6 +53,15 @@ class Settings(BaseSettings):
     ollama_model: str = "llama3.1"
     ollama_timeout_s: float = 180.0
 
+    # --- LLM-as-judge (M3) ---
+    #: Defaults to a *different* model from `ollama_model` where possible, so the
+    #: judge is not grading its own output. `eval.run_generation` records when
+    #: generator and judge coincide and flags those rows.
+    judge_model: str = "llama3.1"
+    #: Arms compared by the generation suite. Extractive is the groundedness
+    #: floor, not a competitor: a verbatim quote cannot hallucinate.
+    generation_arms: str = "extractive,qwen2.5:3b,llama3.1"
+
     # --- tracing ---
     langfuse_host: str = "http://localhost:3000"
     langfuse_public_key: str = "pk-lf-rag-eval-local"
