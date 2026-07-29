@@ -15,7 +15,8 @@ dependencies = [
     "sentence-transformers>=3.3",
     "torch>=2.4",
     # vector store
-    "qdrant-client>=1.12",
+    # keep the minor version in step with the qdrant image in docker-compose.yml
+    "qdrant-client>=1.18,<1.19",
     # observability
     "langfuse>=2.53,<3",
     # generation / config / cli

@@ -956,7 +956,7 @@ requires-dist = [
     { name = "pypdf", specifier = ">=5.1" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3" },
     { name = "python-dotenv", specifier = ">=1.0" },
-    { name = "qdrant-client", specifier = ">=1.12" },
+    { name = "qdrant-client", specifier = ">=1.18,<1.19" },
     { name = "rich", specifier = ">=13.9" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.8" },
     { name = "sentence-transformers", specifier = ">=3.3" },

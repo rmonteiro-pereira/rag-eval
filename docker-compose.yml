@@ -10,7 +10,9 @@ name: rag-eval
 
 services:
   qdrant:
-    image: qdrant/qdrant:v1.12.4
+    # Keep in step with `qdrant-client` in pyproject.toml — the client refuses to
+    # vouch for a server more than one minor version away.
+    image: qdrant/qdrant:v1.18.0
     container_name: rag-eval-qdrant
     restart: unless-stopped
     ports:
