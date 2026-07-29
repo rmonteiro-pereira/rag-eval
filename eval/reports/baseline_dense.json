@@ -1,0 +1,5842 @@
+{
+  "schema_version": 1,
+  "label": "dense",
+  "generated_at": "2026-07-29T04:08:52+00:00",
+  "config": {
+    "retriever": "dense",
+    "collection": "bacen_copom",
+    "embedding_model": "BAAI/bge-m3",
+    "chunk_size": 1200,
+    "chunk_overlap": 200,
+    "top_k": 10,
+    "ks": [
+      1,
+      3,
+      5,
+      10
+    ],
+    "min_status": "draft",
+    "gold_path": "eval/datasets/gold_seed.jsonl",
+    "relevance": "graded over complete qrels: gain 2 = chunk contains the gold span, gain 1 = same document and page; recall/hit_rate/MRR binarise at gain >= 1"
+  },
+  "corpus": {
+    "n_chunks": 636,
+    "n_documents": 30
+  },
+  "gold": {
+    "status_counts_in_file": {
+      "draft": 56
+    },
+    "n_rows_after_status_filter": 56,
+    "n_scored": 49,
+    "n_abstention_excluded": 7,
+    "n_skipped": 0
+  },
+  "aggregate": {
+    "recall@1": 0.052721088435374146,
+    "recall@3": 0.08503401360544216,
+    "recall@5": 0.14863945578231294,
+    "recall@10": 0.19370748299319726,
+    "hit_rate@1": 0.08163265306122448,
+    "hit_rate@3": 0.20408163265306123,
+    "hit_rate@5": 0.3673469387755102,
+    "hit_rate@10": 0.5306122448979592,
+    "ndcg@1": 0.07142857142857142,
+    "ndcg@3": 0.09830211117796939,
+    "ndcg@5": 0.1376665919355203,
+    "ndcg@10": 0.16088060188371567,
+    "mrr": 0.19138321995464855,
+    "n_queries": 49
+  },
+  "by_capability": {
+    "conditional lookup (scenario-qualified)": {
+      "recall@1": 0.08333333333333333,
+      "recall@3": 0.16666666666666666,
+      "recall@5": 0.25,
+      "recall@10": 0.25,
+      "hit_rate@1": 0.3333333333333333,
+      "hit_rate@3": 0.6666666666666666,
+      "hit_rate@5": 0.6666666666666666,
+      "hit_rate@10": 0.6666666666666666,
+      "ndcg@1": 0.3333333333333333,
+      "ndcg@3": 0.31156074968659886,
+      "ndcg@5": 0.31331693306380337,
+      "ndcg@10": 0.31331693306380337,
+      "mrr": 0.5,
+      "n_queries": 3
+    },
+    "list extraction": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.16666666666666666,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 0.5,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.05688520905039405,
+      "mrr": 0.08333333333333333,
+      "n_queries": 2
+    },
+    "list extraction, split vote": {
+      "recall@1": 1.0,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "hit_rate@1": 1.0,
+      "hit_rate@3": 1.0,
+      "hit_rate@5": 1.0,
+      "hit_rate@10": 1.0,
+      "ndcg@1": 1.0,
+      "ndcg@3": 1.0,
+      "ndcg@5": 1.0,
+      "ndcg@10": 1.0,
+      "mrr": 1.0,
+      "n_queries": 1
+    },
+    "list extraction, split vote (minority)": {
+      "recall@1": 1.0,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "hit_rate@1": 1.0,
+      "hit_rate@3": 1.0,
+      "hit_rate@5": 1.0,
+      "hit_rate@10": 1.0,
+      "ndcg@1": 1.0,
+      "ndcg@3": 1.0,
+      "ndcg@5": 1.0,
+      "ndcg@10": 1.0,
+      "mrr": 1.0,
+      "n_queries": 1
+    },
+    "multi-hop within one document (pages 3 and 6)": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 0.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.0,
+      "mrr": 0.0,
+      "n_queries": 2
+    },
+    "multi-hop within one document (pages 5 and 6)": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.125,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 1.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.05649043773621708,
+      "mrr": 0.125,
+      "n_queries": 1
+    },
+    "numeric extraction plus direction of change": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 0.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.0,
+      "mrr": 0.0,
+      "n_queries": 1
+    },
+    "numeric extraction, near-duplicate of gold-004": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 0.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.0,
+      "mrr": 0.0,
+      "n_queries": 1
+    },
+    "numeric extraction, three values": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.1,
+      "recall@10": 0.1,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.4,
+      "hit_rate@10": 0.4,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.08453684070927606,
+      "ndcg@10": 0.08453684070927606,
+      "mrr": 0.09,
+      "n_queries": 5
+    },
+    "numeric extraction, two values": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.08333333333333333,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 0.3333333333333333,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.03333769053805721,
+      "mrr": 0.05555555555555555,
+      "n_queries": 3
+    },
+    "rationale of a dissenting minority": {
+      "recall@1": 0.0,
+      "recall@3": 0.25,
+      "recall@5": 0.25,
+      "recall@10": 0.25,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 1.0,
+      "hit_rate@5": 1.0,
+      "hit_rate@10": 1.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.31939394323979897,
+      "ndcg@5": 0.2807721888661444,
+      "ndcg@10": 0.2807721888661444,
+      "mrr": 0.3333333333333333,
+      "n_queries": 1
+    },
+    "reverse lookup (assumption -> meeting)": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 0.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.0,
+      "mrr": 0.0,
+      "n_queries": 1
+    },
+    "reverse lookup (value -> meeting)": {
+      "recall@1": 0.0,
+      "recall@3": 0.09722222222222221,
+      "recall@5": 0.15277777777777776,
+      "recall@10": 0.23611111111111108,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.3333333333333333,
+      "hit_rate@5": 0.3333333333333333,
+      "hit_rate@10": 0.5,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0868181808567169,
+      "ndcg@5": 0.12156736964644983,
+      "ndcg@10": 0.16655695615396351,
+      "mrr": 0.16666666666666666,
+      "n_queries": 6
+    },
+    "reverse lookup (values -> meeting)": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.25,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 1.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.08116136400948525,
+      "mrr": 0.1,
+      "n_queries": 1
+    },
+    "single-hop lookup": {
+      "recall@1": 0.0,
+      "recall@3": 0.019230769230769232,
+      "recall@5": 0.14102564102564102,
+      "recall@10": 0.17948717948717946,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.07692307692307693,
+      "hit_rate@5": 0.38461538461538464,
+      "hit_rate@10": 0.5384615384615384,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.031002329523154223,
+      "ndcg@5": 0.10457685887137659,
+      "ndcg@10": 0.13065117802713,
+      "mrr": 0.12905982905982907,
+      "n_queries": 13
+    },
+    "single-hop lookup with qualifier": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.0,
+      "recall@10": 0.0,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.0,
+      "hit_rate@10": 0.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.0,
+      "ndcg@10": 0.0,
+      "mrr": 0.0,
+      "n_queries": 1
+    },
+    "single-hop lookup, assumption": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.1125,
+      "recall@10": 0.175,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.5,
+      "hit_rate@10": 0.75,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.10329657448100535,
+      "ndcg@10": 0.14758345646376414,
+      "mrr": 0.13125,
+      "n_queries": 4
+    },
+    "single-hop lookup, non-standard phrasing": {
+      "recall@1": 0.3333333333333333,
+      "recall@3": 0.3333333333333333,
+      "recall@5": 0.3333333333333333,
+      "recall@10": 0.3333333333333333,
+      "hit_rate@1": 1.0,
+      "hit_rate@3": 1.0,
+      "hit_rate@5": 1.0,
+      "hit_rate@10": 1.0,
+      "ndcg@1": 0.5,
+      "ndcg@3": 0.31939394323979897,
+      "ndcg@5": 0.31939394323979897,
+      "ndcg@10": 0.31939394323979897,
+      "mrr": 1.0,
+      "n_queries": 1
+    },
+    "single-hop lookup, short answer": {
+      "recall@1": 0.0,
+      "recall@3": 0.25,
+      "recall@5": 0.25,
+      "recall@10": 0.25,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 1.0,
+      "hit_rate@5": 1.0,
+      "hit_rate@10": 1.0,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.31939394323979897,
+      "ndcg@5": 0.2807721888661444,
+      "ndcg@10": 0.2807721888661444,
+      "mrr": 0.3333333333333333,
+      "n_queries": 1
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "recall@1": 0.0,
+      "recall@3": 0.0,
+      "recall@5": 0.11904761904761904,
+      "recall@10": 0.19047619047619047,
+      "hit_rate@1": 0.0,
+      "hit_rate@3": 0.0,
+      "hit_rate@5": 0.2857142857142857,
+      "hit_rate@10": 0.5714285714285714,
+      "ndcg@1": 0.0,
+      "ndcg@3": 0.0,
+      "ndcg@5": 0.08131309280297584,
+      "ndcg@10": 0.12973682837794648,
+      "mrr": 0.10396825396825397,
+      "n_queries": 7
+    },
+    "hard": {
+      "recall@1": 0.125,
+      "recall@3": 0.17708333333333334,
+      "recall@5": 0.21354166666666666,
+      "recall@10": 0.26822916666666663,
+      "hit_rate@1": 0.125,
+      "hit_rate@3": 0.3125,
+      "hit_rate@5": 0.375,
+      "hit_rate@10": 0.5625,
+      "ndcg@1": 0.125,
+      "ndcg@3": 0.17751893927375628,
+      "ndcg@5": 0.20171321410358456,
+      "ndcg@10": 0.22718754665300855,
+      "mrr": 0.23489583333333336,
+      "n_queries": 16
+    },
+    "medium": {
+      "recall@1": 0.022435897435897433,
+      "recall@3": 0.05128205128205128,
+      "recall@5": 0.11666666666666667,
+      "recall@10": 0.14871794871794872,
+      "hit_rate@1": 0.07692307692307693,
+      "hit_rate@3": 0.19230769230769232,
+      "hit_rate@5": 0.38461538461538464,
+      "hit_rate@10": 0.5,
+      "ndcg@1": 0.057692307692307696,
+      "ndcg@3": 0.07601924689770767,
+      "ndcg@5": 0.11342538190624273,
+      "ndcg@10": 0.1284611902772425,
+      "mrr": 0.18814102564102564,
+      "n_queries": 26
+    }
+  },
+  "abstention_rows": [
+    {
+      "id": "gold-010",
+      "question": "Qual foi a taxa de juros definida pelo Banco Central Europeu em sua reuniao de 2025?",
+      "capability": "out-of-scope abstention"
+    },
+    {
+      "id": "gold-051",
+      "question": "Qual foi a decisao do Federal Reserve sobre os juros americanos em dezembro de 2024?",
+      "capability": "out-of-scope abstention"
+    },
+    {
+      "id": "gold-052",
+      "question": "Qual era a taxa Selic definida pelo Copom em 2019?",
+      "capability": "out-of-scope abstention"
+    },
+    {
+      "id": "gold-053",
+      "question": "Qual foi a decisao do Copom na 280a reuniao?",
+      "capability": "out-of-scope abstention"
+    },
+    {
+      "id": "gold-054",
+      "question": "Qual e a remuneracao mensal dos membros do Comite de Politica Monetaria?",
+      "capability": "out-of-scope abstention"
+    },
+    {
+      "id": "gold-055",
+      "question": "Qual e a meta de inflacao definida pelo CMN para o ano de 2030?",
+      "capability": "out-of-scope abstention"
+    },
+    {
+      "id": "gold-056",
+      "question": "Quantos contratos de swap cambial o Banco Central vendeu no leilao de dezembro de 2025?",
+      "capability": "out-of-scope abstention"
+    }
+  ],
+  "diagnostics": {
+    "rows_with_unmatched_span": [],
+    "rows_skipped": [],
+    "note": "rows_with_unmatched_span are gold rows whose span could not be located verbatim in any chunk (chunk boundary or a typo in the gold file); they are still scored, at page-level relevance only"
+  },
+  "per_query": [
+    {
+      "id": "gold-001",
+      "question": "Qual foi a decisao do Copom sobre a taxa Selic na 279a reuniao, de junho de 2026?",
+      "capability": "single-hop lookup",
+      "difficulty": "easy",
+      "answer_type": "extractive",
+      "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.3333333333333333,
+        "recall@10": 0.3333333333333333,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.27511096828801057,
+        "ndcg@10": 0.27511096828801057,
+        "mrr": 0.25,
+        "first_relevant_rank": 4,
+        "n_relevant_total": 3,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.682918,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.664653,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.648045,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.646122,
+          "gain": 2
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.645111,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.630485,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.626601,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.624787,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.621037,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.620241,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-002",
+      "question": "Em quanto o Copom fixou a Selic na reuniao de setembro de 2025 e qual a natureza da decisao?",
+      "capability": "single-hop lookup",
+      "difficulty": "easy",
+      "answer_type": "extractive",
+      "source_doc_id": "2025-09-17-273ª-reunião-16-17-setembro-2025",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 2,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.696298,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.67498,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.674288,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.672405,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.667513,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.655312,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.650757,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.650699,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.646761,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.643883,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-003",
+      "question": "Qual foi a magnitude da elevacao da Selic decidida na reuniao de marco de 2025?",
+      "capability": "single-hop lookup",
+      "difficulty": "easy",
+      "answer_type": "extractive",
+      "source_doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.666882,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.655805,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.646612,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.614775,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 6,
+          "chunk_index": 21,
+          "score": 0.609644,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.607306,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.595172,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 5,
+          "chunk_index": 16,
+          "score": 0.593537,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.584273,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.5822,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-004",
+      "question": "Quais eram as expectativas de inflacao da pesquisa Focus para 2026 e 2027 na ata da reuniao de junho de 2026?",
+      "capability": "numeric extraction, two values",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.10001307161417164,
+        "mrr": 0.16666666666666666,
+        "first_relevant_rank": 6,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.661338,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.646639,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.643285,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.635604,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.635373,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.634426,
+          "gain": 1
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.633749,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.632699,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.630754,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.629544,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-005",
+      "question": "Quem votou pela decisao de politica monetaria da 279a reuniao do Copom?",
+      "capability": "list extraction",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.3333333333333333,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.1137704181007881,
+        "mrr": 0.16666666666666666,
+        "first_relevant_rank": 6,
+        "n_relevant_total": 3,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.634937,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.617873,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.617366,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.605036,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.600416,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.600045,
+          "gain": 1
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.596171,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2025-12-10-275ª-reunião-9-10-dezembro-2025",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.592164,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.592006,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.591746,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-006",
+      "question": "Na ata de julho de 2024, quais eram as projecoes de inflacao do Copom para os anos-calendario de 2024 e 2025 no cenario de referencia?",
+      "capability": "conditional lookup (scenario-qualified)",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.25,
+        "recall@5": 0.5,
+        "recall@10": 0.5,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.4030302838010049,
+        "ndcg@5": 0.4629125653183253,
+        "ndcg@10": 0.4629125653183253,
+        "mrr": 0.5,
+        "first_relevant_rank": 2,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.712576,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.71071,
+          "gain": 2
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.701919,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.693902,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.691921,
+          "gain": 1
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.68498,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.683009,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.674991,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.673737,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.668936,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-007",
+      "question": "Qual foi a decisao do Copom na reuniao de maio de 2024 e por que ela contrariou o cenario esperado?",
+      "capability": "multi-hop within one document (pages 5 and 6)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.125,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.05649043773621708,
+        "mrr": 0.125,
+        "first_relevant_rank": 8,
+        "n_relevant_total": 8,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.586097,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.579124,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.577218,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 4,
+          "score": 0.574028,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 4,
+          "score": 0.571809,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.570364,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.569238,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.568514,
+          "gain": 1
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 5,
+          "chunk_index": 13,
+          "score": 0.567902,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 4,
+          "score": 0.567197,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-008",
+      "question": "Qual era a meta para a inflacao usada como referencia pelo Copom na ata de julho de 2024?",
+      "capability": "single-hop lookup, short answer",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.25,
+        "recall@5": 0.25,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.31939394323979897,
+        "ndcg@5": 0.2807721888661444,
+        "ndcg@10": 0.2807721888661444,
+        "mrr": 0.3333333333333333,
+        "first_relevant_rank": 3,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.669746,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 7,
+          "chunk_index": 23,
+          "score": 0.664222,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.66157,
+          "gain": 2
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.660077,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.659757,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.655604,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.652491,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.651268,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.648316,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.64713,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-009",
+      "question": "Em que reuniao o Copom elevou a Selic para 15,00% a.a. e qual foi o tamanho do ajuste?",
+      "capability": "reverse lookup (value -> meeting)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.712722,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.706263,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.654735,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.646882,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.644117,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.642259,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.623398,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.622601,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.618878,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.614458,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-011",
+      "question": "O que o Copom decidiu sobre a Selic na reuniao de outubro de 2022?",
+      "capability": "single-hop lookup",
+      "difficulty": "easy",
+      "answer_type": "extractive",
+      "source_doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.5,
+        "recall@10": 0.5,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.2940806813328203,
+        "ndcg@10": 0.2940806813328203,
+        "mrr": 0.2,
+        "first_relevant_rank": 5,
+        "n_relevant_total": 2,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.665526,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.659285,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.641175,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.617494,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.617068,
+          "gain": 2
+        },
+        {
+          "rank": 6,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.61553,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.612216,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.61146,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.608905,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.608608,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-012",
+      "question": "Qual foi o corte da Selic decidido na reuniao de agosto de 2023 e para que nivel a taxa foi levada?",
+      "capability": "single-hop lookup",
+      "difficulty": "easy",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "source_page": 7,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.16992444743091037,
+        "mrr": 0.16666666666666666,
+        "first_relevant_rank": 6,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.584489,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.582036,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 6,
+          "chunk_index": 21,
+          "score": 0.581206,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.579993,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.571222,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 7,
+          "chunk_index": 25,
+          "score": 0.557068,
+          "gain": 2
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.555165,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 7,
+          "chunk_index": 23,
+          "score": 0.54919,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.548924,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.54801,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-013",
+      "question": "Para quanto o Copom reduziu a taxa Selic na reuniao de setembro de 2023?",
+      "capability": "single-hop lookup",
+      "difficulty": "easy",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+      "source_page": 7,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.16904170159388393,
+        "mrr": 0.1111111111111111,
+        "first_relevant_rank": 9,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.652548,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.646651,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.641953,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.638219,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.637102,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.628077,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 7,
+          "chunk_index": 25,
+          "score": 0.621603,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.615259,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 7,
+          "chunk_index": 23,
+          "score": 0.613332,
+          "gain": 2
+        },
+        {
+          "rank": 10,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.61189,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-014",
+      "question": "Qual foi a decisao do Copom sobre a Selic na reuniao de outubro/novembro de 2023?",
+      "capability": "single-hop lookup",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+      "source_page": 7,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 3,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.68209,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.6711,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.635526,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.62604,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.625561,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.624094,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.623794,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.61773,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.613879,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.612188,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-015",
+      "question": "Em quanto ficou a Selic apos a reuniao de janeiro de 2024?",
+      "capability": "single-hop lookup",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.25,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.10861750945625488,
+        "ndcg@10": 0.10861750945625488,
+        "mrr": 0.2,
+        "first_relevant_rank": 5,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.63713,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.621408,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.59075,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.59053,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.583832,
+          "gain": 1
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 6,
+          "chunk_index": 21,
+          "score": 0.58153,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.575091,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.571673,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.566662,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.565646,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-016",
+      "question": "Qual foi a taxa Selic definida na reuniao de marco de 2024?",
+      "capability": "single-hop lookup",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
+      "source_page": 7,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.670031,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.638351,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.617871,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.604931,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 6,
+          "chunk_index": 21,
+          "score": 0.597326,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.586487,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 5,
+          "chunk_index": 16,
+          "score": 0.583365,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.580759,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.579905,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.579214,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-017",
+      "question": "O que o Copom decidiu na reuniao de setembro de 2024 e a decisao foi unanime?",
+      "capability": "single-hop lookup with qualifier",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 3,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.552039,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.543056,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 7,
+          "chunk_index": 23,
+          "score": 0.542836,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.542396,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.539629,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.538331,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.537946,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 2,
+          "chunk_index": 1,
+          "score": 0.537652,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 5,
+          "chunk_index": 13,
+          "score": 0.535825,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.535606,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-018",
+      "question": "Qual foi a magnitude da alta da Selic na reuniao de novembro de 2024?",
+      "capability": "single-hop lookup",
+      "difficulty": "easy",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 2,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.62868,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.616041,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.592644,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.570602,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.568024,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.555395,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.550606,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.550448,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 6,
+          "chunk_index": 21,
+          "score": 0.549038,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.548727,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-019",
+      "question": "Como o Copom justificou a magnitude do ajuste da Selic na reuniao de dezembro de 2024?",
+      "capability": "single-hop lookup, non-standard phrasing",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.3333333333333333,
+        "recall@3": 0.3333333333333333,
+        "recall@5": 0.3333333333333333,
+        "recall@10": 0.3333333333333333,
+        "hit_rate@1": 1.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.5,
+        "ndcg@3": 0.31939394323979897,
+        "ndcg@5": 0.31939394323979897,
+        "ndcg@10": 0.31939394323979897,
+        "mrr": 1.0,
+        "first_relevant_rank": 1,
+        "n_relevant_total": 3,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.706814,
+          "gain": 1
+        },
+        {
+          "rank": 2,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.670564,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.656517,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.646792,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.63801,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.637057,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.636965,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 7,
+          "chunk_index": 23,
+          "score": 0.636812,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.633642,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.63343,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-020",
+      "question": "Qual foi a decisao do Copom sobre a Selic na reuniao de janeiro de 2025?",
+      "capability": "single-hop lookup",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.25,
+        "recall@5": 0.25,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.4030302838010049,
+        "ndcg@5": 0.35429505586207044,
+        "ndcg@10": 0.35429505586207044,
+        "mrr": 0.5,
+        "first_relevant_rank": 2,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.672803,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.665832,
+          "gain": 2
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.661926,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.651378,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.647579,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.645327,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.637516,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
+          "page": 7,
+          "chunk_index": 24,
+          "score": 0.63684,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.632192,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.631863,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-021",
+      "question": "Para qual nivel o Copom elevou a Selic na reuniao de maio de 2025?",
+      "capability": "single-hop lookup",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+      "source_page": 7,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.5,
+        "recall@10": 0.5,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.3273949503887395,
+        "ndcg@10": 0.3273949503887395,
+        "mrr": 0.25,
+        "first_relevant_rank": 4,
+        "n_relevant_total": 2,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.681174,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.673793,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.662977,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.649833,
+          "gain": 2
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.636721,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.620115,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.61904,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.617579,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.614359,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.613869,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-022",
+      "question": "Qual foi a decisao do Copom sobre a Selic na reuniao de marco de 2026?",
+      "capability": "single-hop lookup",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2026-03-18-277ª-reunião-17-18-março-2026",
+      "source_page": 5,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 3,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.691779,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.675123,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.647152,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.638405,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.635035,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.63077,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.625683,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.624139,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.619985,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.619006,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-023",
+      "question": "Na ata de outubro de 2022, quais eram as expectativas de inflacao do Focus para 2022, 2023 e 2024?",
+      "capability": "numeric extraction, three values",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.693595,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.689152,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.678039,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.677897,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.674399,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.667573,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.662347,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.659149,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.659091,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.656953,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-024",
+      "question": "Quais eram as expectativas de inflacao do Focus para 2023, 2024 e 2025 na ata de dezembro de 2023?",
+      "capability": "numeric extraction, three values",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.697891,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.689653,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.688536,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.686718,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.686492,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.685132,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.682774,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.674918,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.674706,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.674368,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-025",
+      "question": "Como as expectativas de inflacao do Focus se comportaram na ata de dezembro de 2024 e em que valores ficaram?",
+      "capability": "numeric extraction plus direction of change",
+      "difficulty": "medium",
+      "answer_type": "abstractive",
+      "source_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.66856,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.658778,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.658386,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.657729,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.653373,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.652776,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.645173,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.640293,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.638236,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.638156,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-026",
+      "question": "Quais eram as expectativas de inflacao do Focus para 2025 e 2026 na ata de janeiro de 2025?",
+      "capability": "numeric extraction, two values",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.683833,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.663855,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.660706,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.65688,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.653133,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.647024,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.644419,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.643446,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.642944,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.641655,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-027",
+      "question": "Na ata de novembro de 2025, em que valores estavam as expectativas de inflacao do Focus para 2025 e 2026?",
+      "capability": "numeric extraction, two values",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2025-11-05-274ª-reunião-4-5-novembro-2025",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.664094,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.654712,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.64779,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.644726,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.644312,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.629864,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.6288,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.627043,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.626712,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.626334,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-028",
+      "question": "Quais eram as expectativas de inflacao do Focus para 2026 e 2027 na ata de abril de 2026?",
+      "capability": "numeric extraction, near-duplicate of gold-004",
+      "difficulty": "hard",
+      "answer_type": "extractive",
+      "source_doc_id": "2026-04-29-278ª-reunião-28-29-abril-2026",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.65063,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.626952,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.626215,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.623964,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.621214,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.619916,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.616995,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.615937,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.613731,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.611923,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-029",
+      "question": "Na ata de fevereiro de 2023, quais eram as projecoes de inflacao do Copom para 2023 e 2024?",
+      "capability": "conditional lookup (scenario-qualified)",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.25,
+        "recall@3": 0.25,
+        "recall@5": 0.25,
+        "recall@10": 0.25,
+        "hit_rate@1": 1.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 1.0,
+        "ndcg@3": 0.5316519652587917,
+        "ndcg@5": 0.4770382338730848,
+        "ndcg@10": 0.4770382338730848,
+        "mrr": 1.0,
+        "first_relevant_rank": 1,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.767314,
+          "gain": 2
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.745512,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.698322,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.697763,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.692228,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.69125,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.686311,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.677594,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.675309,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.669114,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-030",
+      "question": "Quais eram as projecoes de inflacao do Copom para 2023, 2024 e 2025 na ata de agosto de 2023?",
+      "capability": "numeric extraction, three values",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 5,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.743282,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.732248,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.695376,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.693738,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.687957,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.677439,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.671203,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.669205,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.666653,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.664435,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-031",
+      "question": "Na ata de novembro de 2023, quais eram as projecoes de inflacao do Copom para 2023, 2024 e 2025?",
+      "capability": "numeric extraction, three values",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.25,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.20544918463387046,
+        "ndcg@10": 0.20544918463387046,
+        "mrr": 0.25,
+        "first_relevant_rank": 4,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.766189,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.740664,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.706935,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.705882,
+          "gain": 2
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.696989,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.695669,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.685549,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.684723,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.676075,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.671273,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-032",
+      "question": "Quais eram as projecoes de inflacao do Copom para 2024 e 2025 na ata de maio de 2024?",
+      "capability": "conditional lookup (scenario-qualified)",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.708503,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.702599,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.674588,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.6737,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.673587,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.672766,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.670423,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.662567,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.658951,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.654392,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-033",
+      "question": "Na ata de dezembro de 2022, quais eram as projecoes de inflacao do Copom para 2022, 2023 e 2024?",
+      "capability": "numeric extraction, three values",
+      "difficulty": "hard",
+      "answer_type": "extractive",
+      "source_doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.25,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.21723501891250976,
+        "ndcg@10": 0.21723501891250976,
+        "mrr": 0.2,
+        "first_relevant_rank": 5,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.77858,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.74971,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.729658,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.720626,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.72035,
+          "gain": 2
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.717057,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.712776,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.694885,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.694867,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.687836,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-034",
+      "question": "De que nivel de cambio partia o cenario de referencia na ata de janeiro de 2025?",
+      "capability": "single-hop lookup, assumption",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "source_page": 5,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.2,
+        "recall@10": 0.2,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.19595127901151166,
+        "ndcg@10": 0.19595127901151166,
+        "mrr": 0.2,
+        "first_relevant_rank": 5,
+        "n_relevant_total": 5,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.574267,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.563408,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.55891,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-11-05-274ª-reunião-4-5-novembro-2025",
+          "page": 4,
+          "chunk_index": 11,
+          "score": 0.558438,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 5,
+          "chunk_index": 13,
+          "score": 0.558202,
+          "gain": 2
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.557161,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.550183,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.548968,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2025-12-10-275ª-reunião-9-10-dezembro-2025",
+          "page": 4,
+          "chunk_index": 11,
+          "score": 0.547068,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.544256,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-035",
+      "question": "Qual era a premissa de taxa de cambio do cenario de referencia na ata de julho de 2024?",
+      "capability": "single-hop lookup, assumption",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.25,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.21723501891250976,
+        "ndcg@10": 0.21723501891250976,
+        "mrr": 0.2,
+        "first_relevant_rank": 5,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.508645,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.504934,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.502532,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.49596,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.494541,
+          "gain": 2
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.491591,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 5,
+          "chunk_index": 13,
+          "score": 0.491251,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.487082,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.484518,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 7,
+          "chunk_index": 23,
+          "score": 0.483844,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-036",
+      "question": "Na ata de junho de 2023, de que valor partia a taxa de cambio no cenario de referencia?",
+      "capability": "single-hop lookup, assumption",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.17714752793103522,
+        "mrr": 0.125,
+        "first_relevant_rank": 8,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.559515,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.559512,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.557788,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.553687,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 5,
+          "chunk_index": 13,
+          "score": 0.548545,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.547294,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.530879,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.530867,
+          "gain": 2
+        },
+        {
+          "rank": 9,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.52956,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.529231,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-037",
+      "question": "Qual a premissa cambial do cenario de referencia na ata de junho de 2026?",
+      "capability": "single-hop lookup, assumption",
+      "difficulty": "medium",
+      "answer_type": "extractive",
+      "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+      "source_page": 4,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 5,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.482612,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.481019,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 1,
+          "chunk_index": 0,
+          "score": 0.480065,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 5,
+          "chunk_index": 13,
+          "score": 0.472867,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2025-11-05-274ª-reunião-4-5-novembro-2025",
+          "page": 4,
+          "chunk_index": 11,
+          "score": 0.465973,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 5,
+          "chunk_index": 16,
+          "score": 0.45914,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2026-03-18-277ª-reunião-17-18-março-2026",
+          "page": 4,
+          "chunk_index": 10,
+          "score": 0.458155,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2026-01-28-276ª-reunião-27-28-janeiro-2026",
+          "page": 1,
+          "chunk_index": 0,
+          "score": 0.45805,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.457166,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 1,
+          "chunk_index": 0,
+          "score": 0.456105,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-038",
+      "question": "Quem votou pela reducao de 0,50 ponto percentual na reuniao de agosto de 2023?",
+      "capability": "list extraction, split vote",
+      "difficulty": "hard",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "source_page": 8,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "recall@10": 1.0,
+        "hit_rate@1": 1.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 1.0,
+        "ndcg@3": 1.0,
+        "ndcg@5": 1.0,
+        "ndcg@10": 1.0,
+        "mrr": 1.0,
+        "first_relevant_rank": 1,
+        "n_relevant_total": 1,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 8,
+          "chunk_index": 27,
+          "score": 0.656106,
+          "gain": 2
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.576888,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
+          "page": 8,
+          "chunk_index": 26,
+          "score": 0.57453,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.572979,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 7,
+          "chunk_index": 25,
+          "score": 0.572514,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.567344,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.564743,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.561499,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.557532,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.55586,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-039",
+      "question": "Quais membros do Copom votaram por uma reducao de apenas 0,25 ponto percentual na reuniao de agosto de 2023?",
+      "capability": "list extraction, split vote (minority)",
+      "difficulty": "hard",
+      "answer_type": "extractive",
+      "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "source_page": 8,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 1.0,
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "recall@10": 1.0,
+        "hit_rate@1": 1.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 1.0,
+        "ndcg@3": 1.0,
+        "ndcg@5": 1.0,
+        "ndcg@10": 1.0,
+        "mrr": 1.0,
+        "first_relevant_rank": 1,
+        "n_relevant_total": 1,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 8,
+          "chunk_index": 27,
+          "score": 0.689893,
+          "gain": 2
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
+          "page": 8,
+          "chunk_index": 26,
+          "score": 0.617786,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.615509,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.611776,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.6068,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.603584,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.602318,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.597389,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 2,
+          "chunk_index": 1,
+          "score": 0.58074,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.580011,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-040",
+      "question": "Quem eram os membros do Copom que votaram pela decisao da reuniao de outubro de 2022?",
+      "capability": "list extraction",
+      "difficulty": "hard",
+      "answer_type": "extractive",
+      "source_doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 2,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2025-11-05-274ª-reunião-4-5-novembro-2025",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.58274,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 2,
+          "chunk_index": 1,
+          "score": 0.570424,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2025-12-10-275ª-reunião-9-10-dezembro-2025",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.566489,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 2,
+          "chunk_index": 1,
+          "score": 0.553275,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2025-11-05-274ª-reunião-4-5-novembro-2025",
+          "page": 2,
+          "chunk_index": 1,
+          "score": 0.54901,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.548874,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.546105,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
+          "page": 8,
+          "chunk_index": 26,
+          "score": 0.540518,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 8,
+          "chunk_index": 27,
+          "score": 0.54045,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.538142,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-041",
+      "question": "Na reuniao de maio de 2024, o que os membros que votaram por um corte de 0,50 ponto percentual alegaram?",
+      "capability": "rationale of a dissenting minority",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.25,
+        "recall@5": 0.25,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.31939394323979897,
+        "ndcg@5": 0.2807721888661444,
+        "ndcg@10": 0.2807721888661444,
+        "mrr": 0.3333333333333333,
+        "first_relevant_rank": 3,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 8,
+          "chunk_index": 27,
+          "score": 0.618182,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.593477,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.579027,
+          "gain": 2
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.560874,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 7,
+          "chunk_index": 25,
+          "score": 0.559862,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
+          "page": 8,
+          "chunk_index": 26,
+          "score": 0.559004,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 21,
+          "score": 0.55829,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 23,
+          "score": 0.553301,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.551358,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.548833,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-042",
+      "question": "Em qual reuniao o Copom reduziu a taxa Selic para 13,25% a.a.?",
+      "capability": "reverse lookup (value -> meeting)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "source_page": 7,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.16992444743091037,
+        "mrr": 0.16666666666666666,
+        "first_relevant_rank": 6,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.653825,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.647832,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.647303,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.644562,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.641077,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 7,
+          "chunk_index": 25,
+          "score": 0.64038,
+          "gain": 2
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.634336,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.634121,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.632595,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.63128,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-043",
+      "question": "Em qual reuniao o Copom elevou a Selic em 1,00 ponto percentual para 12,25% a.a.?",
+      "capability": "reverse lookup (value -> meeting)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.3333333333333333,
+        "recall@5": 0.6666666666666666,
+        "recall@10": 0.6666666666666666,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.20151514190050246,
+        "ndcg@5": 0.44863202901255467,
+        "ndcg@10": 0.44863202901255467,
+        "mrr": 0.5,
+        "first_relevant_rank": 2,
+        "n_relevant_total": 3,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.74595,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.74375,
+          "gain": 1
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.672554,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.661748,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.661265,
+          "gain": 2
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.65292,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.652556,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.641673,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.63769,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.63643,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-044",
+      "question": "Em qual ata do Copom o cenario de referencia partia de uma taxa de cambio de R$6,00/US$?",
+      "capability": "reverse lookup (assumption -> meeting)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "source_page": 5,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 5,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 5,
+          "chunk_index": 17,
+          "score": 0.600147,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.593565,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.587961,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 2,
+          "chunk_index": 1,
+          "score": 0.584385,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2025-09-17-273ª-reunião-16-17-setembro-2025",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.580645,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.580616,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.579764,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.579091,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2026-01-28-276ª-reunião-27-28-janeiro-2026",
+          "page": 4,
+          "chunk_index": 11,
+          "score": 0.577989,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 2,
+          "chunk_index": 1,
+          "score": 0.577614,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-045",
+      "question": "Em qual reuniao o Copom elevou a taxa Selic para 10,75% a.a.?",
+      "capability": "reverse lookup (value -> meeting)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 3,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.699905,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.677137,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.666105,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.637211,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.618695,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.612954,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.61295,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+          "page": 7,
+          "chunk_index": 21,
+          "score": 0.605326,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.597811,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.597129,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-046",
+      "question": "Em qual reuniao a Selic foi reduzida para 12,75% a.a.?",
+      "capability": "reverse lookup (value -> meeting)",
+      "difficulty": "medium",
+      "answer_type": "abstractive",
+      "source_doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+      "source_page": 7,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.622151,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.592802,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.571743,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 6,
+          "chunk_index": 21,
+          "score": 0.571551,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.570412,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.564856,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.564673,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.560065,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 7,
+          "chunk_index": 25,
+          "score": 0.555718,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.554725,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-047",
+      "question": "Em qual ata as expectativas de inflacao do Focus estavam em 5,5% e 4,2% e haviam se elevado de forma relevante?",
+      "capability": "reverse lookup (values -> meeting)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.25,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.08116136400948525,
+        "mrr": 0.1,
+        "first_relevant_rank": 10,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.643044,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.636387,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.6313,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.625634,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2025-09-17-273ª-reunião-16-17-setembro-2025",
+          "page": 4,
+          "chunk_index": 11,
+          "score": 0.624799,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.615665,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.614769,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.612181,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.610134,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 3,
+          "chunk_index": 5,
+          "score": 0.60929,
+          "gain": 1
+        }
+      ]
+    },
+    {
+      "id": "gold-048",
+      "question": "Em qual reuniao o Copom reduziu a Selic para 11,25% a.a.?",
+      "capability": "reverse lookup (value -> meeting)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+      "source_page": 6,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.25,
+        "recall@5": 0.25,
+        "recall@10": 0.5,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 1.0,
+        "hit_rate@5": 1.0,
+        "hit_rate@10": 1.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.31939394323979897,
+        "ndcg@5": 0.2807721888661444,
+        "ndcg@10": 0.380785260480316,
+        "mrr": 0.3333333333333333,
+        "first_relevant_rank": 3,
+        "n_relevant_total": 4,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.650124,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.649809,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.645559,
+          "gain": 2
+        },
+        {
+          "rank": 4,
+          "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+          "page": 7,
+          "chunk_index": 22,
+          "score": 0.639787,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.634012,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.623103,
+          "gain": 1
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 7,
+          "chunk_index": 25,
+          "score": 0.620726,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2026-04-29-278ª-reunião-28-29-abril-2026",
+          "page": 5,
+          "chunk_index": 17,
+          "score": 0.618178,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.618151,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.616341,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-049",
+      "question": "Na ata de dezembro de 2024, o que o PIB do terceiro trimestre indicou sobre o hiato do produto e qual foi a decisao de juros?",
+      "capability": "multi-hop within one document (pages 3 and 6)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 7,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.609396,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.60524,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+          "page": 6,
+          "chunk_index": 20,
+          "score": 0.598778,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
+          "page": 4,
+          "chunk_index": 10,
+          "score": 0.598473,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.59261,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.588556,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 4,
+          "chunk_index": 8,
+          "score": 0.579758,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.575163,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+          "page": 6,
+          "chunk_index": 18,
+          "score": 0.570098,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+          "page": 6,
+          "chunk_index": 21,
+          "score": 0.567955,
+          "gain": 0
+        }
+      ]
+    },
+    {
+      "id": "gold-050",
+      "question": "Na ata de junho de 2026, qual era a projecao de inflacao do Copom para o horizonte relevante e qual foi a decisao sobre a Selic?",
+      "capability": "multi-hop within one document (pages 3 and 6)",
+      "difficulty": "hard",
+      "answer_type": "abstractive",
+      "source_doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+      "source_page": 3,
+      "span_matched": true,
+      "metrics": {
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "hit_rate@1": 0.0,
+        "hit_rate@3": 0.0,
+        "hit_rate@5": 0.0,
+        "hit_rate@10": 0.0,
+        "ndcg@1": 0.0,
+        "ndcg@3": 0.0,
+        "ndcg@5": 0.0,
+        "ndcg@10": 0.0,
+        "mrr": 0.0,
+        "first_relevant_rank": null,
+        "n_relevant_total": 7,
+        "n_retrieved": 10
+      },
+      "retrieved": [
+        {
+          "rank": 1,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 3,
+          "chunk_index": 6,
+          "score": 0.695637,
+          "gain": 0
+        },
+        {
+          "rank": 2,
+          "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.693294,
+          "gain": 0
+        },
+        {
+          "rank": 3,
+          "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+          "page": 5,
+          "chunk_index": 14,
+          "score": 0.680168,
+          "gain": 0
+        },
+        {
+          "rank": 4,
+          "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+          "page": 6,
+          "chunk_index": 19,
+          "score": 0.67207,
+          "gain": 0
+        },
+        {
+          "rank": 5,
+          "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.671669,
+          "gain": 0
+        },
+        {
+          "rank": 6,
+          "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+          "page": 5,
+          "chunk_index": 15,
+          "score": 0.667825,
+          "gain": 0
+        },
+        {
+          "rank": 7,
+          "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+          "page": 6,
+          "chunk_index": 17,
+          "score": 0.665994,
+          "gain": 0
+        },
+        {
+          "rank": 8,
+          "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.658896,
+          "gain": 0
+        },
+        {
+          "rank": 9,
+          "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+          "page": 6,
+          "chunk_index": 16,
+          "score": 0.655412,
+          "gain": 0
+        },
+        {
+          "rank": 10,
+          "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+          "page": 3,
+          "chunk_index": 7,
+          "score": 0.654901,
+          "gain": 0
+        }
+      ]
+    }
+  ],
+  "caveat": "DRAFT GOLD SET. Every row was written by an agent and none has been validated by a human, so these numbers measure the harness, not the system. Re-run with --min-status validated after the human pass."
+}
