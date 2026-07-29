@@ -42,3 +42,6 @@ Thumbs.db
 # --- eval run outputs (reports are regenerated) ---
 eval/reports/*.json
 eval/reports/*.html
+# ...except the committed baselines, which are the reference every later
+# milestone reports a delta against.
+!eval/reports/baseline_dense.json
