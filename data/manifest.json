@@ -1,0 +1,308 @@
+{
+  "source": "Banco Central do Brasil - Atas do Copom",
+  "license": "Public information published by BACEN (dados abertos / public domain).",
+  "endpoint": "https://www.bcb.gov.br/api/servico/sitebcb/atascopom/ultimas",
+  "document_count": 30,
+  "documents": [
+    {
+      "doc_id": "2026-06-17-279ª-reunião-16-17-junho-2026",
+      "title": "279ª Reunião - 16-17 junho, 2026",
+      "reference_date": "2026-06-17",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom279-not20260617279.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/17062026",
+      "filename": "2026-06-17-279ª-reunião-16-17-junho-2026.pdf",
+      "sha256": "f9551a2c5c343c67e188669dbfa978127385bb5fce88b6e7e3e3a4762286e6ea",
+      "bytes": 405189
+    },
+    {
+      "doc_id": "2026-04-29-278ª-reunião-28-29-abril-2026",
+      "title": "278ª Reunião - 28-29 abril, 2026",
+      "reference_date": "2026-04-29",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom278-not20260429278.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/29042026",
+      "filename": "2026-04-29-278ª-reunião-28-29-abril-2026.pdf",
+      "sha256": "fe654361cbc83322f12ad3bbdd839d0f38aea752c29baf58968ee72244648e18",
+      "bytes": 401418
+    },
+    {
+      "doc_id": "2026-03-18-277ª-reunião-17-18-março-2026",
+      "title": "277ª Reunião - 17-18 março, 2026",
+      "reference_date": "2026-03-18",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom277-not20260318277.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/18032026",
+      "filename": "2026-03-18-277ª-reunião-17-18-março-2026.pdf",
+      "sha256": "fa1029e8e9d82018e3d2678826b42288f0e44e1bfa6801e78e2257be7492236c",
+      "bytes": 397530
+    },
+    {
+      "doc_id": "2026-01-28-276ª-reunião-27-28-janeiro-2026",
+      "title": "276ª Reunião - 27-28 janeiro, 2026",
+      "reference_date": "2026-01-28",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom276-not20260128276.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/28012026",
+      "filename": "2026-01-28-276ª-reunião-27-28-janeiro-2026.pdf",
+      "sha256": "cf13bb53b29d76895e1cb53bc89eadf501f8c8b8d4b3399c70060b20122c6c78",
+      "bytes": 377765
+    },
+    {
+      "doc_id": "2025-12-10-275ª-reunião-9-10-dezembro-2025",
+      "title": "275ª Reunião - 9-10 dezembro, 2025",
+      "reference_date": "2025-12-10",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom275-not20251210275.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/10122025",
+      "filename": "2025-12-10-275ª-reunião-9-10-dezembro-2025.pdf",
+      "sha256": "37befb279201614c8747c299c877c5a6461177d0910a72e48c99fbd88e7dfd32",
+      "bytes": 360190
+    },
+    {
+      "doc_id": "2025-11-05-274ª-reunião-4-5-novembro-2025",
+      "title": "274ª Reunião - 4-5 novembro, 2025",
+      "reference_date": "2025-11-05",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom274-not20251105274.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/05112025",
+      "filename": "2025-11-05-274ª-reunião-4-5-novembro-2025.pdf",
+      "sha256": "e16f68cc7049f638fb8ba326eab42dfc14a616a4af8f428fa17f8d8389b1d926",
+      "bytes": 435726
+    },
+    {
+      "doc_id": "2025-09-17-273ª-reunião-16-17-setembro-2025",
+      "title": "273ª Reunião - 16-17 setembro, 2025",
+      "reference_date": "2025-09-17",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom273-not20250917273.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/17092025",
+      "filename": "2025-09-17-273ª-reunião-16-17-setembro-2025.pdf",
+      "sha256": "917cb28111840918084fcd1a1f48539bf30f96b4e86bb2a4de8085445a059a15",
+      "bytes": 395295
+    },
+    {
+      "doc_id": "2025-07-30-272ª-reunião-29-30-julho-2025",
+      "title": "272ª Reunião - 29-30 julho, 2025",
+      "reference_date": "2025-07-30",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom272-not20250730272.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/30072025",
+      "filename": "2025-07-30-272ª-reunião-29-30-julho-2025.pdf",
+      "sha256": "5dc29b0cc06f9d38e4ebe47c613590300afa1afe156ba1faee15104a6b1913c3",
+      "bytes": 392150
+    },
+    {
+      "doc_id": "2025-06-18-271ª-reunião-17-18-junho-2025",
+      "title": "271ª Reunião - 17-18 junho, 2025",
+      "reference_date": "2025-06-18",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom271-not20250618271.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/18062025",
+      "filename": "2025-06-18-271ª-reunião-17-18-junho-2025.pdf",
+      "sha256": "01dbb88e9a03f92715215ba2c7152d3d93e5799e4e19f11b67ec147c7bf0c96d",
+      "bytes": 344645
+    },
+    {
+      "doc_id": "2025-05-07-270ª-reunião-6-7-maio-2025",
+      "title": "270ª Reunião - 6-7 maio, 2025",
+      "reference_date": "2025-05-07",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom270-not20250507270.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/07052025",
+      "filename": "2025-05-07-270ª-reunião-6-7-maio-2025.pdf",
+      "sha256": "9bd0984bb76efd908e1f796c7a63473bef742e834f97169caa4cce5f0cab71a2",
+      "bytes": 320720
+    },
+    {
+      "doc_id": "2025-03-19-269ª-reunião-18-19-março-2025",
+      "title": "269ª Reunião - 18-19 março, 2025",
+      "reference_date": "2025-03-19",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom269-not20250319269.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/19032025",
+      "filename": "2025-03-19-269ª-reunião-18-19-março-2025.pdf",
+      "sha256": "579f8c6499f320140ab34d571a3e2713c62b0d2f0f76405f0c552c99e170fa75",
+      "bytes": 343431
+    },
+    {
+      "doc_id": "2025-01-29-268ª-reunião-28-29-janeiro-2025",
+      "title": "268ª Reunião - 28-29 janeiro, 2025",
+      "reference_date": "2025-01-29",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom268-not20250129268.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/29012025",
+      "filename": "2025-01-29-268ª-reunião-28-29-janeiro-2025.pdf",
+      "sha256": "6e9574cfa21915c7d9cfc376445c7f4dda55c4f1da42ff65f91dc83a70cf9fe0",
+      "bytes": 314583
+    },
+    {
+      "doc_id": "2024-12-11-267ª-reunião-10-11-dezembro-2024",
+      "title": "267ª Reunião - 10-11 dezembro, 2024",
+      "reference_date": "2024-12-11",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom267-not20241211267.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/11122024",
+      "filename": "2024-12-11-267ª-reunião-10-11-dezembro-2024.pdf",
+      "sha256": "89f88c60b28928d21720f32a54b456ef0830aa2303f60d4886d31fc6c75311f3",
+      "bytes": 321595
+    },
+    {
+      "doc_id": "2024-11-06-266ª-reunião-5-6-novembro-2024",
+      "title": "266ª Reunião - 5-6 novembro, 2024",
+      "reference_date": "2024-11-06",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom266-not20241106266.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/06112024",
+      "filename": "2024-11-06-266ª-reunião-5-6-novembro-2024.pdf",
+      "sha256": "7cfb35f77e81b87a346aa7d725b595a9faedc155943ba3b042eb71747724367f",
+      "bytes": 301091
+    },
+    {
+      "doc_id": "2024-09-18-265ª-reunião-17-18-setembro-2024",
+      "title": "265ª Reunião - 17-18 setembro, 2024",
+      "reference_date": "2024-09-18",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom265-not20240918265.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/18092024",
+      "filename": "2024-09-18-265ª-reunião-17-18-setembro-2024.pdf",
+      "sha256": "c784faee8f4594f80e300b0d86edea5a8c6600ddf34e3b2eb43bc03baf5e53f3",
+      "bytes": 334159
+    },
+    {
+      "doc_id": "2024-07-31-264ª-reunião-30-31-julho-2024",
+      "title": "264ª Reunião - 30-31 julho, 2024",
+      "reference_date": "2024-07-31",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom264-not20240731264.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/31072024",
+      "filename": "2024-07-31-264ª-reunião-30-31-julho-2024.pdf",
+      "sha256": "fc2f89db71cb88928b921a65cfab700b19f7a39ddcb9e09a80d6873fd6e27090",
+      "bytes": 300338
+    },
+    {
+      "doc_id": "2024-06-19-263ª-reunião-18-19-junho-2024",
+      "title": "263ª Reunião - 18-19 junho, 2024",
+      "reference_date": "2024-06-19",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom263-not20240619263.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/19062024",
+      "filename": "2024-06-19-263ª-reunião-18-19-junho-2024.pdf",
+      "sha256": "a82778d16d229971ef64c30a3e90f043ca4592d50f2b83b677d9e33fd91bbe8c",
+      "bytes": 298557
+    },
+    {
+      "doc_id": "2024-05-08-262ª-reunião-7-8-maio-2024",
+      "title": "262ª Reunião - 7-8 maio, 2024",
+      "reference_date": "2024-05-08",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom262-not20240508262.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/08052024",
+      "filename": "2024-05-08-262ª-reunião-7-8-maio-2024.pdf",
+      "sha256": "543d43ee0264b4b821b6954613eed3ef9e9bef02a942baadd799985470a08fd8",
+      "bytes": 307601
+    },
+    {
+      "doc_id": "2024-03-20-261ª-reunião-19-20-março-2024",
+      "title": "261ª Reunião - 19-20 março, 2024",
+      "reference_date": "2024-03-20",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom261-not20240320261.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/20032024",
+      "filename": "2024-03-20-261ª-reunião-19-20-março-2024.pdf",
+      "sha256": "21bf789056b1657bb71b5a9e2d7cbf34e60ddedcc71c8435f2f701e12fe67f53",
+      "bytes": 312146
+    },
+    {
+      "doc_id": "2024-01-31-260ª-reunião-30-31-janeiro-2024",
+      "title": "260ª Reunião - 30-31 janeiro, 2024",
+      "reference_date": "2024-01-31",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom260-not20240131260.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/31012024",
+      "filename": "2024-01-31-260ª-reunião-30-31-janeiro-2024.pdf",
+      "sha256": "077d0407f1b36e4e2111216aea82391a74dec29699275eebd168663ddc7e6082",
+      "bytes": 300675
+    },
+    {
+      "doc_id": "2023-12-13-259ª-reunião-12-13-dezembro-2023",
+      "title": "259ª Reunião - 12-13 dezembro, 2023",
+      "reference_date": "2023-12-13",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom259-not20231213259.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/13122023",
+      "filename": "2023-12-13-259ª-reunião-12-13-dezembro-2023.pdf",
+      "sha256": "48fbb9f3fc5ee48a84dd3852a21c1183cd0a996332370dc80c52e3fa58c74148",
+      "bytes": 299170
+    },
+    {
+      "doc_id": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023",
+      "title": "258ª Reunião - 31 outubro - 1 novembro, 2023",
+      "reference_date": "2023-11-01",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom258-not20231101258.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/01112023",
+      "filename": "2023-11-01-258ª-reunião-31-outubro-1-novembro-2023.pdf",
+      "sha256": "5a89d240c7228ac92edfaf15c24f8eb42ac12d3bc8bb2551056d5db1ed67dbbb",
+      "bytes": 315727
+    },
+    {
+      "doc_id": "2023-09-20-257ª-reunião-19-20-setembro-2023",
+      "title": "257ª Reunião - 19-20 setembro, 2023",
+      "reference_date": "2023-09-20",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom257-not20230920257.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/20092023",
+      "filename": "2023-09-20-257ª-reunião-19-20-setembro-2023.pdf",
+      "sha256": "f3f6470275f7580f4df7178cf37c39df94a9fd8cd263397bcd920a8558b55666",
+      "bytes": 283322
+    },
+    {
+      "doc_id": "2023-08-02-256ª-reunião-1-2-agosto-2023",
+      "title": "256ª Reunião - 1-2 agosto, 2023",
+      "reference_date": "2023-08-02",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom256-not20230802256.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/02082023",
+      "filename": "2023-08-02-256ª-reunião-1-2-agosto-2023.pdf",
+      "sha256": "5bd9766e07ff8f72066ef864f781452f0fcdd54991af6f017392fb3174ee619a",
+      "bytes": 280754
+    },
+    {
+      "doc_id": "2023-06-21-255ª-reunião-20-21-junho-2023",
+      "title": "255ª Reunião - 20-21 junho, 2023",
+      "reference_date": "2023-06-21",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom255-not20230621255.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/21062023",
+      "filename": "2023-06-21-255ª-reunião-20-21-junho-2023.pdf",
+      "sha256": "20242131b2dda7847cc5b2bbabae7e3ee110ed9413f587f81c545c0ec5fb7975",
+      "bytes": 250370
+    },
+    {
+      "doc_id": "2023-05-03-254ª-reunião-2-3-maio-2023",
+      "title": "254ª Reunião - 2-3 maio, 2023",
+      "reference_date": "2023-05-03",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom254-not20230503254.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/03052023",
+      "filename": "2023-05-03-254ª-reunião-2-3-maio-2023.pdf",
+      "sha256": "e831d65b93c4207af0c9a5183a10503513130ffdef763c7f463b92f195674572",
+      "bytes": 273590
+    },
+    {
+      "doc_id": "2023-03-22-253ª-reunião-21-22-março-2023",
+      "title": "253ª Reunião - 21-22 março, 2023",
+      "reference_date": "2023-03-22",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom253-not20230322253.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/22032023",
+      "filename": "2023-03-22-253ª-reunião-21-22-março-2023.pdf",
+      "sha256": "4ea9db4fd736f7a0bf47be2151854c9b9907160b3ad316fc9f1c780ae49808c6",
+      "bytes": 277325
+    },
+    {
+      "doc_id": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023",
+      "title": "252ª Reunião - 31 janeiro - 1 fevereiro, 2023",
+      "reference_date": "2023-02-01",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom252-not20230201252.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/01022023",
+      "filename": "2023-02-01-252ª-reunião-31-janeiro-1-fevereiro-2023.pdf",
+      "sha256": "252e13ee0cb0958895dc20a427fabe6ce2939a2d54608a1b775c7bc85c3f2a35",
+      "bytes": 401842
+    },
+    {
+      "doc_id": "2022-12-07-251ª-reunião-6-7-dezembro-2022",
+      "title": "251ª Reunião - 6-7 dezembro, 2022",
+      "reference_date": "2022-12-07",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom251-not20221207251.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/07122022",
+      "filename": "2022-12-07-251ª-reunião-6-7-dezembro-2022.pdf",
+      "sha256": "166787c9c7fbdfde215fbd78e794f8fde3ead0c59c9a19ca5a7e69cc6e244144",
+      "bytes": 252985
+    },
+    {
+      "doc_id": "2022-10-26-250ª-reunião-25-26-outubro-2022",
+      "title": "250ª Reunião - 25-26 outubro, 2022",
+      "reference_date": "2022-10-26",
+      "pdf_url": "https://www.bcb.gov.br/content/copom/atascopom/Copom250-not20221026250.pdf",
+      "source_page": "https://www.bcb.gov.br/publicacoes/atascopom/26102022",
+      "filename": "2022-10-26-250ª-reunião-25-26-outubro-2022.pdf",
+      "sha256": "17f1bbf0011fee8824f5e92b829e87144782ba935e8f0869d475e88efba24e25",
+      "bytes": 246532
+    }
+  ]
+}
