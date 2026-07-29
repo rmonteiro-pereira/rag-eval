@@ -63,6 +63,8 @@ Repository layout follows the project spec (`docs/spec.md`):
 | `ingest/` | corpus download, PDF loading, chunking, embedding |
 | `retrieval/` | Qdrant access, BM25, RRF fusion, meeting-metadata resolution, cross-encoder reranking, and the named ablation arms |
 | `generation/` | prompt, LLM backends, cited answers, the LLM judge |
+| `guardrails/` | PII detection + masking (with Brazilian recognisers), injection detection, the governed query path |
+| `governance/` | document ACL as a Qdrant payload filter, append-only audit log |
 | `rag/` | config, tracing, the pipeline, the CLI |
 | `eval/` | gold dataset, metrics, the harnesses (`run_eval`, `ablation`, `run_generation`, `calibration`), reports |
 | `serving/` | FastAPI + UI placeholder (M7) |
@@ -147,6 +149,9 @@ uv run python -m eval.ablation --out eval/reports/ablation.json
 # generation: three backends, deterministic metrics + LLM judge + calibration sheet
 uv run python -m eval.run_generation --out eval/reports/generation.json
 
+# guardrails: injection ASR, PII leak, abstention, ACL — each vs an ungoverned arm
+uv run python -m eval.run_eval --suite adversarial
+
 # judge-vs-human agreement, once the sheet has been labelled
 uv run python -m eval.calibration
 
@@ -224,7 +229,8 @@ anything other than what it retrieved.
 | **M4 — retrieval ablation** | done | `eval/reports/ablation.json`, [`docs/ablation.md`](docs/ablation.md) — 7 arms, MRR 0.191 → 0.741 |
 | **M3 — generative mode** | done | `qwen2.5:3b` + `llama3.1` local; `eval/reports/generation.json` |
 | **M3 — judge calibration** | **awaiting human** | `eval/datasets/judge_calibration_sheet.jsonl` — 30 items, human column empty |
-| M5 → M8 | in progress | — |
+| **M5 — guardrails + governance** | done | `eval/reports/adversarial.json`, [`docs/governance.md`](docs/governance.md) |
+| M6 → M8 | in progress | — |
 
 ### The M1 baseline — what M4 had to beat
 
@@ -361,6 +367,46 @@ So the judge's faithfulness column carries almost no information, and the
 deterministic metrics are the ones to believe. This is exactly why the harness
 computes arithmetic first and treats the judge as the flexible, suspect
 instrument — and why the human gate below exists.
+
+### Guardrails and governance: measured against a control arm
+
+Four controls, each with an ungoverned arm running the identical attacks
+([`docs/governance.md`](docs/governance.md)):
+
+| metric | governed | ungoverned |
+|---|--:|--:|
+| **injection attack success** (24 attacks) | **8.3%** | 16.7% |
+| — direct surface | 11.1% | 16.7% |
+| — **indirect surface** (poisoned passage) | **0.0%** | 16.7% |
+| **PII output leak** (corpus-supplied) | **0.0%** | **100.0%** |
+| PII false positives on clean domain queries | 0.0% | — |
+| abstention correctness / false refusal | 100% / 4.1% | — |
+| **restricted chunks retrieved by an uncleared user** | **0** | — |
+
+- **8.3%, not 0%.** Two attacks defeat the stack, both named in the writeup. A
+  security section opening with 0% is either testing weak attacks or not being
+  straight. The residual is a precision/recall property of a pattern-based
+  detector, not a bug a longer regex fixes.
+- **The indirect surface is where the guardrail earns its place** — 0.0% vs
+  16.7%. Injection carried by a *retrieved document* is the RAG-specific attack,
+  and a system that only inspects the user's question has no defence against it.
+- **Presidio misses the CPF entirely.** Measured, not assumed — so
+  `guardrails/brazilian.py` adds CPF/CNPJ/CEP/phone recognisers that validate
+  **check digits**, not shape. Shape matching would redact `123.456.789-00`,
+  which is not a CPF, and every question here is dense with numbers.
+- **The ACL is a Qdrant payload filter inside the query, not a post-filter.** A
+  post-filter has already read the restricted document; it also leaks *how many*
+  matched via the result-list length. Proven with a live-Qdrant test that asks
+  for 200 results and gets zero restricted ones — and still zero when the query
+  is aimed directly at a restricted meeting.
+- **The audit log deliberately stores the masked query and a SHA-256 of the raw
+  one** — never the raw query, the answer, or a matched PII substring. A log that
+  stores them is a second copy of what the masker exists to contain, with broader
+  read access.
+
+The ACL classification is **synthetic** (these are public BACEN documents; the
+five most recent meetings stand in for a publication embargo) and every report
+says so.
 
 ### The second human gate: judge calibration
 

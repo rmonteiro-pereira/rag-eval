@@ -179,6 +179,15 @@ def main(argv: list[str] | None = None) -> int:
         description="Score the retriever against the gold set.",
     )
     parser.add_argument(
+        "--suite",
+        choices=["retrieval", "adversarial"],
+        default="retrieval",
+        help=(
+            "retrieval (default): recall/nDCG/MRR against the gold set. "
+            "adversarial: injection success, PII leak, abstention and ACL (M5)."
+        ),
+    )
+    parser.add_argument(
         "--gold",
         type=Path,
         default=None,
@@ -208,6 +217,24 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--label", default=None, help="name for this run (default: --config)")
     parser.add_argument("--quiet", action="store_true", help="suppress the console summary")
     args = parser.parse_args(argv)
+
+    if args.suite == "adversarial":
+        # Delegated rather than inlined: the two suites share the gold set and
+        # nothing else — different metrics, different failure modes, different
+        # report schema. `--suite` exists so there is one entry point, not so
+        # there is one implementation.
+        from eval.run_adversarial import main as run_adversarial
+
+        forwarded: list[str] = []
+        if args.gold:
+            forwarded += ["--gold", str(args.gold)]
+        if args.min_status:
+            forwarded += ["--min-status", args.min_status]
+        if args.out:
+            forwarded += ["--out", str(args.out)]
+        if args.quiet:
+            forwarded.append("--quiet")
+        return run_adversarial(forwarded)
 
     from retrieval.configs import CONFIGS_BY_NAME
 

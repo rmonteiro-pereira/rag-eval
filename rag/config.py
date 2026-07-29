@@ -62,6 +62,13 @@ class Settings(BaseSettings):
     #: floor, not a competitor: a verbatim quote cannot hallucinate.
     generation_arms: str = "extractive,qwen2.5:3b,llama3.1"
 
+    # --- governance (M5) ---
+    #: How many of the most recent meetings are treated as embargoed. The
+    #: classification is SYNTHETIC — these are public BACEN documents — and every
+    #: report that uses it says so. See `governance/acl.py`.
+    acl_restricted_count: int = 5
+    audit_log_path: Path | None = None
+
     # --- tracing ---
     langfuse_host: str = "http://localhost:3000"
     langfuse_public_key: str = "pk-lf-rag-eval-local"
