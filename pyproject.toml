@@ -40,7 +40,10 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 # Flat layout: the repo structure mandated by the spec doubles as the package set.
-packages = ["rag", "ingest", "retrieval", "generation", "serving"]
+packages = ["rag", "ingest", "retrieval", "generation", "serving", "eval"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
