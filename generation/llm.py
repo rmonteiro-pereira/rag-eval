@@ -48,13 +48,28 @@ class OllamaLLM:
         self.url = (url or settings.ollama_url).rstrip("/")
 
     @staticmethod
-    def is_available(url: str | None = None, timeout: float = 2.0) -> bool:
+    def is_available(
+        model: str | None = None,
+        url: str | None = None,
+        timeout: float = 2.0,
+    ) -> bool:
+        """True only if the server answers *and* actually holds the model.
+
+        A reachable server with nothing pulled is the common case on a fresh
+        install, and it is worse than no server at all: generation would fail
+        with a 404 halfway through the pipeline instead of falling back.
+        """
         base = (url or settings.ollama_url).rstrip("/")
+        wanted = model or settings.ollama_model
         try:
             resp = httpx.get(f"{base}/api/tags", timeout=timeout)
-            return resp.status_code == 200
+            if resp.status_code != 200:
+                return False
+            names = [m.get("name", "") for m in resp.json().get("models", [])]
         except Exception:
             return False
+        # `llama3.1` should match the tag Ollama actually stores, `llama3.1:8b`.
+        return any(n == wanted or n.split(":", 1)[0] == wanted.split(":", 1)[0] for n in names)
 
     def available_models(self) -> list[str]:
         resp = httpx.get(f"{self.url}/api/tags", timeout=10.0)
@@ -111,5 +126,5 @@ def build_llm(mode: str | None = None) -> LLM:
     if mode == "ollama":
         return OllamaLLM()
     if mode == "auto":
-        return OllamaLLM() if OllamaLLM.is_available() else ExtractiveLLM()
+        return OllamaLLM() if OllamaLLM.is_available(settings.ollama_model) else ExtractiveLLM()
     raise ValueError(f"unknown llm mode: {mode!r} (expected auto|ollama|extractive)")
