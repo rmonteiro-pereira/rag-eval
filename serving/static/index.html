@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rag-eval — atas do Copom</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #171a21; --line: #262b36; --ink: #e6e8ee;
+    --muted: #8b93a7; --accent: #7aa2f7; --ok: #7bc86c; --warn: #e0af68; --bad: #f7768e;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#fbfbfd; --panel:#fff; --line:#e3e6ee; --ink:#1a1d24;
+            --muted:#5d6478; --accent:#3057c9; --ok:#2f8f45; --warn:#a76b12; --bad:#c33b52; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.55
+         ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  h1 { font-size: 1.3rem; margin: 0 0 .25rem; letter-spacing: -.01em; }
+  .sub { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+  form { display: grid; gap: .75rem; }
+  .row { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+  textarea, select, button {
+    font: inherit; color: var(--ink); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 8px; padding: .6rem .7rem;
+  }
+  textarea { width: 100%; min-height: 5.5rem; resize: vertical; }
+  button { background: var(--accent); color: #fff; border-color: transparent;
+           cursor: pointer; font-weight: 600; padding: .6rem 1.1rem; }
+  button:disabled { opacity: .55; cursor: progress; }
+  label { color: var(--muted); font-size: .85rem; }
+  .card { background: var(--panel); border: 1px solid var(--line);
+          border-radius: 10px; padding: 1rem; margin-top: 1.25rem; }
+  .card h2 { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em;
+             color: var(--muted); margin: 0 0 .6rem; font-weight: 600; }
+  pre { white-space: pre-wrap; word-wrap: break-word; margin: 0; font-size: .92rem; }
+  .pill { display:inline-block; font-size:.72rem; padding:.15rem .5rem; border-radius:999px;
+          border:1px solid var(--line); color:var(--muted); margin-right:.35rem; }
+  .pill.ok { color: var(--ok); border-color: currentColor; }
+  .pill.warn { color: var(--warn); border-color: currentColor; }
+  .pill.bad { color: var(--bad); border-color: currentColor; }
+  ol { margin: 0; padding-left: 1.2rem; }
+  li { margin-bottom: .5rem; font-size: .9rem; }
+  li a { color: var(--accent); }
+  .muted { color: var(--muted); font-size: .82rem; }
+  .note { border-left: 3px solid var(--warn); padding-left: .75rem; margin-top: 1.5rem; }
+  table { width:100%; border-collapse: collapse; font-size:.85rem; }
+  td { padding:.25rem 0; vertical-align: top; }
+  td:first-child { color: var(--muted); width: 11rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>rag-eval</h1>
+  <div class="sub">
+    RAG governado sobre 30 atas do Copom (out/2022 – jun/2026).
+    Toda resposta passa por mascaramento de PII, deteccao de injecao,
+    controle de acesso por documento e log de auditoria.
+  </div>
+
+  <form id="f">
+    <textarea id="q" placeholder="Qual foi a decisao do Copom sobre a Selic na reuniao de junho de 2026?">Qual foi a decisao do Copom sobre a Selic na reuniao de junho de 2026?</textarea>
+    <div class="row">
+      <label for="u">perfil</label>
+      <select id="u">
+        <option value="analyst">analyst — apenas documentos public</option>
+        <option value="supervisor">supervisor — public + restricted</option>
+      </select>
+      <label for="k">top-k</label>
+      <select id="k"><option>3</option><option selected>5</option><option>8</option></select>
+      <button id="go" type="submit">Perguntar</button>
+    </div>
+  </form>
+
+  <div id="out"></div>
+
+  <div class="note muted">
+    O perfil vem do corpo da requisicao <strong>apenas nesta demo</strong>. Em producao
+    o sujeito vem da sessao autenticada — um ACL cujo sujeito e escolhido por quem
+    chama nao e um ACL. A classificacao dos documentos e <strong>sintetica</strong>:
+    as atas do BACEN sao publicas, e as 5 reunioes mais recentes fazem o papel de
+    um embargo de publicacao.
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+function pill(text, kind) { return `<span class="pill ${kind || ''}">${text}</span>`; }
+
+function guardrailPills(g, decision) {
+  const bits = [];
+  bits.push(pill(`decisao: ${decision}`, decision === 'answered' ? 'ok' : 'warn'));
+  const pin = g.pii_input, pout = g.pii_output;
+  if (pin && pin.masked) bits.push(pill(`PII entrada: ${pin.entity_types.join(', ')}`, 'warn'));
+  if (pout && pout.masked) bits.push(pill(`PII saida: ${pout.entity_types.join(', ')}`, 'warn'));
+  if (!(pin && pin.masked) && !(pout && pout.masked)) bits.push(pill('sem PII', 'ok'));
+  if (g.injection_input.detected) bits.push(pill(`injecao (pergunta): ${g.injection_input.rules.join(', ')}`, 'bad'));
+  if (g.injection_context.detected) bits.push(pill(`injecao (contexto): ${g.injection_context.rules.join(', ')}`, 'bad'));
+  if (g.acl_leaks.length) bits.push(pill(`ACL VAZOU: ${g.acl_leaks.join(', ')}`, 'bad'));
+  return bits.join('');
+}
+
+$('f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('go');
+  btn.disabled = true; btn.textContent = 'Consultando…';
+  $('out').innerHTML = '<div class="card muted">Executando recuperacao e geracao…</div>';
+  try {
+    const res = await fetch('/ask', {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({ question: $('q').value, user: $('u').value, top_k: +$('k').value })
+    });
+    if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+    const d = await res.json();
+
+    const sources = d.sources.length
+      ? `<ol>${d.sources.map(s => `<li>
+           <a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>
+           — pagina ${s.page}, chunk ${s.chunk_index}
+           ${pill(s.classification, s.classification === 'restricted' ? 'warn' : 'ok')}
+           <span class="muted">score ${s.score.toFixed(4)}</span>
+         </li>`).join('')}</ol>`
+      : `<div class="muted">Nenhum trecho retornado — o perfil <strong>${$('u').value}</strong>
+         pode nao ter acesso aos documentos relevantes, ou o corpus nao cobre a pergunta.</div>`;
+
+    $('out').innerHTML = `
+      <div class="card"><h2>Guardrails</h2>${guardrailPills(d.guardrails, d.decision)}</div>
+      <div class="card"><h2>Resposta</h2><pre>${d.answer.replace(/</g, '&lt;')}</pre></div>
+      <div class="card"><h2>Fontes (${d.sources.length})</h2>${sources}</div>
+      <div class="card"><h2>Execucao</h2><table>
+        <tr><td>latencia</td><td>${d.latency_ms.toFixed(0)} ms</td></tr>
+        <tr><td>decisao auditada</td><td>${d.guardrails.audit_decision}</td></tr>
+      </table></div>`;
+  } catch (err) {
+    $('out').innerHTML = `<div class="card"><h2>Erro</h2><pre>${String(err)}</pre></div>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Perguntar';
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+# =============================================================================
+# INERT UNTIL THIS REPOSITORY IS PUBLISHED.
+#
+# `rag-eval` is remote-less by design: it lives on a local `main` with no
+# `origin`, so GitHub has never seen this file and none of these jobs has ever
+# run. It is committed now, unrun, because a CI gate written after the first
+# regression is a CI gate that missed the first regression.
+#
+# What runs today, and is what actually holds the line, is the same thing this
+# workflow calls:
+#
+#     uv run pytest -q
+#     uv run ruff check .
+#     uv run python -m eval.regression_gate \
+#         --baseline eval/reports/ablation.json \
+#         --candidate eval/reports/ablation.json
+#
+# On publication, the `unit` job below works unchanged — it needs no services
+# and no models. The `eval-gate` job is split in two on purpose:
+#
+#   * `gate-selfcheck` re-runs the committed report against itself plus the
+#     degraded fixture. It is hermetic: no Qdrant, no Ollama, no model weights,
+#     a few seconds. This is the job that must be required for merge.
+#   * `eval-full` regenerates the ablation from scratch and needs Qdrant, ~2.5 GB
+#     of model weights and the ingested corpus. It is `workflow_dispatch` only,
+#     because putting a 20-minute CPU-bound job with a model download on every PR
+#     is how a gate gets disabled.
+#
+# The corpus itself is not in git (only `data/manifest.json` is), so `eval-full`
+# has to re-download 30 PDFs from bcb.gov.br. That is a third-party dependency in
+# CI and a reason more to keep it off the PR path.
+# =============================================================================
+
+name: eval
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_full_eval:
+        description: "Regenerate the ablation from scratch (slow, needs Qdrant + models)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  UV_LINK_MODE: copy
+
+jobs:
+  unit:
+    name: tests + lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: sync
+        run: uv sync --extra dev
+
+      - name: ruff
+        run: uv run ruff check .
+
+      # Integration tests are marked and skip themselves when Qdrant is absent,
+      # which it is here. Deselecting them explicitly means a skip cannot be
+      # mistaken for a pass in the summary.
+      - name: pytest
+        run: uv run pytest -q -m "not integration"
+
+  gate-selfcheck:
+    name: regression gate (hermetic)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - run: uv sync --extra dev
+
+      # 1. The committed report must pass against itself. Catches a corrupted
+      #    or truncated report, and a gate that has stopped comparing anything.
+      - name: gate passes on the committed report
+        run: |
+          uv run python -m eval.regression_gate \
+            --baseline eval/reports/ablation.json \
+            --candidate eval/reports/ablation.json
+
+      # 2. The gate must FAIL on the deliberately degraded fixture. Without this
+      #    step the gate could be inverted, or always return 0, and step 1 would
+      #    still be green forever.
+      - name: gate fails on the degraded fixture
+        run: |
+          set +e
+          uv run python -m eval.regression_gate \
+            --baseline tests/fixtures/gate_baseline.json \
+            --candidate tests/fixtures/gate_degraded.json
+          status=$?
+          set -e
+          if [ "$status" -ne 1 ]; then
+            echo "::error::the gate returned $status on the degraded fixture; expected 1"
+            exit 1
+          fi
+          echo "gate correctly rejected the degraded fixture"
+
+  eval-full:
+    name: full ablation (manual)
+    if: github.event_name == 'workflow_dispatch' && inputs.run_full_eval
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    services:
+      qdrant:
+        image: qdrant/qdrant:v1.18.1
+        ports: ["6333:6333"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - run: uv sync --extra dev
+
+      - name: cache model weights
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-${{ runner.os }}-bge-m3-reranker-base
+
+      # Re-downloads the corpus from bcb.gov.br using the committed manifest.
+      - name: ingest
+        env:
+          QDRANT_URL: http://localhost:6333
+        run: uv run python -m ingest.pipeline --download 30
+
+      - name: regenerate the ablation
+        env:
+          QDRANT_URL: http://localhost:6333
+        run: uv run python -m eval.ablation --out /tmp/ablation.json
+
+      - name: gate the fresh report against the committed baseline
+        run: |
+          uv run python -m eval.regression_gate \
+            --baseline eval/reports/ablation.json \
+            --candidate /tmp/ablation.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ablation-report
+          path: /tmp/ablation.json
