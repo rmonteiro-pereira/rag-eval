@@ -93,6 +93,12 @@ is bounded above by `1/|relevant|` and can never approach 1. `hit_rate@k` is the
 
 Each row is a pair of arms differing in exactly one component.
 
+Every delta below now carries a 95% CI and a paired randomisation p-value in
+[`../eval/reports/significance.json`](../eval/reports/significance.json),
+regenerable with `uv run python -m eval.significance` from the committed
+per-query data. Three contrasts clear zero comfortably (p = 0.0001); the two
+reranker contrasts do not (p = 0.54 and p = 0.93).
+
 | component | ΔMRR | Δhit@5 | Δ r1-disamb | Δ p95 ms |
 |---|--:|--:|--:|--:|
 | sparse (BM25 fused into dense) | +0.190 | +0.143 | +0.244 | ~0 |
@@ -128,11 +134,16 @@ precisely so that regression is visible the moment it happens.
 The bge-reranker cross-encoder costs **+2.2 seconds of p95 latency**, roughly
 300× the entire rest of the pipeline. In exchange:
 
-- Without the metadata filter it is **actively harmful** — MRR −0.039, rank-1
-  meeting accuracy −0.146. It reorders 30 candidates by semantic fit to the
-  question, and semantic fit is exactly the signal that cannot distinguish two
-  meetings. It confidently promotes a beautifully-matching paragraph from the
-  wrong ata.
+- Without the metadata filter its point estimates are negative — MRR −0.039,
+  rank-1 meeting accuracy −0.146 — and **neither is distinguishable from zero**:
+  95% CI [−0.164, +0.080] (p = 0.54) and [−0.342, +0.049] (p = 0.21) respectively.
+
+  This document previously said "actively harmful", which the data does not
+  support. The mechanism is still the plausible one — it reorders 30 candidates
+  by semantic fit, and semantic fit is exactly the signal that cannot distinguish
+  two meetings, so it can promote a beautifully-matching paragraph from the wrong
+  ata. But a plausible mechanism plus a negative point estimate at n=49 is not
+  evidence of harm. **The claim the numbers support is "it does not help".**
 - With the filter it is roughly neutral on the headline: MRR +0.005, and it
   *loses* a query at hit@10 (1.000 → 0.959).
 

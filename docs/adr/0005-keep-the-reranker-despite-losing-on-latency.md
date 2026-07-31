@@ -12,7 +12,14 @@ improve retrieval. Measured on this corpus, it mostly does not.
 | reranker, **without** the metadata filter | **−0.039** | **−0.146** | +2.5 s |
 | reranker, **with** the metadata filter | +0.005 | 0.000 | +2.2 s |
 
-Without the filter it is actively harmful — it reorders by semantic fit, and
+Neither reranker contrast is distinguishable from zero: 95% CI [−0.164, +0.080]
+(p = 0.54) without the filter and [−0.103, +0.115] (p = 0.93) with it, from
+`eval/reports/significance.json`. So the honest reading is **"it does not help"**
+rather than "it hurts"; this record said the latter before the intervals existed.
+The mechanism below remains the plausible explanation for the negative point
+estimate, not evidence for it.
+
+Without the filter it reorders by semantic fit, and
 semantic fit is exactly the signal that cannot tell two Copom meetings apart, so
 it confidently promotes a beautifully-matching paragraph from the wrong ata.
 

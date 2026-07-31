@@ -138,4 +138,6 @@ pytest_add_cli_args_test_selection = [
     "tests/test_retrieval_metrics.py",
     "tests/test_regression_gate.py",
     "tests/test_generation_metrics.py",
+    "tests/test_scoring.py",
+    "tests/test_significance.py",
 ]

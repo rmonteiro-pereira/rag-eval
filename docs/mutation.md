@@ -1,6 +1,6 @@
 # Mutation testing
 
-391 passing tests says the suite runs. It does not say the suite would notice if
+424 passing tests says the suite runs. It does not say the suite would notice if
 the code were wrong. Mutation testing answers that second question: change the
 code in a small, plausible way, and see whether any test fails.
 
@@ -12,13 +12,13 @@ uv run mutmut browse       # interactive
 
 ## The score
 
-**73.4%** — 342 of 466 mutants with a covering test were killed.
+**74.9%** — 394 of 526 mutants with a covering test were killed.
 
 ```
 566 mutants generated
-    342  killed      a test failed, as it should have
-    124  survived    the code changed and every test still passed
-    100  no tests    no test in scope even imports the mutated line
+    394  killed      a test failed, as it should have
+    132  survived    the code changed and every test still passed
+     40  no tests    no test in scope even imports the mutated line
 ```
 
 Two denominators, because the choice flatters or damns and neither is dishonest
@@ -26,11 +26,13 @@ on its own:
 
 | | |
 |---|--:|
-| killed / (killed + survived) — the conventional mutation score | **73.4%** |
-| killed / all mutants, counting uncovered code as unkilled | **60.4%** |
+| killed / (killed + survived) — the conventional mutation score | **74.9%** |
+| killed / all mutants, counting uncovered code as unkilled | **69.6%** |
 
-The second is the one to worry about. 100 mutants live in code no in-scope test
-imports at all, and that is a coverage fact rather than a test-quality one.
+The second is the one to worry about, and it moved the most: **100 uncovered
+mutants became 40** when `eval/scoring.py` got its first direct tests. What
+remains uncovered is `regression_gate.render()` (30, a table nobody asserts on)
+and `metadata.document_meta` (10).
 
 ## Per module
 
@@ -39,9 +41,9 @@ imports at all, and that is a coverage fact rather than a test-quality one.
 | `retrieval/text.py` | 35 | 0 | 0 | **100.0%** |
 | `retrieval/metadata.py` | 37 | 0 | 10 | **100.0%** |
 | `retrieval/fusion.py` | 57 | 2 | 0 | **96.6%** |
+| `eval/scoring.py` | 52 | 8 | 0 | **86.7%** |
 | `eval/regression_gate.py` | 119 | 67 | 30 | 64.0% |
 | `eval/probes.py` | 94 | 55 | 0 | 63.1% |
-| `eval/scoring.py` | 0 | 0 | 60 | **n/a — nothing covered** |
 
 The shape is worth more than the headline. **The ranking arithmetic is at
 96.6–100%; the reporting layer is at ~63%.** That is the right way round — the
@@ -98,16 +100,19 @@ for every record that is returned. The value is not observable, so **no test can
 kill these and none should be written to try.** Counting them as failures would
 be measuring the tool, not the suite.
 
-### `eval/scoring.py` — 60 mutants, zero covered
+### `eval/scoring.py` — was 60 uncovered, now 86.7%
 
-`score_rows` computes every retrieval metric this project publishes, and **no
-test imports it directly.** It is exercised end to end, through
-`eval/run_eval.py` and `eval/ablation.py`, which is why the committed numbers are
-trustworthy — but it means a change to the metric arithmetic would be caught only
-by a full re-run against a live Qdrant, not by `pytest`.
+This was the single largest gap the exercise found: `score_rows` computes every
+retrieval metric this project publishes and **no test imported it directly**.
 
-This is the single largest gap the exercise found and it is not fixed here.
-Naming it is worth more than a rushed test that raises the number.
+It is now covered by `tests/test_scoring.py` — 52 of 60 mutants killed. The tests
+target the decisions `score_rows` makes about *which rows count*, not the metric
+arithmetic (that lives in `eval/metrics/retrieval.py` and is tested there):
+abstention rows excluded rather than scored zero, unindexed rows skipped with a
+reason rather than scored zero, and the wrong-meeting probe. Writing them also
+surfaced that `aggregate()` deliberately **raises** on an empty suite rather than
+returning zeros — the first version of the test assumed the opposite, and the
+test was wrong, not the code.
 
 ### `eval/regression_gate.py` — 67 survived, 30 uncovered
 
@@ -145,7 +150,7 @@ clean-state reproduction in [`REPRODUCE.md`](REPRODUCE.md), neither of which run
 here.
 
 Test selection is likewise scoped to the seven files that import the mutated
-modules. Running all 391 tests against 566 mutants would cost hours to prove that
+modules. Running all 424 tests against 566 mutants would cost hours to prove that
 a test which never imports `fusion.py` cannot catch a mutation in it.
 
 ## The configuration is checked even though the run is not

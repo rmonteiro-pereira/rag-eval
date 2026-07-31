@@ -51,4 +51,5 @@ eval/reports/*.html
 !eval/reports/generation.json
 !eval/reports/adversarial.json
 !eval/reports/mutation.json
+!eval/reports/significance.json
 mutants/
