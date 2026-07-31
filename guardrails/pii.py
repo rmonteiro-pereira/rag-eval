@@ -28,6 +28,7 @@ scrubber that quietly stops scrubbing is worse than one that is absent.
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
 from functools import lru_cache
 
@@ -64,7 +65,7 @@ DEFAULT_THRESHOLD = 0.5
 
 #: Fallback patterns for when Presidio is unavailable. Validated where possible,
 #: so the degraded mode is still precise about the identifiers that matter most.
-_FALLBACK_PATTERNS: tuple[tuple[str, re.Pattern, object], ...] = (
+_FALLBACK_PATTERNS: tuple[tuple[str, re.Pattern[str], Callable[[str], bool] | None], ...] = (
     (CPF_ENTITY, re.compile(r"\b\d{3}\.\d{3}\.\d{3}-\d{2}\b"), is_valid_cpf),
     (CNPJ_ENTITY, re.compile(r"\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b"), is_valid_cnpj),
     ("EMAIL_ADDRESS", re.compile(r"\b[\w.+-]+@[\w-]+\.[\w.]+\b"), None),
@@ -165,6 +166,10 @@ class PiiScrubber:
         return _drop_overlaps(sorted(findings, key=lambda f: (f.start, -f.score)))
 
     def _scan_presidio(self, text: str) -> list[PiiFinding]:
+        # Only reachable via `scan()`, which checks `self._engine` first. Asserted
+        # rather than assumed: silently scanning with no engine would return zero
+        # findings, which reads exactly like "no PII present".
+        assert self._engine is not None, "presidio backend selected without an engine"
         results = self._engine.analyze(text=text, language="pt", entities=list(self.entities))
         return [
             PiiFinding(

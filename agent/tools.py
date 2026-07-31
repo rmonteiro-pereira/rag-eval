@@ -31,15 +31,34 @@ import re
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any, Protocol
 
 from rag.config import settings
 
 #: Verbs that must never appear. Whole-word matched, so a column named
 #: `updated_at` does not trip the `UPDATE` rule.
 _FORBIDDEN = (
-    "insert", "update", "delete", "drop", "alter", "create", "replace",
-    "attach", "detach", "copy", "export", "import", "install", "load",
-    "pragma", "set", "call", "vacuum", "checkpoint", "truncate", "grant",
+    "insert",
+    "update",
+    "delete",
+    "drop",
+    "alter",
+    "create",
+    "replace",
+    "attach",
+    "detach",
+    "copy",
+    "export",
+    "import",
+    "install",
+    "load",
+    "pragma",
+    "set",
+    "call",
+    "vacuum",
+    "checkpoint",
+    "truncate",
+    "grant",
 )
 _FORBIDDEN_RE = re.compile(r"\b(" + "|".join(_FORBIDDEN) + r")\b", re.IGNORECASE)
 
@@ -78,13 +97,10 @@ class SqlResult:
         head = "| " + " | ".join(self.columns) + " |"
         rule = "|" + "|".join("---" for _ in self.columns) + "|"
         body = [
-            "| " + " | ".join(_fmt(value) for value in row) + " |"
-            for row in self.rows[:max_rows]
+            "| " + " | ".join(_fmt(value) for value in row) + " |" for row in self.rows[:max_rows]
         ]
         extra = (
-            [f"_... {len(self.rows) - max_rows} more rows_"]
-            if len(self.rows) > max_rows
-            else []
+            [f"_... {len(self.rows) - max_rows} more rows_"] if len(self.rows) > max_rows else []
         )
         return "\n".join([head, rule, *body, *extra])
 
@@ -146,7 +162,7 @@ class SqlQueryTool:
     description: str = (
         "Executa uma consulta SQL SELECT (DuckDB) sobre os marts gold do lakehouse "
         "(series macroeconomicas mensais e diarias: Selic, IPCA, cambio, curva de "
-        "juros). Use para NUMEROS e SERIES TEMPORAIS. Argumento: {\"sql\": \"SELECT ...\"}"
+        'juros). Use para NUMEROS e SERIES TEMPORAIS. Argumento: {"sql": "SELECT ..."}'
     )
 
     @property
@@ -169,10 +185,7 @@ class SqlQueryTool:
                 if VISIBLE_TABLES.match(name)
             ]
             return {
-                table: [
-                    (row[0], row[1])
-                    for row in con.execute(f'DESCRIBE "{table}"').fetchall()
-                ]
+                table: [(row[0], row[1]) for row in con.execute(f'DESCRIBE "{table}"').fetchall()]
                 for table in tables
             }
 
@@ -189,8 +202,13 @@ class SqlQueryTool:
             statement = normalise_sql(sql, self.row_limit)
         except SqlRejected as exc:
             return SqlResult(
-                sql=sql, columns=[], rows=[], row_count=0,
-                truncated=False, elapsed_ms=0.0, error=f"rejeitado: {exc}",
+                sql=sql,
+                columns=[],
+                rows=[],
+                row_count=0,
+                truncated=False,
+                elapsed_ms=0.0,
+                error=f"rejeitado: {exc}",
             )
 
         started = time.perf_counter()
@@ -201,7 +219,10 @@ class SqlQueryTool:
                 rows = cursor.fetchall()
         except Exception as exc:  # noqa: BLE001 - a bad query is data, not a crash
             return SqlResult(
-                sql=statement, columns=[], rows=[], row_count=0,
+                sql=statement,
+                columns=[],
+                rows=[],
+                row_count=0,
                 truncated=False,
                 elapsed_ms=(time.perf_counter() - started) * 1000,
                 error=f"{type(exc).__name__}: {exc}",
@@ -218,11 +239,24 @@ class SqlQueryTool:
         )
 
 
+class _AskablePipeline(Protocol):
+    """What this tool needs from a pipeline, and nothing more.
+
+    Structural rather than a `GovernedPipeline` import: `guardrails.pipeline`
+    imports from `retrieval`, which would make this a cycle, and stating the one
+    method actually used documents the coupling better than the concrete class
+    would. Any object with a compatible `ask` is a valid substitute — which is
+    what the tests pass.
+    """
+
+    def ask(self, question: str, user: Any = ..., top_k: int | None = ...) -> Any: ...
+
+
 @dataclass
 class RagSearchTool:
     """Retrieval over the Copom minutes, through the governed pipeline."""
 
-    pipeline: object
+    pipeline: _AskablePipeline
     name: str = "rag_search"
     user: object = None
     top_k: int = 4
@@ -230,15 +264,13 @@ class RagSearchTool:
     description: str = (
         "Busca nas atas do Copom (texto em portugues, 2022-2026) e retorna trechos "
         "com citacao. Use para DECISOES, JUSTIFICATIVAS e o que o comite DISSE. "
-        "Argumento: {\"question\": \"...\"}"
+        'Argumento: {"question": "..."}'
     )
 
     def run(self, question: str) -> dict:
         from governance.acl import SUPERVISOR
 
-        result = self.pipeline.ask(
-            question, user=self.user or SUPERVISOR, top_k=self.top_k
-        )
+        result = self.pipeline.ask(question, user=self.user or SUPERVISOR, top_k=self.top_k)
         return {
             "decision": result.decision,
             "answer": result.answer.text,

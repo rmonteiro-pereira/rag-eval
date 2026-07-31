@@ -78,9 +78,9 @@ def test_resolves_ordinal_and_ignores_the_month():
 
 def test_straddling_months_resolve_to_the_union():
     """`outubro/novembro de 2023` is one meeting recorded under November."""
-    assert resolve_question(
-        "Qual foi a decisao na reuniao de outubro/novembro de 2023?", DOCS
-    ) == {"2023-11-01-258"}
+    assert resolve_question("Qual foi a decisao na reuniao de outubro/novembro de 2023?", DOCS) == {
+        "2023-11-01-258"
+    }
 
 
 def test_unresolvable_hint_returns_empty_not_garbage():

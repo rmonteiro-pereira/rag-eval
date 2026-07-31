@@ -19,10 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-The corpus this project evaluates against — the Atas do Copom published by the
-Banco Central do Brasil — is public information and is not redistributed here.
-Only `data/manifest.json`, which records each document's URL, title, reference
-date and SHA-256, is committed. See the README for how to reproduce the corpus.

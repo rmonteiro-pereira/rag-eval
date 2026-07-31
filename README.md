@@ -78,16 +78,30 @@ either testing weak attacks or not being straight.
 |---|--:|--:|--:|--:|--:|
 | `extractive` | **0.913** | **0.988** | **0.000** | **0.000** | 0.000 |
 | `qwen2.5:3b` | 0.777 | 0.838 | **0.000** | 1.000 | 0.082 |
-| `llama3.1` | 0.826 | 0.907 | **0.000** | 1.000 | 0.041 |
+| `llama3.1` | 0.837 | 0.887 | **0.000** | 1.000 | 0.041 |
 
 **Zero hallucinated numbers across all 168 answers** — and the arm with the best
 groundedness scores **0.000 on abstention**: `extractive` cannot say "I don't know", so
 on all seven out-of-scope questions it returned Copom passages as though they answered
 them. A dashboard ranking backends on groundedness alone picks exactly the wrong one.
 
+> **These numbers do not reproduce exactly, and the retrieval ones do.** Re-running the
+> suite after publication moved `llama3.1` by +0.011 numeric recall and −0.020
+> groundedness, while `qwen2.5:3b` and `extractive` came back identical and the whole
+> retrieval ablation came back to **±0.0000**. Temperature is 0; the residual is
+> non-determinism in 8B inference. Treat single-run generation figures as having an
+> error bar this repo has not measured — three runs is not a distribution.
+>
+> That re-run also caught a bug **in the metric, not the model**: a citation marker of
+> the form `[2, 19]` was being read as the decimal `2,19`, found in no passage, and
+> scored as a hallucinated number. One row was enough to put a false claim in this
+> README. `unsupported_numbers` now strips citation markers first, with two regression
+> tests — one asserting the false positive is gone, one asserting a real invented number
+> is still caught.
+
 And the finding that matters most for a project about evaluation:
 
-> **Two local LLM judges agree on faithfulness only 44% of the time (Cohen's κ = 0.138).**
+> **Two local LLM judges agree on faithfulness only 44% of the time (Cohen's κ = 0.109).**
 > Barely better than chance. The judge in the first run *was* `llama3.1`, grading its own
 > arm's answers — and rating them highest. Both facts are measured and recorded in the
 > report (`judge_is_generator`, `judge_self_preference_warning`,
@@ -141,7 +155,7 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
    the question built on it still be ambiguous, mis-scoped, or answerable from three
    other atas. Until the human pass, every number here is a harness smoke test wearing a
    lab coat.
-2. **The LLM judge is near-chance on faithfulness** (κ = 0.138 against a second judge)
+2. **The LLM judge is near-chance on faithfulness** (κ = 0.109 against a second judge)
    and in the first run graded its own output. Its faithfulness column should not be
    used for anything. `eval/datasets/judge_calibration_sheet.jsonl` holds 30 rows with
    the human columns deliberately empty.
@@ -167,8 +181,12 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
    The accuracy findings are device-independent — only the latency column moves.
    (Ollama, and therefore every generation and judge number, already uses the GPU
    where one exists.)
-10. **`.github/workflows/eval.yml` has never run.** The repo was remote-less until
-    publication; the header says so.
+10. **CI has now run exactly once.** `.github/workflows/eval.yml` was committed
+    unrun while the repo was remote-less, and passed unmodified on publication
+    (run `30599034168`, 1m03s: ruff clean, 278 passed / 3 deselected, and the
+    gate-selfcheck job green on *both* directions). One green run is evidence the
+    workflow is valid, not that it is load-bearing — nothing has yet tried to
+    merge a regression past it.
 
 ---
 
@@ -181,7 +199,9 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
 | an interest in the retrieval result | [`docs/ablation.md`](docs/ablation.md) — 7 arms, controlled contrasts, probes |
 | an interest in security | [`docs/governance.md`](docs/governance.md) — attacks, ASR, the two that succeed |
 | an interest in the eval method | [`eval/probes.py`](eval/probes.py), [`eval/calibration.py`](eval/calibration.py), [`eval/regression_gate.py`](eval/regression_gate.py) |
+| **an interest in why, not what** | **[`docs/adr/`](docs/adr/)** — nine decisions, each with the alternative rejected and the condition that reverses it |
 | doubts about what shipped | [`docs/REPRODUCE.md`](docs/REPRODUCE.md), [`docs/PUBLICATION-SCAN.md`](docs/PUBLICATION-SCAN.md) |
+| to contribute or to probe the threat model | [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md) |
 
 ---
 
@@ -571,7 +591,9 @@ Corpus: *Atas do Copom*, published by the Banco Central do Brasil at
 use. `data/manifest.json` records the URL, title, reference date and SHA-256 of every
 document, so the corpus is reproducible without redistributing it.
 
-Code: MIT — see [`LICENSE`](LICENSE).
+Code: MIT — see [`LICENSE`](LICENSE). Third-party data, model weights and their
+licences, plus an inventory of every piece of **synthetic** data in the repo and where
+it is labelled: [`NOTICE`](NOTICE).
 
 This repository was built with an AI coding agent, and the commit trailers say so. The
 two human gates above are open on purpose: they are the parts an agent must not do.

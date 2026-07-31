@@ -27,7 +27,7 @@ Nothing in this table involves a model grading a model.
 |---|--:|--:|--:|--:|--:|--:|--:|
 | `extractive` | **0.913** | **0.988** | **0.000** | 1.000 | **0.000** | 0.000 | 0 |
 | `qwen2.5:3b` | 0.777 | 0.838 | **0.000** | 1.000 | **1.000** | 0.082 | 3010 |
-| `llama3.1` | 0.826 | 0.907 | **0.000** | 1.000 | **1.000** | 0.041 | 3370 |
+| `llama3.1` | 0.837 | 0.887 | **0.000** | 1.000 | **1.000** | 0.041 | 3445 |
 
 - **numeric recall** — of the numbers in the reference answer, how many appear in
   the generated one. On a corpus about policy rates this is close to a
@@ -113,11 +113,11 @@ with an independent judge. No human labels required:
 
 | criterion | Cohen's κ | raw agreement | n |
 |---|--:|--:|--:|
-| **faithfulness** | **0.138** | **0.440** | 25 |
-| answer relevance | 0.487 | 0.667 | 27 |
+| **faithfulness** | **0.109** | **0.440** | 25 |
+| answer relevance | 0.589 | 0.750 | 28 |
 
 **On faithfulness, two local judges disagree with each other more than half the
-time**, at a kappa of 0.138 — "slight" agreement on the Landis–Koch scale, barely
+time**, at a kappa of 0.109 — "slight" agreement on the Landis–Koch scale, barely
 distinguishable from chance. Answer relevance fares better at 0.487 ("moderate"),
 which fits: "does this address the question" is a shallower judgement than "is
 every claim supported by this evidence".

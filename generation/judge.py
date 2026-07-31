@@ -189,19 +189,22 @@ class Judge:
 def aggregate_judgements(judgements: list[Judgement]) -> dict:
     """Mean scores over the judgements that parsed, plus the failure count."""
     ok = [j for j in judgements if j.ok]
+    # `j.ok` already guarantees both scores parsed, but it is a property and the
+    # type checker cannot narrow through it. Comprehending the ints out states the
+    # same invariant in a form that is checkable — and if it were ever violated,
+    # the means below would silently be computed over a shorter list, so assert it.
+    faithfulness = [j.faithfulness for j in ok if j.faithfulness is not None]
+    relevance = [j.answer_relevance for j in ok if j.answer_relevance is not None]
+    assert len(faithfulness) == len(relevance) == len(ok)
     return {
         "n": len(judgements),
         "n_parsed": len(ok),
         "parse_failure_rate": (
             (len(judgements) - len(ok)) / len(judgements) if judgements else None
         ),
-        "faithfulness_mean": (sum(j.faithfulness for j in ok) / len(ok)) if ok else None,
-        "answer_relevance_mean": (sum(j.answer_relevance for j in ok) / len(ok)) if ok else None,
-        "faithfulness_at_2": (
-            sum(j.faithfulness == 2 for j in ok) / len(ok) if ok else None
-        ),
-        "answer_relevance_at_2": (
-            sum(j.answer_relevance == 2 for j in ok) / len(ok) if ok else None
-        ),
+        "faithfulness_mean": (sum(faithfulness) / len(ok)) if ok else None,
+        "answer_relevance_mean": (sum(relevance) / len(ok)) if ok else None,
+        "faithfulness_at_2": (sum(s == 2 for s in faithfulness) / len(ok) if ok else None),
+        "answer_relevance_at_2": (sum(s == 2 for s in relevance) / len(ok) if ok else None),
         "rubric_version": JUDGE_RUBRIC_VERSION,
     }

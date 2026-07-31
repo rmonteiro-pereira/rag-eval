@@ -1,13 +1,24 @@
 # =============================================================================
-# INERT UNTIL THIS REPOSITORY IS PUBLISHED.
+# LIVE since 2026-07-31. Green on its first run, unchanged.
 #
-# `rag-eval` is remote-less by design: it lives on a local `main` with no
-# `origin`, so GitHub has never seen this file and none of these jobs has ever
-# run. It is committed now, unrun, because a CI gate written after the first
-# regression is a CI gate that missed the first regression.
+# This file was written and committed while `rag-eval` was still remote-less —
+# a local `main` with no `origin` — precisely because a CI gate written after
+# the first regression is a CI gate that missed the first regression. It sat
+# here unrun until the repository was published.
 #
-# What runs today, and is what actually holds the line, is the same thing this
-# workflow calls:
+# It then ran, unmodified, and passed:
+#
+#     run 30599034168 · 2026-07-31T02:27:47Z · 1m03s
+#       tests + lint             success   ruff clean, 278 passed, 3 deselected
+#       regression gate          success   BOTH steps, including the one that
+#                                          requires the gate to FAIL
+#       full ablation (manual)   skipped   workflow_dispatch-only, as designed
+#
+# 278 + 3 deselected, versus 281 passed locally: the three `integration` tests
+# need a live Qdrant, which CI does not have. They are deselected explicitly
+# rather than left to self-skip, so a skip cannot be read as a pass.
+#
+# The same three commands are what hold the line locally:
 #
 #     uv run pytest -q
 #     uv run ruff check .
@@ -15,8 +26,8 @@
 #         --baseline eval/reports/ablation.json \
 #         --candidate eval/reports/ablation.json
 #
-# On publication, the `unit` job below works unchanged — it needs no services
-# and no models. The `eval-gate` job is split in two on purpose:
+# The `unit` job needs no services and no models. The `eval-gate` job is split
+# in two on purpose:
 #
 #   * `gate-selfcheck` re-runs the committed report against itself plus the
 #     degraded fixture. It is hermetic: no Qdrant, no Ollama, no model weights,
@@ -53,7 +64,7 @@ env:
 
 jobs:
   unit:
-    name: tests + lint
+    name: tests + lint + types
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -67,8 +78,17 @@ jobs:
       - name: sync
         run: uv sync --extra dev
 
-      - name: ruff
+      - name: ruff (lint)
         run: uv run ruff check .
+
+      - name: ruff (format)
+        run: uv run ruff format --check .
+
+      # Not `--strict`. What is enforced is the class of error that actually bit
+      # this repo: Optional flowing into code that assumes it is present, which
+      # is how the demo writer ended up dereferencing a `None` gate decision.
+      - name: mypy
+        run: uv run mypy
 
       # Integration tests are marked and skip themselves when Qdrant is absent,
       # which it is here. Deselecting them explicitly means a skip cannot be
