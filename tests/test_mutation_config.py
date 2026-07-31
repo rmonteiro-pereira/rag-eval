@@ -8,9 +8,9 @@ nothing executed it, and nothing said so.
 
 These tests are the cheap version of not repeating that. They cost milliseconds
 and they run in the same `pytest` invocation CI already runs, which is the point:
-the mutation run itself is deliberately not in CI (~14 minutes, and mutmut 3.x
-has no native Windows support — see `docs/mutation.md`), so its *configuration*
-must be checked somewhere that does run.
+the mutation run DOES now run in CI (~30s, `mutation` job), but only on Linux —
+mutmut 3.x has no native Windows support, which is the development machine here.
+So the *configuration* is checked in the suite too, where it is caught locally.
 
 The second test is the one that matters more. Paths can all exist and the score
 still be meaningless, if the selected tests never import the mutated modules —
@@ -109,3 +109,56 @@ def test_the_documented_score_names_its_scope_and_its_exclusions():
         assert excluded in doc, f"{excluded}.py is excluded from mutation but unmentioned"
     # Both denominators, so neither can be quoted alone.
     assert "73.4%" in doc and "60.4%" in doc
+
+
+# --------------------------------------------------------------------------
+# The score gate. Same discipline as `eval/regression_gate.py`: a gate that has
+# only ever passed is not evidence, so both directions are asserted.
+# --------------------------------------------------------------------------
+
+
+def _fake_results(killed: int, survived: int, uncovered: int) -> list[tuple[str, str]]:
+    return (
+        [(f"m.x_f__mutmut_{i}", "killed") for i in range(killed)]
+        + [(f"m.x_g__mutmut_{i}", "survived") for i in range(survived)]
+        + [(f"m.x_h__mutmut_{i}", "no tests") for i in range(uncovered)]
+    )
+
+
+def test_the_score_gate_passes_above_its_floor(monkeypatch, capsys):
+    from tools import mutation_survivors as tool
+
+    monkeypatch.setattr(tool, "_results", lambda: _fake_results(342, 124, 100))
+    assert tool.main(["--check-score", "70"]) == 0
+    assert "73.4%" in capsys.readouterr().out
+
+
+def test_the_score_gate_fails_below_its_floor(monkeypatch, capsys):
+    from tools import mutation_survivors as tool
+
+    monkeypatch.setattr(tool, "_results", lambda: _fake_results(342, 124, 100))
+    assert tool.main(["--check-score", "99"]) == 1
+    assert "MUTATION GATE FAILED" in capsys.readouterr().err
+
+
+def test_a_run_that_covered_nothing_is_a_failure_not_a_pass(monkeypatch, capsys):
+    """The Mall lane's defect, expressed as a number.
+
+    A config pointed at the wrong paths produces mutants that no test covers.
+    `killed/(killed+survived)` is then 0/0 — undefined, not 100%. A gate that
+    divides by zero and shrugs, or that treats "nothing measured" as "nothing
+    wrong", is the failure it exists to prevent.
+    """
+    from tools import mutation_survivors as tool
+
+    monkeypatch.setattr(tool, "_results", lambda: _fake_results(0, 0, 566))
+    assert tool.main(["--check-score", "0"]) == 1
+    assert "no mutant had a covering test" in capsys.readouterr().err
+
+
+def test_no_results_at_all_exits_2_rather_than_reporting_a_score(monkeypatch):
+    """Distinct exit code for "could not measure", mirroring the regression gate."""
+    from tools import mutation_survivors as tool
+
+    monkeypatch.setattr(tool, "_results", list)
+    assert tool.main(["--check-score", "70"]) == 2

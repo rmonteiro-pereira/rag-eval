@@ -5,7 +5,7 @@ the code were wrong. Mutation testing answers that second question: change the
 code in a small, plausible way, and see whether any test fails.
 
 ```bash
-uv run mutmut run          # WSL/Linux only — mutmut 3.x has no native Windows support
+uv run mutmut run          # ~30s. Linux only — mutmut 3.x has no native Windows support
 uv run mutmut results --all true
 uv run mutmut browse       # interactive
 ```
@@ -174,12 +174,43 @@ Import linkage is a floor, not a guarantee, and this repo shows the difference:
 mutants, because importing a module does not call `score_rows`. That is why the
 table above carries a per-module `no test` column instead of one headline number.
 
-## Why the run is not in CI
+## The run is in CI, and the first version of this document was wrong about why
 
-A full run is ~14 minutes on 10 cores, and mutmut 3.x does not run on Windows,
-which is the development machine. It belongs in the same category as the full
-ablation: run deliberately, report the number, do not put it on the PR path where
-its cost would get it disabled. The number above is from
-`mutmut run` at the commit that introduced this document, and it is stale the
-moment the code moves — which is the honest status of every mutation score
-anyone publishes.
+This section previously argued the run should stay off the PR path because it
+took **~14 minutes**. That number was wrong, and it was wrong in the direction
+that let it stay out of CI.
+
+The figure came from wall-clock on early runs that included a `uv sync` and a
+cold model cache, never from the run itself. Timed properly, from a cleared
+`mutants/` tree with no cached results:
+
+```console
+$ rm -rf mutants && /usr/bin/time -f "%e seconds" uv run mutmut run --max-children 10
+566/566  🎉 342 🫥 100 ⏰ 0 🤔 0 🙁 124
+36.46 mutations/second
+WALL CLOCK: 28.51 seconds
+```
+
+**28.5 seconds.** The entire argument for keeping it manual evaporates at that
+price, so the `mutation` job now runs on every push, with no `if:` guard. It:
+
+1. runs `mutmut run` on `ubuntu-latest`, where mutmut works;
+2. **gates on the score** — `--check-score 70`, a floor rather than a pin, so
+   adding a test can never fail the build;
+3. **fails if `mutation-survivors.md` is stale**, by regenerating it and diffing.
+   Otherwise the inventory drifts from the run and the docs describe a codebase
+   that no longer exists.
+
+The gate fails on the case that matters most: **0 killed of 0 covered is
+undefined, not perfect.** A config pointed at paths that do not exist produces
+exactly that, and `tests/test_mutation_config.py` asserts the gate returns 1 for
+it rather than shrugging. Both gate directions are asserted, for the same reason
+the regression gate ships a deliberately degraded fixture.
+
+Local runs still need Linux or WSL; that limitation is real and unchanged. The
+config checks in `tests/test_mutation_config.py` run everywhere, including on
+Windows, so a broken config is caught before it reaches CI.
+
+The score above is from the commit that last touched this file, and it is stale
+the moment the mutated code moves — which is the honest status of every published
+mutation score. The difference here is that CI notices.
