@@ -1,0 +1,81 @@
+# Dependency updates.
+#
+# Deliberately quiet. A portfolio repository that opens eight PRs a week and
+# merges none reads worse than one with no automation at all — the PR list is
+# the first thing a reviewer sees, and a wall of stale bot PRs says nobody is
+# home. So: monthly, grouped, and capped.
+#
+# NOTE: this file configures *version updates* only. **Dependabot security
+# alerts are a repository setting and are currently OFF** — `GET
+# /repos/.../vulnerability-alerts` returns 404 and the alerts API returns
+# "Dependabot alerts are disabled for this repository". No file in this repo can
+# turn them on; it is a toggle in Settings → Code security. They are worth
+# enabling, and they are a separate decision from this file.
+#
+# ---------------------------------------------------------------------------
+# HOW TO TRIAGE THESE PRs — learned from the sibling `energy-forecast-drift`
+# lane, which triaged eight of them.
+#
+#   **"CLEAN" means no merge conflict. It does not mean it works.**
+#
+# GitHub's mergeable-state and a green tick answer different questions from
+# "will this break anything". That lane merged four CI action bumps after
+# reading them, and *closed* four major frontend/tool bumps once it checked the
+# breaking changes — closing them was the correct outcome, not a failure to
+# keep up. It also found that `actions/upload-artifact` needed
+# `include-hidden-files: true`, and that the setting had already been wrong at
+# v4 — a latent defect the bump surfaced rather than caused.
+#
+# Concretely, for this repo:
+#
+#   * A major bump gets its changelog read before merge. Never auto-merge, and
+#     never merge on green alone: this repo's CI does not exercise every path,
+#     and `eval-full` has never executed at all (see eval.yml).
+#   * An action bump is a chance to re-check that action's *current* inputs
+#     against how we call it, not only that the version number moved. The
+#     upload-artifact finding above was of exactly that shape.
+#   * Closing a bump with a reason recorded in the PR is a legitimate outcome.
+#     A stale open bot PR is worse than a closed one.
+# ---------------------------------------------------------------------------
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore"
+    groups:
+      # One PR for the routine noise. Anything major arrives on its own, because
+      # a grouped major is a PR nobody reads carefully.
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    ignore:
+      # Pinned by argument, not by accident — see docs/adr/0009-cpu-torch-over-cuda-wheels.md.
+      # A bot bumping torch across a major line would silently change the build
+      # the reproducibility claim rests on.
+      - dependency-name: "torch"
+        update-types: ["version-update:semver-major"]
+      # Kept in step with the Qdrant image in docker-compose.yml by hand; the
+      # client refuses to vouch for a server more than one minor away, so an
+      # automated bump breaks retrieval rather than a test.
+      - dependency-name: "qdrant-client"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      # The spaCy Portuguese model is pinned by release-wheel URL. Dependabot
+      # cannot resolve it and a bump would silently drop the PII backend to
+      # regex — see docs/REPRODUCE.md step 2b.
+      - dependency-name: "pt-core-news-sm"
