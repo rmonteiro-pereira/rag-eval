@@ -168,7 +168,7 @@ in **[`docs/REPRODUCE.md`](docs/REPRODUCE.md)**.
 
 ## How much is the test suite worth?
 
-**427 tests pass. The mutation score is 74.9%** — of 526 mutants with a covering
+**429 tests pass. The mutation score is 74.9%** — of 526 mutants with a covering
 test, 394 were killed and 132 survived, and a further 40 mutants sit in code no
 in-scope test imports at all (69.6% if those count as unkilled).
 
