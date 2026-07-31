@@ -141,6 +141,100 @@ def test_the_documented_mutation_score_matches_the_committed_artifact():
             )
 
 
+#: Percentages the mutation docs may quote that the current artifact does not
+#: produce. Every entry needs a reason: an unexplained number in a document about
+#: measurement is the defect this list exists to stop.
+#:
+#: Anything neither listed here nor derivable from `mutation.json` fails
+#: `test_no_stale_mutation_score_survives_in_the_docs`.
+#: Keyed **per document**, deliberately. A superseded score is legitimate inside
+#: the progression narrative in `docs/mutation.md` and is never legitimate in the
+#: README, which states only what is current. A single global allow-list would
+#: re-admit the exact defect this guards — the first version of this table was
+#: global, and a stale 73.4% in the README passed it.
+ALLOWED_NON_ARTIFACT_PERCENTAGES: dict[str, dict[float, str]] = {
+    "README.md": {
+        0.0: "abstention correctness / PII leak rates in the guardrail table",
+        11.1: "injection attack success, direct surface — guardrail table",
+        16.7: "injection attack success, ungoverned — guardrail table",
+    },
+    "docs/mutation.md": {
+        0.0: "a 0.0% per-module figure in prose; not a headline score",
+        71.2: (
+            "HISTORICAL: the first mutation run, before any survivor-driven "
+            "tests. Quoted only as the start of the progression."
+        ),
+        73.4: (
+            "HISTORICAL: the score after the first five survivor-driven tests "
+            "and before tests/test_scoring.py covered eval/scoring.py. Quoted "
+            "only as the middle term of 71.2 -> 73.4 -> 74.9. This value went "
+            "stale in the README once and was quoted outside the repository "
+            "before anyone noticed, which is exactly why it is written here — "
+            "and why the README is not allowed to mention it at all."
+        ),
+    },
+}
+
+
+def test_no_stale_mutation_score_survives_in_the_docs():
+    """Two different values for the same metric, in one repository, must fail.
+
+    The test above asserts the artifact's score IS quoted. That is a *presence*
+    check, and presence is not consistency: with the README saying both 74.9%
+    and 73.4%, `74.9 in {74.9, 73.4}` is true and it passes. It did exactly
+    that — a reviewer following the README's own pointer to `docs/mutation.md`
+    landed on a number contradicting the headline, and the stale figure was
+    quoted outside the repository before it was caught.
+
+    Same family as asserting a cited file exists without opening it, one level
+    up: asserting the right answer appears, without asserting a wrong one does
+    not.
+
+    So every percentage in the mutation docs must be derivable from
+    `mutation.json` — a headline score or a per-module score — or listed in
+    `ALLOWED_NON_ARTIFACT_PERCENTAGES` with a written reason.
+    """
+    report = json.loads((REPO_ROOT / "eval" / "reports" / "mutation.json").read_text("utf-8"))
+
+    derivable = {report["score"], report["score_including_uncovered"]}
+    for counts in report["by_module"].values():
+        covered = counts["killed"] + counts["survived"]
+        if covered:
+            derivable.add(round(100 * counts["killed"] / covered, 1))
+
+    for doc_name, allowed in ALLOWED_NON_ARTIFACT_PERCENTAGES.items():
+        doc = (REPO_ROOT / doc_name).read_text(encoding="utf-8")
+        for raw in sorted({float(x) for x in re.findall(r"(\d{2}\.\d)%", doc)}):
+            assert raw in derivable or raw in allowed, (
+                f"{doc_name} quotes {raw}%, which the committed mutation artifact does "
+                f"not produce and which is not allow-listed for this document. If it is "
+                f"a stale score, delete it; if it is deliberately historical, add it to "
+                f"ALLOWED_NON_ARTIFACT_PERCENTAGES['{doc_name}'] with the reason."
+            )
+
+
+def test_a_historical_mutation_score_is_labelled_as_one():
+    """A past value may appear only where the prose says it is past.
+
+    `73.4%` is legitimate inside "71.2 -> 73.4 -> the current 74.9" and is not
+    legitimate as a bare claim. The allow-list says which values are historical;
+    this asserts the sentence around them agrees.
+    """
+    doc = (REPO_ROOT / "docs" / "mutation.md").read_text(encoding="utf-8")
+    markers = ("first run", "took it to", "current", "previously", "was ")
+    for value, reason in ALLOWED_NON_ARTIFACT_PERCENTAGES["docs/mutation.md"].items():
+        if not reason.startswith("HISTORICAL"):
+            continue
+        for line in doc.splitlines():
+            if f"{value}%" not in line:
+                continue
+            start = doc.find(line)
+            window = doc[max(0, start - 300) : start + len(line) + 300]
+            assert any(m in window for m in markers), (
+                f"{value}% appears in docs/mutation.md without marking it historical: {line!r}"
+            )
+
+
 def test_the_documented_survivor_count_matches_the_artifact():
     """The inventory, the artifact and the prose must agree on one number."""
     report = json.loads((REPO_ROOT / "eval" / "reports" / "mutation.json").read_text("utf-8"))

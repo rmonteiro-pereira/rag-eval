@@ -268,10 +268,13 @@ before/after number quietly moves.
   over-represented relative to what a real user would type. The measured
   +0.498 MRR from the filter is an upper bound on what it would deliver against
   free-form questions.
-- **Single run, no seeds, no confidence intervals.** Retrieval here is
-  deterministic given a fixed collection, so re-running reproduces the numbers
-  exactly; that is repeatability, not statistical significance. With n=49 and
-  n=8, a one-query swing in the reverse-lookup probe is ±0.125.
+- **Single run, no seeds.** Retrieval here is deterministic given a fixed
+  collection, so re-running reproduces the numbers exactly; that is
+  repeatability, not statistical significance. Sampling noise is quantified
+  separately — `eval/reports/significance.json` carries a bootstrap CI per arm
+  and a paired randomisation p-value per contrast — but an interval says
+  nothing about gold-set validity. With n=8, a one-query swing in the
+  reverse-lookup probe is ±0.125.
 - **One reranker, one embedder, one chunking strategy.** Chunk size and
   embedding model are held fixed across all seven arms and were never ablated.
 - **Latency is CPU-only, on one machine, with warm caches.** It ranks the arms;

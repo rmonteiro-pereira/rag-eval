@@ -49,9 +49,18 @@
 
 name: eval
 
+# `push` covers every branch, not only main. On 2026-07-31 GitHub stopped
+# delivering `pull_request` events for this repository (opened, reopened and
+# synchronize on PR #10 all created no run, while `push` to main and
+# `workflow_dispatch` kept working; the workflow file was unchanged since #7
+# and had fired for #9 minutes earlier; Actions enabled, nothing awaiting
+# approval). A PR whose checks silently never start still *looks* green-ish —
+# only unrelated apps report — which is exactly the "green because it checks
+# nothing" failure this workflow exists to prevent. Triggering on every branch
+# push means dropped PR events can no longer leave a PR without CI evidence;
+# the cost is a duplicate run per push while PR events are healthy.
 on:
   push:
-    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
