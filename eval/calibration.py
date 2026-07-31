@@ -81,6 +81,34 @@ from pathlib import Path
 from rag.config import REPO_ROOT
 
 CALIBRATION_SHEET_PATH = REPO_ROOT / "eval" / "datasets" / "judge_calibration_sheet.jsonl"
+DEFAULT_GENERATION_REPORT = REPO_ROOT / "eval" / "reports" / "generation.json"
+
+
+def _write_agreement(report_path: Path, agreement: dict) -> bool:
+    """Fold a freshly computed agreement block back into the generation report.
+
+    Without this the judge-agreement numbers exist only in the sheet, and the
+    report keeps whatever `run_generation` last computed — which is `null` for
+    `judge_vs_judge2` whenever the second judge was added afterwards, as it
+    normally is. Every other figure this project publishes traces to a file under
+    `eval/reports/`; a headline number that traces only to a CLI's stdout is the
+    one a reader cannot check.
+    """
+    if not report_path.exists():
+        return False
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    calibration = report.get("calibration")
+    if not isinstance(calibration, dict):
+        return False
+    calibration["agreement"] = agreement
+    calibration["human_labels_filled"] = max(
+        c["n_labelled"] for c in agreement["criteria"].values()
+    )
+    report_path.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    return True
+
 
 SHEET_COMMENT = {
     "_comment": (
@@ -416,6 +444,18 @@ def main(argv: list[str] | None = None) -> int:
             "report judge-vs-judge agreement, which needs no human labels"
         ),
     )
+    parser.add_argument(
+        "--update-report",
+        type=Path,
+        default=DEFAULT_GENERATION_REPORT,
+        metavar="GENERATION_JSON",
+        help=(
+            "fold the agreement block back into this report (default: "
+            "eval/reports/generation.json). Pass '' to skip. Without this, the "
+            "judge-agreement numbers live only in the sheet, and every other "
+            "published figure traces to eval/reports/ — see `_write_agreement`."
+        ),
+    )
     args = parser.parse_args(argv)
 
     path = args.sheet or CALIBRATION_SHEET_PATH
@@ -443,6 +483,10 @@ def main(argv: list[str] | None = None) -> int:
     rows = load_sheet(path)
     report = agreement_report(rows)
     print(json.dumps(report, ensure_ascii=False, indent=2))
+
+    if args.update_report and str(args.update_report):
+        written = _write_agreement(args.update_report, report)
+        print(f"\nagreement folded into {args.update_report}" if written else "", end="")
 
     labelled = max(c["n_labelled"] for c in report["criteria"].values())
     if labelled == 0:
