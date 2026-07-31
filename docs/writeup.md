@@ -370,10 +370,13 @@ Ordered by how much they should change your reading.
    classification. The ACL is also document-level — no chunk or field redaction
    inside a permitted document.
 
-7. **Single run, no seeds, no confidence intervals.** Retrieval is deterministic
-   given a fixed collection, so re-running reproduces exactly — that is
-   *repeatability*, not statistical significance. With n=49 and n=8, one query in
-   the reverse-lookup probe is ±0.125.
+7. **Single run, no seeds.** Retrieval is deterministic given a fixed
+   collection, so re-running reproduces exactly — that is *repeatability*, not
+   statistical significance. Sampling noise is quantified separately:
+   `eval/reports/significance.json` carries a bootstrap CI per arm and a paired
+   randomisation p-value per contrast, computed from the committed per-query
+   data. An interval describes noise given these questions, not validity. With
+   n=49 and n=8, one query in the reverse-lookup probe is ±0.125.
 
 8. **Chunking and the embedding model were never ablated.** Fixed at 1200/200 and
    bge-m3 across all seven arms. RRF is unweighted at k=60, the paper's constant;
