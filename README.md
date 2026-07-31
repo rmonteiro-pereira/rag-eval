@@ -144,6 +144,32 @@ in **[`docs/REPRODUCE.md`](docs/REPRODUCE.md)**.
 
 ---
 
+## How much is the test suite worth?
+
+**380 tests pass. The mutation score is 73.4%** — of 466 mutants with a covering
+test, 342 were killed and 124 survived, and a further 100 mutants sit in code no
+in-scope test imports at all (60.4% if those count as unkilled).
+
+A passing suite says the code runs. Mutation testing asks whether the suite would
+*notice* if the code were wrong, and here the answer splits by layer:
+
+| | score |
+|---|--:|
+| `retrieval/text.py`, `retrieval/metadata.py` | **100.0%** |
+| `retrieval/fusion.py` | **96.6%** (both survivors provably equivalent) |
+| `eval/regression_gate.py`, `eval/probes.py` | ~63% |
+| `eval/scoring.py` | **nothing covered — 60 mutants, zero killed** |
+
+That shape is deliberate and it is the honest reading: the ranking arithmetic,
+where a bug produces a plausible number instead of a crash, is near-total; the
+reporting layer is not. It also found four genuine holes — most importantly that
+**the RRF tie-break was never pinned**, which is the property this repo's
+±0.0000 reproducibility claim actually rests on. Full survivor list, the two
+equivalent mutants, and what is deliberately unfixed:
+**[`docs/mutation.md`](docs/mutation.md)**.
+
+---
+
 ## Limitations
 
 Ordered by how much each should change your confidence in the numbers above. The full
@@ -200,6 +226,7 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
 | an interest in security | [`docs/governance.md`](docs/governance.md) — attacks, ASR, the two that succeed |
 | an interest in the eval method | [`eval/probes.py`](eval/probes.py), [`eval/calibration.py`](eval/calibration.py), [`eval/regression_gate.py`](eval/regression_gate.py) |
 | **an interest in why, not what** | **[`docs/adr/`](docs/adr/)** — nine decisions, each with the alternative rejected and the condition that reverses it |
+| doubts about the tests themselves | [`docs/mutation.md`](docs/mutation.md) — 73.4% mutation score, the survivor list, and what it is not fixing |
 | doubts about what shipped | [`docs/REPRODUCE.md`](docs/REPRODUCE.md), [`docs/PUBLICATION-SCAN.md`](docs/PUBLICATION-SCAN.md) |
 | to contribute or to probe the threat model | [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md) |
 

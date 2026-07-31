@@ -219,3 +219,46 @@ def test_judge_vs_judge_agreement_needs_no_human_labels():
 def test_kappa_rejects_empty_input():
     with pytest.raises(ValueError, match="zero items"):
         cohens_kappa([], [])
+
+
+def test_agreement_is_folded_back_into_the_generation_report(tmp_path):
+    """Every published number must trace to a file under `eval/reports/`.
+
+    Judge agreement is normally computed *after* `run_generation`, by
+    `eval.calibration --second-judge`. Before this, that left the report's
+    `judge_vs_judge2` at `null` while the README quoted a kappa — the one
+    headline figure a reader could not check against a committed artifact.
+    """
+    from eval.calibration import _write_agreement
+
+    report_path = tmp_path / "generation.json"
+    report_path.write_text(
+        json.dumps(
+            {
+                "arms": [],
+                "calibration": {"n_items": 30, "human_labels_filled": 0, "agreement": None},
+            }
+        ),
+        encoding="utf-8",
+    )
+    agreement = {
+        "n_items": 30,
+        "criteria": {
+            "faithfulness": {
+                "n_labelled": 0,
+                "judge_vs_judge2": {"kappa": 0.1094, "raw_agreement": 0.44, "n": 25},
+            }
+        },
+    }
+
+    assert _write_agreement(report_path, agreement) is True
+    written = json.loads(report_path.read_text(encoding="utf-8"))
+    jj = written["calibration"]["agreement"]["criteria"]["faithfulness"]["judge_vs_judge2"]
+    assert jj["kappa"] == 0.1094
+
+
+def test_writing_agreement_to_a_missing_report_is_a_no_op_not_a_crash(tmp_path):
+    """`--update-report` defaults to a path that may not exist yet."""
+    from eval.calibration import _write_agreement
+
+    assert _write_agreement(tmp_path / "nope.json", {"criteria": {}}) is False

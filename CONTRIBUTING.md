@@ -40,6 +40,15 @@ uv run python -m eval.regression_gate \
     --baseline eval/reports/ablation.json --candidate eval/reports/ablation.json
 ```
 
+Mutation testing is deliberately **not** in that list — it takes ~14 minutes and
+needs Linux (mutmut 3.x has no native Windows support). Run it when you change
+ranking or gate logic, and update `docs/mutation.md` with the new score and
+survivors rather than only the score:
+
+```bash
+uv run mutmut run && uv run mutmut results --all true
+```
+
 CI runs the first four on every push. The gate runs there too, **in both
 directions** — passing on the committed report and failing on the degraded
 fixture — because a gate that has only ever passed is not evidence of anything.
