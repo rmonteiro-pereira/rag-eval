@@ -24,6 +24,7 @@ and gated to +-0.0000.
 from __future__ import annotations
 
 import json
+import re
 
 import pytest
 
@@ -248,3 +249,52 @@ def test_the_m1_baseline_still_says_what_the_readme_says_it_says():
     assert baseline["mrr"] == pytest.approx(0.191, abs=5e-4)
     assert baseline["hit_rate@10"] == pytest.approx(0.531, abs=5e-4)
     assert baseline["hit_rate@5"] == pytest.approx(0.367, abs=5e-4)
+
+
+# --------------------------------------------------------------------------
+# Claims that are not metrics, and were therefore not covered above. A sibling
+# project shipped a README citing "219 passing" to a file that contained no
+# count at all; the real figure was 201 passed / 20 skipped. A test count is a
+# published number like any other and gets the same treatment.
+# --------------------------------------------------------------------------
+
+
+def test_the_documented_test_count_is_the_real_one():
+    """Collect the suite and compare, rather than trusting a number in prose.
+
+    This is self-referential — the count includes this test — which is fine, and
+    is why the docs quote the total. It caught a real drift: README and
+    docs/mutation.md both said 380 after four tests had been added.
+    """
+    import subprocess
+    import sys
+
+    out = subprocess.run(
+        [sys.executable, "-m", "pytest", "-q", "--collect-only", "-p", "no:cacheprovider"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        cwd=REPO_ROOT,
+    ).stdout
+    collected = int(re.search(r"(\d+) tests? collected", out).group(1))
+
+    for doc_name in ("README.md", "docs/mutation.md"):
+        doc = (REPO_ROOT / doc_name).read_text(encoding="utf-8")
+        for m in re.finditer(r"(\d{3}) (?:tests pass|passing tests|tests against)", doc):
+            assert int(m.group(1)) == collected, (
+                f"{doc_name} claims {m.group(1)} tests; pytest collects {collected}"
+            )
+
+
+def test_a_transcript_may_quote_a_historical_count_but_prose_may_not():
+    """`docs/REPRODUCE.md` legitimately records 281 — it is a dated transcript.
+
+    The distinction matters: a transcript is evidence of what happened at a
+    moment, and rewriting it to match today would be falsifying a record. Prose
+    that states the current count is a live claim. This test pins the difference
+    so nobody "fixes" the transcript.
+    """
+    repro = (REPO_ROOT / "docs" / "REPRODUCE.md").read_text(encoding="utf-8")
+    assert "281 passed" in repro, "the transcript's historical count was altered"
+    assert "```console" in repro, "the historical numbers must sit inside a transcript block"
