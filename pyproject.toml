@@ -39,7 +39,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["ruff>=0.8", "pytest>=8.3", "mypy>=1.13"]
+dev = ["ruff>=0.8", "pytest>=8.3", "mypy>=1.13", "mutmut>=3.6"]
 
 [project.scripts]
 rag-ask = "rag.ask:main"
@@ -70,7 +70,11 @@ line-length = 100
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B"]
+# W605 added after an invalid escape sequence in a docstring (`\[` outside a
+# raw string) shipped unnoticed: ruff was clean, and only `ast.parse` in the
+# mutation-config test surfaced the DeprecationWarning. It is a SyntaxError in
+# a future Python, so it is worth a rule rather than a memory.
+select = ["E", "F", "I", "UP", "B", "W"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -87,3 +91,50 @@ warn_redundant_casts = true
 # present, which is how the HITL gate ended up dereferencing a `None` decision.
 strict_optional = true
 no_implicit_optional = true
+
+# Mutation testing. Scoped, and the scope is an argument rather than a
+# convenience: these are the modules where a passing test suite is least
+# reassuring, because they are pure ranking arithmetic whose bugs produce
+# plausible numbers instead of exceptions. `retrieval/{store,configs,rerank}.py`
+# are deliberately absent — they need live Qdrant and 2.5 GB of model weights, so
+# mutants there would measure the absence of integration tests in the runner,
+# not the quality of the unit tests. That exclusion is reported alongside the
+# score in docs/mutation.md rather than left for a reader to discover.
+[tool.mutmut]
+source_paths = [
+    "retrieval/text.py",
+    "retrieval/sparse.py",
+    "retrieval/fusion.py",
+    "retrieval/metadata.py",
+    "eval/scoring.py",
+    "eval/probes.py",
+    "eval/regression_gate.py",
+]
+# mutmut runs pytest from a copied `mutants/` tree, so anything the selected
+# tests import has to travel with them.
+also_copy = [
+    "rag",
+    "eval",
+    "retrieval",
+    "generation",
+    "ingest",
+    "tests/fixtures",
+    "eval/datasets",
+    "eval/reports",
+    "data",
+    "pyproject.toml",
+]
+# Only the tests that exercise the mutated modules. Running the whole suite per
+# mutant would multiply LLM-free but slow tests across ~700 mutants for no signal:
+# a mutant in `fusion.py` cannot be caught by a test that never imports it, and
+# counting those runs as "survived elsewhere" would flatter nothing and cost hours.
+pytest_add_cli_args_test_selection = [
+    "tests/test_text.py",
+    "tests/test_sparse.py",
+    "tests/test_metadata.py",
+    "tests/test_probes.py",
+    "tests/test_qrels.py",
+    "tests/test_retrieval_metrics.py",
+    "tests/test_regression_gate.py",
+    "tests/test_generation_metrics.py",
+]
