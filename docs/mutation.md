@@ -1,6 +1,6 @@
 # Mutation testing
 
-380 passing tests says the suite runs. It does not say the suite would notice if
+389 passing tests says the suite runs. It does not say the suite would notice if
 the code were wrong. Mutation testing answers that second question: change the
 code in a small, plausible way, and see whether any test fails.
 
@@ -145,7 +145,7 @@ clean-state reproduction in [`REPRODUCE.md`](REPRODUCE.md), neither of which run
 here.
 
 Test selection is likewise scoped to the seven files that import the mutated
-modules. Running all 380 tests against 566 mutants would cost hours to prove that
+modules. Running all 389 tests against 566 mutants would cost hours to prove that
 a test which never imports `fusion.py` cannot catch a mutation in it.
 
 ## The configuration is checked even though the run is not

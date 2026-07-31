@@ -17,6 +17,8 @@ failure as a mutation config that never ran.
 from __future__ import annotations
 
 import argparse
+import json
+import pathlib
 import re
 import subprocess
 import sys
@@ -37,13 +39,58 @@ EQUIVALENT: dict[str, str] = {
     ),
 }
 
-#: Coarse buckets, applied to the mutated line, for the summary table only. The
-#: full diff is printed for every mutant regardless.
-BUCKETS = (
-    ("report schema / payload key", re.compile(r'"XX|XX"|"[A-Z_]+":')),
-    ("prose in a note string", re.compile(r"^\s*[-+]\s*\"[a-z].{20,}\"")),
-    ("CLI / argparse plumbing", re.compile(r"add_argument|help=|metavar|prog=")),
-    ("default value", re.compile(r"=\s*(None|\(\)|\[\]|\{\}|0|1|True|False)\s*[,)]")),
+#: Every surviving mutant must land in exactly one of these, and each carries a
+#: WRITTEN DECISION — accept it and why, or the work that would kill it. A
+#: sibling project shipped 192 of 192 survivors marked "undecided", which is a
+#: list, not an assessment: it tells a reader the tool ran and nobody looked.
+#:
+#: `main()` returns 1 if any survivor falls through to UNDECIDED, so this table
+#: cannot silently go stale as the code moves.
+DECISIONS: tuple[tuple[str, re.Pattern[str], str], ...] = (
+    (
+        "ACCEPTED — report payload key",
+        re.compile(r'"XX|XX"'),
+        "Mutates a JSON key or string literal in the report payload (e.g. "
+        "`expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are "
+        "asserted by tests; the report SCHEMA is not. Accepted for now, and the "
+        "gap is real rather than harmless: `regression_gate.extract()` reads "
+        '`probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename '
+        "would break the gate. Killing these needs one test that round-trips a "
+        "probe report through the gate — recorded in `mutation.md` as owed work.",
+    ),
+    (
+        "ACCEPTED — prose inside an explanatory note",
+        re.compile(r"^\s*[-+]\s*[\"']\s*[A-Za-z].{25,}"),
+        "Mutates human-readable prose in a `note`/`description` field that exists "
+        "to explain a number to a reader, not to be computed on. Asserting the "
+        "wording of an explanation would pin the docs to the tests in the wrong "
+        "direction — the next person improving a sentence would have to update a "
+        "test. Deliberately not killed.",
+    ),
+    (
+        "ACCEPTED — CLI plumbing",
+        re.compile(r"add_argument|help=|metavar|prog=|description="),
+        "Mutates argparse help text, metavars or the program name. Tests call "
+        "`main([...])` and assert exit codes and behaviour, which is the contract "
+        "that matters; asserting help strings tests argparse, not this code.",
+    ),
+    (
+        "ACCEPTED — unobservable default",
+        re.compile(r"=\s*(None|\(\)|\[\]|\{\}|0|1|0\.0|True|False)\s*[,)]"),
+        "Mutates a default or placeholder that is overwritten or never read on "
+        "any path a test can reach. Distinct from the two provably-equivalent "
+        "mutants in `EQUIVALENT`: those have a line-level proof, these are "
+        "judged unreachable rather than proven so, which is why they are "
+        "ACCEPTED and not EQUIVALENT.",
+    ),
+    (
+        "OWED — logic not covered by a test",
+        re.compile(r".", re.S),
+        "Mutates real logic and survived, so a test is missing. These are the "
+        "ones worth spending on. Tracked in `mutation.md`; the largest cluster "
+        "is `eval/scoring.py`, whose `score_rows` computes every published "
+        "retrieval metric and has no direct unit test.",
+    ),
 )
 
 
@@ -70,12 +117,13 @@ def _diff(name: str) -> list[str]:
     ]
 
 
-def _bucket(diff: list[str]) -> str:
+def _decide(diff: list[str]) -> tuple[str, str]:
+    """(decision, written reason) for one survivor. Never silently 'undecided'."""
     joined = "\n".join(diff)
-    for label, pattern in BUCKETS:
+    for label, pattern, reason in DECISIONS:
         if pattern.search(joined):
-            return label
-    return "logic"
+            return label, reason
+    return "UNDECIDED", "no rule in DECISIONS matched this mutant — it must not ship undecided"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -94,6 +142,17 @@ def main(argv: list[str] | None = None) -> int:
             "fail the build, and the number moves whenever the mutated code does."
         ),
     )
+    parser.add_argument(
+        "--write-json",
+        type=pathlib.Path,
+        default=None,
+        metavar="PATH",
+        help=(
+            "write the machine-readable score to PATH. Without it the mutation "
+            "score lives only in prose and a CI log, while every other number "
+            "this project publishes traces to a file under eval/reports/."
+        ),
+    )
     args = parser.parse_args(argv)
 
     rows = _results()
@@ -107,6 +166,44 @@ def main(argv: list[str] | None = None) -> int:
         counts[status] += 1
 
     killed, surv, none = counts["killed"], counts["survived"], counts["no tests"]
+
+    if args.write_json is not None:
+        by_counts: dict[str, dict[str, int]] = {}
+        for name, status in rows:
+            module = name.rsplit(".x_", 1)[0]
+            by_counts.setdefault(module, {"killed": 0, "survived": 0, "no tests": 0})
+            by_counts[module][status] += 1
+        cov = killed + surv
+        args.write_json.write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "tool": "mutmut",
+                    "total_mutants": len(rows),
+                    "killed": killed,
+                    "survived": surv,
+                    "no_tests": none,
+                    "score": round(100 * killed / cov, 1) if cov else None,
+                    "score_including_uncovered": (
+                        round(100 * killed / len(rows), 1) if rows else None
+                    ),
+                    "by_module": by_counts,
+                    "survivors": sorted(survived),
+                    "note": (
+                        "Regenerated by `tools.mutation_survivors --write-json`. `score` is "
+                        "killed/(killed+survived); `score_including_uncovered` counts mutants "
+                        "no in-scope test imports as unkilled. Both are published because "
+                        "quoting either alone flatters or damns."
+                    ),
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        print(f"wrote {args.write_json}")
+        return 0
 
     if args.check_score is not None:
         covered = killed + surv
@@ -152,19 +249,33 @@ def main(argv: list[str] | None = None) -> int:
         print(f"| `{module}` | {len(by_module[module])} |")
     print()
 
+    undecided: list[str] = []
     for module in sorted(by_module):
         print(f"\n## `{module}`\n")
         for name in by_module[module]:
             diff = _diff(name)
             short = name.rsplit(".x_", 1)[1]
             if name in EQUIVALENT:
-                print(f"### `{short}` — EQUIVALENT\n")
-                print(f"{EQUIVALENT[name]}\n")
+                decision, reason = "EQUIVALENT — no test can kill it", EQUIVALENT[name]
             else:
-                print(f"### `{short}` — {_bucket(diff)}\n")
+                decision, reason = _decide(diff)
+                if decision == "UNDECIDED":
+                    undecided.append(name)
+            print(f"### `{short}` — {decision}\n")
+            print(f"{reason}\n")
             print("```diff")
             print("\n".join(diff) if diff else "(diff unavailable)")
             print("```\n")
+
+    if undecided:
+        print(
+            f"\n{len(undecided)} survivors are UNDECIDED. A list of survivors nobody "
+            "assessed is not an assessment.",
+            file=sys.stderr,
+        )
+        for name in undecided:
+            print(f"  UNDECIDED: {name}", file=sys.stderr)
+        return 1
     return 0
 
 

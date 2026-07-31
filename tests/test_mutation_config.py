@@ -21,7 +21,9 @@ and the number looks fine.
 from __future__ import annotations
 
 import ast
+import json
 import pathlib
+import re
 import tomllib
 
 import pytest
@@ -107,8 +109,61 @@ def test_the_documented_score_names_its_scope_and_its_exclusions():
     assert "Not mutated" in doc, "the exclusion is not stated"
     for excluded in ("store", "configs", "rerank"):
         assert excluded in doc, f"{excluded}.py is excluded from mutation but unmentioned"
-    # Both denominators, so neither can be quoted alone.
-    assert "73.4%" in doc and "60.4%" in doc
+
+
+def test_the_documented_mutation_score_matches_the_committed_artifact():
+    """OPEN the artifact and compare. Do not check that a string is present.
+
+    This test previously asserted `"73.4%" in doc` — that the *characters* 73.4%
+    appeared somewhere in the prose. It would have passed just as happily with a
+    score of 61%, because it never opened anything. A sibling project shipped a
+    README claiming a KS statistic of 0.041016 against an artifact that said
+    0.390791 — a FAIL reported as a PASS — and the test meant to prevent it
+    asserted only that the cited file existed, never opening it. This is that
+    test, rewritten to open the file.
+    """
+    report = json.loads((REPO_ROOT / "eval" / "reports" / "mutation.json").read_text("utf-8"))
+    covered = report["killed"] + report["survived"]
+    # The artifact must be internally consistent before it is trusted as a source.
+    assert report["killed"] + report["survived"] + report["no_tests"] == report["total_mutants"]
+    assert report["score"] == pytest.approx(100 * report["killed"] / covered, abs=0.05)
+
+    for doc_name in ("docs/mutation.md", "README.md"):
+        doc = (REPO_ROOT / doc_name).read_text(encoding="utf-8")
+        quoted = set(re.findall(r"(\d{2}\.\d)%", doc))
+        for value, label in (
+            (report["score"], "score"),
+            (report["score_including_uncovered"], "score_including_uncovered"),
+        ):
+            assert f"{value:.1f}" in quoted, (
+                f"{doc_name} does not quote the artifact's {label} ({value:.1f}%); "
+                f"it quotes {sorted(quoted)}"
+            )
+
+
+def test_the_documented_survivor_count_matches_the_artifact():
+    """The inventory, the artifact and the prose must agree on one number."""
+    report = json.loads((REPO_ROOT / "eval" / "reports" / "mutation.json").read_text("utf-8"))
+    inventory = (REPO_ROOT / "docs" / "mutation-survivors.md").read_text(encoding="utf-8")
+    entries = len(re.findall(r"^### ", inventory, re.M))
+    assert entries == report["survived"], (
+        f"{entries} survivors documented, artifact says {report['survived']}"
+    )
+    assert len(report["survivors"]) == report["survived"]
+
+
+def test_no_survivor_is_left_undecided():
+    """192 of 192 survivors marked "undecided" is a list, not an assessment.
+
+    Every entry must carry a decision: ACCEPTED with the reason, OWED with the
+    work that would kill it, or EQUIVALENT with a line-level proof.
+    """
+    inventory = (REPO_ROOT / "docs" / "mutation-survivors.md").read_text(encoding="utf-8")
+    assert "UNDECIDED" not in inventory
+    headings = re.findall(r"^### `[^`]+` — (.+)$", inventory, re.M)
+    assert headings, "no survivor headings found — has the format changed?"
+    for decision in headings:
+        assert decision.startswith(("ACCEPTED", "OWED", "EQUIVALENT")), decision
 
 
 # --------------------------------------------------------------------------
