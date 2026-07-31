@@ -1,0 +1,45 @@
+Third-party data and models
+===========================
+
+The MIT licence in LICENSE covers the *code* in this repository. It does not
+cover the corpus this project evaluates against, or the model weights it
+downloads at runtime. Neither is redistributed here.
+
+Corpus — Atas do Copom
+----------------------
+Published by the Banco Central do Brasil at
+https://www.bcb.gov.br/publicacoes/atascopom
+
+Public information, free to use. The PDFs are **not** committed: `data/raw/` is
+gitignored. Only `data/manifest.json` ships, recording each document's URL,
+title, reference date and SHA-256, so the corpus is reproducible without
+redistributing it. `uv run python -m ingest.pipeline --download 30` fetches it.
+
+Models, downloaded at runtime and never committed
+-------------------------------------------------
+  BAAI/bge-m3                       MIT              embeddings
+  BAAI/bge-reranker-base            MIT              cross-encoder reranker
+  spaCy pt_core_news_sm             MIT (CC BY-SA 4.0 training data)
+  Ollama: llama3.1                  Llama 3.1 Community License
+  Ollama: qwen2.5:3b                Qwen Research License
+
+The Llama 3.1 and Qwen licences carry conditions the MIT licence does not. They
+apply to those weights, not to this code, and both models are optional: the
+`extractive` backend needs no language model at all.
+
+Synthetic data, labelled as such wherever it appears
+----------------------------------------------------
+  * The document ACL classification in `governance/acl.py`. Every ata is a
+    public BACEN document; the five most recent stand in for a publication
+    embargo. The enforcement is real and tested against live Qdrant — the
+    policy is a fixture.
+  * Every CPF, CNPJ, name, e-mail address and phone number in
+    `eval/datasets/adversarial.jsonl`, `guardrails/` and `tests/`. The CPFs and
+    CNPJs are checksum-valid test values chosen so the modulo-11 validators can
+    be exercised; they belong to nobody. E-mail domains are reserved-for-example
+    domains.
+  * `tests/fixtures/gate_degraded.json`, which simulates a broken meeting
+    resolver so the regression gate can be proven to fail. Its `_fixture_note`
+    says DELIBERATELY DEGRADED.
+
+Nothing in this repository presents synthetic data as measured data.

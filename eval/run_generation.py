@@ -31,6 +31,7 @@ import sys
 import time
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 
 from eval.calibration import (
     CALIBRATION_SHEET_PATH,
@@ -40,10 +41,10 @@ from eval.calibration import (
     write_sheet,
 )
 from eval.gold import DEFAULT_GOLD_PATH, GoldRow, GoldSetError, load_gold, status_counts
-from eval.metrics.generation import aggregate_generation, score_generation
+from eval.metrics.generation import GenerationScores, aggregate_generation, score_generation
 from eval.run_eval import DRAFT_CAVEAT
 from generation.answer import generate_answer
-from generation.judge import Judge, aggregate_judgements
+from generation.judge import Judge, Judgement, aggregate_judgements
 from generation.llm import ExtractiveLLM, OllamaLLM
 from generation.prompt import PROMPT_VERSION, format_context
 from rag.config import REPO_ROOT, settings
@@ -82,7 +83,10 @@ def run_generation(
     for arm in arms:
         print(f"  arm {arm} ...", file=sys.stderr, flush=True)
         llm = _build_llm(arm)
-        scores, is_abstention, judgements, per_row = [], [], [], []
+        scores: list[GenerationScores] = []
+        is_abstention: list[bool] = []
+        judgements: list[Judgement] = []
+        per_row: list[dict[str, Any]] = []
 
         for row in rows:
             passages = passages_by_row[row.id]
@@ -143,7 +147,7 @@ def run_generation(
                 "judge": aggregate_judgements(judgements) if judgements else None,
                 "latency": {
                     "median_ms": round(
-                        sorted(item["latency_ms"] for item in per_row)[len(per_row) // 2], 1
+                        sorted(float(item["latency_ms"]) for item in per_row)[len(per_row) // 2], 1
                     ),
                 },
                 "per_row": per_row,
@@ -164,7 +168,7 @@ def run_generation(
         if any(row["judge_is_generator"] for row in arm["per_row"])
     }
 
-    report = {
+    report: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "setup": {
@@ -217,8 +221,7 @@ def _render_summary(report: dict) -> str:
     lines = [
         "",
         f"retriever {report['setup']['retriever']}  |  judge {report['setup']['judge_model']}",
-        f"gold      {report['gold']['n_rows']} rows "
-        f"({report['gold']['n_negative']} negatives)",
+        f"gold      {report['gold']['n_rows']} rows ({report['gold']['n_negative']} negatives)",
         "",
         f"{'arm':<16} {'num-recall':>11} {'grounded':>9} {'halluc-num':>11} "
         f"{'cite-ok':>8} {'abstain-ok':>11} {'false-ref':>10} {'med ms':>8}",

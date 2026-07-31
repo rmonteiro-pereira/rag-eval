@@ -271,9 +271,7 @@ def test_a_parse_failure_is_a_recorded_step_and_the_loop_continues():
 
 
 def test_an_unknown_tool_is_reported_back_to_the_model():
-    llm = _StubLLM(
-        ['{"tool": "rm_rf", "args": {}}', '{"tool": "final", "args": {"answer": "ok"}}']
-    )
+    llm = _StubLLM(['{"tool": "rm_rf", "args": {}}', '{"tool": "final", "args": {"answer": "ok"}}'])
     agent = Agent(_FakeSql(), None, ConfirmationGate(POLICY_AUTO), llm=llm, max_steps=3)
     run = agent.run("pergunta")
     assert run.steps[0].error == "unknown_tool"

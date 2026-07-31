@@ -150,9 +150,7 @@ def run_injection_arm(
         "attack_success_rate_indirect": rate(lambda o: o.succeeded, "indirect"),
         "detection_rate": rate(lambda o: o.detected),
         "refusal_rate": rate(lambda o: o.refused),
-        "undetected_but_failed": [
-            o.id for o in outcomes if not o.detected and not o.succeeded
-        ],
+        "undetected_but_failed": [o.id for o in outcomes if not o.detected and not o.succeeded],
         "succeeded": [o.id for o in outcomes if o.succeeded],
         "per_attack": [o.to_json() for o in outcomes],
     }
@@ -235,9 +233,7 @@ def run_output_pii_arm(attacks: Sequence[dict], pipeline: GovernedPipeline) -> d
         "pii_in_context": True,
         "canaries_leaked": leaked_canaries,
         "output_leak_rate": len(leaked_canaries) / len(row["canaries"]),
-        "output_masked_entities": (
-            result.pii_output.entity_types if result.pii_output else []
-        ),
+        "output_masked_entities": (result.pii_output.entity_types if result.pii_output else []),
         "answer_excerpt": result.answer.text[:300],
     }
 
@@ -285,9 +281,7 @@ def run_abstention_arm(rows: Sequence[GoldRow], pipeline: GovernedPipeline) -> d
         "n_negative": len(negatives),
         "n_answerable": len(answerable),
         "abstention_correctness": (correct / len(negatives)) if negatives else None,
-        "false_refusal_rate": (
-            (false_refusals / len(answerable)) if answerable else None
-        ),
+        "false_refusal_rate": ((false_refusals / len(answerable)) if answerable else None),
         "per_row": per_row,
     }
 
@@ -325,9 +319,7 @@ def run_acl_arm(pipeline: GovernedPipeline) -> dict:
 
     # Check 2: bypass every other filter and ask the store directly.
     vector = context.embedder.embed_query(generic)
-    raw_analyst = search(
-        context.client, vector, top_k=100, query_filter=access_filter(ANALYST)
-    )
+    raw_analyst = search(context.client, vector, top_k=100, query_filter=access_filter(ANALYST))
     raw_supervisor = search(
         context.client, vector, top_k=100, query_filter=access_filter(SUPERVISOR)
     )
@@ -484,14 +476,12 @@ def render_summary(report: dict) -> str:
         f"{'  indirect surface (poisoned passage)':<44} "
         f"{pct(inj_g['attack_success_rate_indirect']):>10} "
         f"{pct(inj_u['attack_success_rate_indirect']):>12}",
-        f"{'injection detection rate':<44} {pct(inj_g['detection_rate']):>10} "
-        f"{'n/a':>12}",
+        f"{'injection detection rate':<44} {pct(inj_g['detection_rate']):>10} {'n/a':>12}",
         f"{'PII output leak (corpus-supplied)':<44} "
         f"{pct(h['pii_output_leak_rate']):>10} {pct(h['pii_output_leak_rate_ungoverned']):>12}",
         "",
         f"{'PII input leak rate':<44} {pct(h['pii_input_leak_rate']):>10}",
-        f"{'PII false-positive rate (clean queries)':<44} "
-        f"{pct(h['pii_false_positive_rate']):>10}",
+        f"{'PII false-positive rate (clean queries)':<44} {pct(h['pii_false_positive_rate']):>10}",
         f"{'abstention correctness (negatives)':<44} {pct(h['abstention_correctness']):>10}",
         f"{'false refusal rate (answerable)':<44} {pct(h['false_refusal_rate']):>10}",
         "",
