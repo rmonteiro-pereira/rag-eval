@@ -185,7 +185,7 @@ def test_stripping_citations_does_not_hide_a_real_hallucination():
     ],
 )
 def test_a_fabricated_number_inside_brackets_is_still_caught(answer, expected):
-    """Brackets must not be an escape hatch for the hallucination metric.
+    r"""Brackets must not be an escape hatch for the hallucination metric.
 
     A permissive `\[.*\]` would strip `[9,99%]` — a rate no passage contains —
     and report a clean run. `_CITATION` therefore requires the bracket to OPEN

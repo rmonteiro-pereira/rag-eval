@@ -70,7 +70,11 @@ line-length = 100
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B"]
+# W605 added after an invalid escape sequence in a docstring (`\[` outside a
+# raw string) shipped unnoticed: ruff was clean, and only `ast.parse` in the
+# mutation-config test surfaced the DeprecationWarning. It is a SyntaxError in
+# a future Python, so it is worth a rule rather than a memory.
+select = ["E", "F", "I", "UP", "B", "W"]
 
 [tool.mypy]
 python_version = "3.11"

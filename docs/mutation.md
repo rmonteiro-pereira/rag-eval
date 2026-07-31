@@ -1,6 +1,6 @@
 # Mutation testing
 
-295 passing tests says the suite runs. It does not say the suite would notice if
+380 passing tests says the suite runs. It does not say the suite would notice if
 the code were wrong. Mutation testing answers that second question: change the
 code in a small, plausible way, and see whether any test fails.
 
@@ -145,10 +145,36 @@ clean-state reproduction in [`REPRODUCE.md`](REPRODUCE.md), neither of which run
 here.
 
 Test selection is likewise scoped to the seven files that import the mutated
-modules. Running all 295 tests against 566 mutants would cost hours to prove that
+modules. Running all 380 tests against 566 mutants would cost hours to prove that
 a test which never imports `fusion.py` cannot catch a mutation in it.
 
-## Why this is not in CI
+## The configuration is checked even though the run is not
+
+A mutation setup can be present in a repository and absent from every run — a
+config naming directories that do not exist, or a job pinned to `if: false`.
+Both produce a green tick over nothing. Since the run itself is deliberately out
+of CI (below), `tests/test_mutation_config.py` checks the *config* in the suite
+that does run:
+
+- every path in `source_paths`, `also_copy` and the test selection exists;
+- none of those keys is empty;
+- **every mutated module is imported by at least one selected test** — paths can
+  all be valid and the score still meaningless if the selection is disjoint,
+  because then every mutant is scored "no tests" over an empty denominator;
+- `mutmut` is a declared dev dependency;
+- this document states its exclusions and both denominators, so the score cannot
+  quietly be narrowed into looking better.
+
+Each guard was verified to fail on the defect it targets, not merely to pass:
+pointing `source_paths` at a nonexistent file, pointing the test selection at an
+unrelated file, and emptying `source_paths` each turn the suite red.
+
+Import linkage is a floor, not a guarantee, and this repo shows the difference:
+`eval/scoring.py` **is** imported by a selected test and still has 60 uncovered
+mutants, because importing a module does not call `score_rows`. That is why the
+table above carries a per-module `no test` column instead of one headline number.
+
+## Why the run is not in CI
 
 A full run is ~14 minutes on 10 cores, and mutmut 3.x does not run on Windows,
 which is the development machine. It belongs in the same category as the full
