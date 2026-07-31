@@ -151,3 +151,104 @@ def test_hallucination_rate_counts_answerable_rows_only():
 def test_aggregate_rejects_mismatched_lengths():
     with pytest.raises(ValueError, match="same length"):
         aggregate_generation([scores()], is_abstention=[False, True])
+
+
+def test_citation_markers_are_not_read_as_hallucinated_numbers():
+    """`[2, 19]` is a pointer to passages 2 and 19, not the decimal 2.19.
+
+    This is a regression test for a false positive that actually fired: the
+    tokenizer welds `2, 19` into `2,19` (see `_SPLIT_DECIMAL` in
+    `retrieval/text.py`), that value appears in no passage, and the row was
+    scored as a hallucinated number. One row was enough to move
+    `hallucinated_number_rate` from 0.000 to 0.020.
+    """
+    answer = (
+        "A projecao era de 3,7% [2, Tabela 1 e 17]. O Comite julgou como mais "
+        "adequadas trajetorias menos discrepantes [2, 19]."
+    )
+    context = "A projecao para o quarto trimestre de 2027 era de 3,7% no cenario de referencia."
+    assert unsupported_numbers(answer, context) == []
+
+
+def test_stripping_citations_does_not_hide_a_real_hallucination():
+    """The fix must not become a way for invented numbers to pass."""
+    context = "A projecao para 2027 era de 3,7% no cenario de referencia."
+    assert unsupported_numbers("A Selic foi reduzida para 9,99% a.a. [1]", context) == ["9,99"]
+
+
+@pytest.mark.parametrize(
+    "answer, expected",
+    [
+        ("A Selic foi para [9,99%] a.a.", ["9,99"]),
+        ("A taxa ficou em [14,25] pontos.", ["14,25"]),
+        ("O IPCA acumulado foi de [7,5] por cento.", ["7,5"]),
+    ],
+)
+def test_a_fabricated_number_inside_brackets_is_still_caught(answer, expected):
+    """Brackets must not be an escape hatch for the hallucination metric.
+
+    A permissive `\[.*\]` would strip `[9,99%]` — a rate no passage contains —
+    and report a clean run. `_CITATION` therefore requires the bracket to OPEN
+    with a passage index that is not glued to a decimal mark, so a bracketed
+    claim is never mistaken for a pointer.
+    """
+    context = "A projecao para 2027 era de 3,7% no cenario de referencia."
+    assert unsupported_numbers(answer, context) == expected
+
+
+def test_citation_shapes_the_generator_actually_emits_are_all_stripped():
+    """`generation/prompt.py` asks for `[n]`; models embellish it in these ways."""
+    context = "A projecao era de 3,7%."
+    for answer in (
+        "A projecao era de 3,7% [2].",
+        "A projecao era de 3,7% [2, 19].",
+        "A projecao era de 3,7% [1, Tabela 1 e 17].",
+        "A projecao era de 3,7% [ 3 ; 4 ].",
+    ):
+        assert unsupported_numbers(answer, context) == [], answer
+
+
+def test_the_summary_survives_an_arm_with_no_rows():
+    """`--min-status validated` returns zero rows today, by design.
+
+    That is a documented state, not a hypothetical, so the reporting path has to
+    survive it. It previously raised `IndexError` computing a median over an
+    empty list — the one code path the repo's own headline caveat guarantees
+    someone will hit.
+    """
+    from eval.run_generation import _render_summary
+
+    empty = dict.fromkeys(
+        (
+            "numeric_recall",
+            "lexical_groundedness",
+            "hallucinated_number_rate",
+            "citation_correctness",
+            "abstention_correctness",
+            "false_refusal_rate",
+        )
+    )
+    report = {
+        "setup": {"retriever": "hybrid+rerank+metadata", "judge_model": "llama3.1"},
+        "gold": {"n_rows": 0, "n_negative": 0},
+        "arms": [
+            {
+                "arm": "extractive",
+                "backend": "extractive",
+                "deterministic": empty,
+                "judge": None,
+                "latency": {"median_ms": None},
+                "per_row": [],
+            }
+        ],
+        "calibration": {
+            "n_items": 0,
+            "human_labels_filled": 0,
+            "sheet_path": "eval/datasets/judge_calibration_sheet.jsonl",
+            "agreement": {"criteria": {}},
+            "note": "no human labels yet",
+        },
+        "caveat": "draft",
+    }
+    out = _render_summary(report)
+    assert "n/a" in out

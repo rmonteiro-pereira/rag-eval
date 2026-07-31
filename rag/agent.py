@@ -20,10 +20,17 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections.abc import Sequence
 from datetime import UTC, datetime
 from pathlib import Path
 
-from agent.hitl import POLICY_AUTO, POLICY_DENY, POLICY_INTERACTIVE, ConfirmationGate
+from agent.hitl import (
+    POLICY_AUTO,
+    POLICY_DENY,
+    POLICY_INTERACTIVE,
+    ConfirmationGate,
+    GateDecision,
+)
 from agent.loop import Agent, AgentRun
 from agent.tools import RagSearchTool, SqlQueryTool
 from rag.config import REPO_ROOT, settings
@@ -70,8 +77,7 @@ DEMO_QUESTIONS: tuple[tuple[str, str], ...] = (
 GATE_PROBES: tuple[tuple[str, str], ...] = (
     (
         "an ordinary bounded read",
-        "SELECT month, selic_target FROM mart_macro_dashboard "
-        "WHERE month >= '2026-01-01' LIMIT 12",
+        "SELECT month, selic_target FROM mart_macro_dashboard WHERE month >= '2026-01-01' LIMIT 12",
     ),
     (
         "unbounded scan of a 1.6M-row mart",
@@ -121,14 +127,21 @@ def _render_run(kind: str, run: AgentRun) -> str:
     for step in run.steps:
         if step.tool == "sql_query":
             gate = step.gate
-            lines.append(
-                f"**Step {step.index} — `sql_query`** · gate: "
-                f"{'APPROVED' if gate and gate.approved else 'REFUSED'} "
-                f"(risk `{gate.risk.level}` — {'; '.join(gate.risk.reasons)})"
-            )
+            # A `sql_query` step can reach here with no gate decision — the
+            # statement never got that far, because validation rejected it or the
+            # LLM call failed first. Rendering "REFUSED (risk None)" is honest;
+            # dereferencing `gate.risk` would crash the demo writer instead.
+            if gate is None:
+                verdict = "NOT REACHED (rejected before the gate)"
+            else:
+                verdict = (
+                    f"{'APPROVED' if gate.approved else 'REFUSED'} "
+                    f"(risk `{gate.risk.level}` — {'; '.join(gate.risk.reasons)})"
+                )
+            lines.append(f"**Step {step.index} — `sql_query`** · gate: {verdict}")
             statement = (step.sql_result or {}).get("sql") or step.args.get("sql", "")
             lines += ["", "```sql", statement, "```", ""]
-            if step.error == "blocked_by_gate":
+            if step.error == "blocked_by_gate" and gate is not None:
                 lines += [f"> Gate refused: {gate.reason}", ""]
             elif step.sql_result and step.sql_result.get("error"):
                 lines += [f"> Query error: `{step.sql_result['error']}`", ""]
@@ -157,7 +170,7 @@ def render_demo(
     runs: list[tuple[str, AgentRun]],
     gate: ConfirmationGate,
     agent: Agent,
-    probes: list[tuple[str, object]],
+    probes: Sequence[tuple[str, GateDecision]],
 ) -> str:
     sql_runs = [r for _, r in runs if r.used_sql]
     rag_runs = [r for _, r in runs if r.used_rag]
@@ -208,8 +221,8 @@ def render_demo(
         "validator rejected | **refused, no human to ask** |",
         "",
         "`--gate interactive` prints the statement and waits on stdin — the real loop.",
-        "`--gate deny` refuses everything, which is what makes the \"does the gate",
-        "actually stop execution\" test meaningful.",
+        '`--gate deny` refuses everything, which is what makes the "does the gate',
+        'actually stop execution" test meaningful.',
         "",
         "Risk is assessed on the **normalised** SQL — the exact text that would run,",
         "after `LIMIT` injection — because approving one string and executing another is",
