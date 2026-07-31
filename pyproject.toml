@@ -58,6 +58,7 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 # Flat layout: the repo structure mandated by the spec doubles as the package set.
 packages = ["rag", "ingest", "retrieval", "generation", "serving", "eval", "guardrails", "governance", "agent"]
+# `tools/` is dev tooling, not shipped in the wheel.
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -78,7 +79,7 @@ select = ["E", "F", "I", "UP", "B", "W"]
 
 [tool.mypy]
 python_version = "3.11"
-files = ["rag", "retrieval", "generation", "guardrails", "governance", "agent", "ingest", "eval", "serving"]
+files = ["rag", "retrieval", "generation", "guardrails", "governance", "agent", "ingest", "eval", "serving", "tools"]
 # The scientific stack (torch, sentence-transformers, presidio, qdrant-client)
 # ships partial or absent stubs. Following imports into them produces noise about
 # third-party internals, not about this repository's code.

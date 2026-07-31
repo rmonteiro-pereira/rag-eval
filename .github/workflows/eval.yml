@@ -139,8 +139,52 @@ jobs:
           fi
           echo "gate correctly rejected the degraded fixture"
 
+  mutation:
+    name: mutation score
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - run: uv sync --extra dev
+
+      # ~30 seconds. This job exists because a mutation setup that never runs is
+      # worse than none: it implies a check the reader has no way to know did not
+      # happen. There is no `if:` on this job for the same reason.
+      - name: mutmut run
+        run: uv run mutmut run --max-children 4
+
+      # A floor, not a pin. Adding a test must never fail the build, and the
+      # number legitimately moves when the mutated code does. It fails on a drop,
+      # and — the case that matters — it fails when NOTHING was covered, because
+      # 0 killed / 0 covered is undefined rather than perfect. That is exactly
+      # what a config pointed at paths which do not exist produces.
+      - name: gate on the score
+        run: uv run python -m tools.mutation_survivors --check-score 70
+
+      # The committed inventory must match the run. If a survivor appears or is
+      # killed and `docs/mutation-survivors.md` was not regenerated, the docs are
+      # describing a different codebase.
+      - name: the committed survivor list is current
+        run: |
+          uv run python -m tools.mutation_survivors > /tmp/survivors.md
+          diff -u docs/mutation-survivors.md /tmp/survivors.md \
+            || { echo "::error::docs/mutation-survivors.md is stale — regenerate it"; exit 1; }
+
+  # ---------------------------------------------------------------------------
+  # UNVERIFIED. This job has been *skipped* on all 7 runs so far and has never
+  # executed a single step. `workflow_dispatch` + a 60-minute CPU job with a
+  # 2.5 GB model download is the right trade for the PR path, but it means the
+  # ingest, the regeneration, the gate-against-baseline and the artifact upload
+  # below are written and unproven. Treat a green workflow as saying nothing
+  # about this job until someone dispatches it with `run_full_eval: true`.
+  # ---------------------------------------------------------------------------
   eval-full:
-    name: full ablation (manual)
+    name: full ablation (manual, never yet executed)
     if: github.event_name == 'workflow_dispatch' && inputs.run_full_eval
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -180,6 +224,17 @@ jobs:
             --baseline eval/reports/ablation.json \
             --candidate /tmp/ablation.json
 
+      # `include-hidden-files` is deliberately NOT set here, and that is a
+      # checked decision rather than an omission. upload-artifact v4 silently
+      # excludes dot-prefixed paths, which has bitten a sibling project; this
+      # path is `/tmp/ablation.json`, with no hidden component and no hidden
+      # parent inside the upload root, so the flag would be noise. If the path
+      # ever moves under a dot-directory, the flag becomes mandatory and the
+      # failure is a *missing artifact*, not a red job.
+      #
+      # `if-no-files-found` is left at its `warn` default on purpose: this step
+      # runs `if: always()`, so on a failed ingest there is legitimately nothing
+      # to upload and the job should not fail twice for one cause.
       - uses: actions/upload-artifact@v4
         if: always()
         with:
