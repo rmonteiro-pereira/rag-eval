@@ -166,6 +166,15 @@ jobs:
       - name: gate on the score
         run: uv run python -m tools.mutation_survivors --check-score 70
 
+      # The score has to trace to a file a reader can open, like every other
+      # number this project publishes. Regenerate the artifact and diff it: if
+      # the run moved and `eval/reports/mutation.json` did not, the docs are
+      # quoting a number nothing produces.
+      - name: the committed mutation artifact is current
+        run: |
+          uv run python -m tools.mutation_survivors --write-json /tmp/mutation.json
+          diff -u eval/reports/mutation.json /tmp/mutation.json             || { echo "::error::eval/reports/mutation.json is stale — regenerate it"; exit 1; }
+
       # The committed inventory must match the run. If a survivor appears or is
       # killed and `docs/mutation-survivors.md` was not regenerated, the docs are
       # describing a different codebase.
