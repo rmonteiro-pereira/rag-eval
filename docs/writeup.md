@@ -121,13 +121,18 @@ arms are chosen so meaningful pairs differ in exactly one component:
    zero false positives, which is the number that licenses using it as a hard
    filter rather than a soft boost.
 
-2. **The expensive, fashionable component did not pay for itself.** The
-   cross-encoder is *actively harmful* without the filter (MRR −0.039, rank-1
-   meeting −0.146): it reorders by semantic fit, and semantic fit is exactly the
-   signal that cannot tell two Copom meetings apart. With the filter it is +0.005
-   MRR for +2.2 s. **In a system with a latency budget it would be cut.** It
-   survives in the default arm on one condition — it is the only thing that
-   improves the probe group the filter structurally cannot help.
+2. **The expensive, fashionable component did not pay for itself.** With the
+   filter the cross-encoder buys **+0.005 MRR for +2.2 s** — 95% CI
+   [−0.103, +0.115], p = 0.93. Nothing, precisely measured. Without the filter
+   its point estimates are negative (MRR −0.039, rank-1 meeting −0.146) and the
+   mechanism is plausible — it reorders by semantic fit, which is exactly the
+   signal that cannot tell two Copom meetings apart — but **both intervals
+   include zero** (p = 0.54, p = 0.21), so "it does not help" is the claim the
+   data supports and "it is harmful" is not. An earlier version of this document
+   said the latter; `eval/significance.py` is what corrected it.
+   **In a system with a latency budget it would be cut.** It survives in the
+   default arm on one condition — it is the only thing that improves the probe
+   group the filter structurally cannot help.
 
 3. **Fusing a strong arm with a weak one drags the strong one down.** BM25 alone
    gets 0.927 rank-1 meeting accuracy; fused with dense (0.098) it gives 0.341.
