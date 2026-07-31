@@ -168,7 +168,7 @@ in **[`docs/REPRODUCE.md`](docs/REPRODUCE.md)**.
 
 ## How much is the test suite worth?
 
-**424 tests pass. The mutation score is 74.9%** — of 526 mutants with a covering
+**427 tests pass. The mutation score is 74.9%** — of 526 mutants with a covering
 test, 394 were killed and 132 survived, and a further 40 mutants sit in code no
 in-scope test imports at all (69.6% if those count as unkilled).
 
@@ -196,7 +196,7 @@ gating on a score floor and failing if the survivor inventory is stale — becau
 a mutation setup that never executes is worse than none, implying a check the
 reader cannot know did not happen. The job ships in the same commit as this
 paragraph, so its first execution on GitHub is the PR that introduces it; until
-that PR is green, treat "runs in CI" as configured rather than demonstrated. **All 124 survivors are listed individually with their diffs** in
+that PR is green, treat "runs in CI" as configured rather than demonstrated. **All 132 survivors are listed individually with their diffs** in
 [`docs/mutation-survivors.md`](docs/mutation-survivors.md); the score, the scope,
 the two provably equivalent mutants and what is deliberately unfixed are in
 [`docs/mutation.md`](docs/mutation.md).
@@ -219,7 +219,10 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
    used for anything. `eval/datasets/judge_calibration_sheet.jsonl` holds 30 rows with
    the human columns deliberately empty.
 3. **n = 49 answerable questions.** Differences of a few points between arms are inside
-   the noise; the 0.55 MRR gap is not, but no confidence interval is claimed.
+   the noise. `eval/significance.py` puts a bootstrap CI on every arm and a paired
+   p-value on every contrast (table above): the headline contrasts survive, the
+   reranker contrasts do not — and an interval quantifies sampling noise on this
+   question set, not whether the question set measures the right thing.
 4. **One corpus, one language, one document genre.** Nothing here shows the meeting-date
    filter generalises to documents that are not a dated series.
 5. **The ACL classification is synthetic.** These are public BACEN documents; the five
@@ -259,7 +262,7 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
 | an interest in security | [`docs/governance.md`](docs/governance.md) — attacks, ASR, the two that succeed |
 | an interest in the eval method | [`eval/probes.py`](eval/probes.py), [`eval/calibration.py`](eval/calibration.py), [`eval/regression_gate.py`](eval/regression_gate.py) |
 | **an interest in why, not what** | **[`docs/adr/`](docs/adr/)** — nine decisions, each with the alternative rejected and the condition that reverses it |
-| doubts about the tests themselves | [`docs/mutation.md`](docs/mutation.md) — 73.4% mutation score, gated in CI — and [`mutation-survivors.md`](docs/mutation-survivors.md), all 124 listed |
+| doubts about the tests themselves | [`docs/mutation.md`](docs/mutation.md) — 74.9% mutation score, gated in CI — and [`mutation-survivors.md`](docs/mutation-survivors.md), all 132 listed |
 | doubts about what shipped | [`docs/REPRODUCE.md`](docs/REPRODUCE.md), [`docs/PUBLICATION-SCAN.md`](docs/PUBLICATION-SCAN.md) |
 | to contribute or to probe the threat model | [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md) |
 

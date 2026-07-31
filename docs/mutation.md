@@ -1,6 +1,6 @@
 # Mutation testing
 
-424 passing tests says the suite runs. It does not say the suite would notice if
+427 passing tests says the suite runs. It does not say the suite would notice if
 the code were wrong. Mutation testing answers that second question: change the
 code in a small, plausible way, and see whether any test fails.
 
@@ -53,8 +53,9 @@ where a reader should assume rigour.
 
 ## What it found, and what changed
 
-The first run scored **71.2%**. Five tests were written against named survivors;
-the score is now 73.4% and `retrieval/` went from 81–97% to 96.6–100%. Only two
+The first run scored **71.2%**. Five tests were written against named survivors,
+taking the score to 73.4% — the `eval/scoring.py` tests below then took it to the
+current 74.9% — and `retrieval/` went from 81–97% to 96.6–100%. Only two
 mutants improved by luck rather than by a test; every other kill is a test that
 did not exist before.
 
@@ -150,7 +151,7 @@ clean-state reproduction in [`REPRODUCE.md`](REPRODUCE.md), neither of which run
 here.
 
 Test selection is likewise scoped to the seven files that import the mutated
-modules. Running all 424 tests against 566 mutants would cost hours to prove that
+modules. Running all 427 tests against 566 mutants would cost hours to prove that
 a test which never imports `fusion.py` cannot catch a mutation in it.
 
 ## The configuration is checked even though the run is not

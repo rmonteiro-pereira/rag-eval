@@ -287,6 +287,84 @@ def test_the_documented_test_count_is_the_real_one():
             )
 
 
+def test_the_mutation_numbers_the_docs_quote_are_the_artifacts():
+    """The mutation score and survivor count, pinned like every other figure.
+
+    This drifted once already: the README kept saying "73.4%" and "all 124
+    survivors" after a re-run had moved the committed artifact to 74.9% and
+    132. Every artifact-side check passed, because none of them covered the
+    numbers the mutation section publishes. Same treatment as the rest now —
+    a hand-maintained expected value compared against the committed report.
+    """
+    mutation = _load("mutation.json")
+    assert mutation["score"] == 74.9
+    assert mutation["score_including_uncovered"] == 69.6
+    assert mutation["killed"] == 394
+    assert mutation["survived"] == 132
+    assert mutation["no_tests"] == 40
+    # internal consistency — the artifact cannot disagree with itself
+    assert (
+        mutation["killed"] + mutation["survived"] + mutation["no_tests"]
+        == mutation["total_mutants"]
+    )
+    assert len(mutation["survivors"]) == mutation["survived"]
+    conventional = round(100 * mutation["killed"] / (mutation["killed"] + mutation["survived"]), 1)
+    assert mutation["score"] == conventional
+
+
+def test_the_readme_mutation_claims_match_the_mutation_artifact():
+    """The one deliberate exception to this file's no-prose-scraping rule.
+
+    The drift above happened in README *prose*, which no artifact diff can
+    catch — CI regenerates `mutation.json` and `mutation-survivors.md` and
+    diffs them, but nothing reads the sentences that quote them. So these two
+    claims are scraped, with the brittleness guarded in the direction that
+    matters: if the regex stops matching, the test FAILS rather than going
+    quietly green.
+    """
+    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+
+    survivor_claims = re.findall(r"[Aa]ll (\d+) survivors", readme)
+    assert survivor_claims, "the README no longer states how many survivors are listed"
+    mutation = _load("mutation.json")
+    for claim in survivor_claims:
+        assert int(claim) == mutation["survived"], (
+            f"README says 'all {claim} survivors'; the artifact says {mutation['survived']}"
+        )
+
+    score_claims = re.findall(r"(\d{2}\.\d)% mutation score", readme)
+    score_claims += re.findall(r"mutation score is \*\*(\d{2}\.\d)%\*\*", readme)
+    assert score_claims, "the README no longer quotes the mutation score"
+    for claim in score_claims:
+        assert float(claim) == mutation["score"], (
+            f"README quotes a {claim}% mutation score; the artifact says {mutation['score']}%"
+        )
+
+
+def test_the_survivor_inventory_totals_match_the_artifact():
+    """`docs/mutation-survivors.md` header vs `eval/reports/mutation.json`.
+
+    CI regenerates the inventory and diffs it, so on a machine that ran mutmut
+    these cannot disagree — but that job only exists on Linux runners. This
+    check runs everywhere pytest does, including Windows, where mutmut cannot.
+    """
+    doc = (REPO_ROOT / "docs" / "mutation-survivors.md").read_text(encoding="utf-8")
+    header = re.search(
+        r"\*\*(\d+) killed · (\d+) survived · (\d+) uncovered\*\* of (\d+) mutants", doc
+    )
+    assert header, "the survivors doc no longer states its totals"
+    mutation = _load("mutation.json")
+    assert [int(g) for g in header.groups()] == [
+        mutation["killed"],
+        mutation["survived"],
+        mutation["no_tests"],
+        mutation["total_mutants"],
+    ]
+    assert doc.count("\n### ") == mutation["survived"], (
+        "the survivors doc does not list one entry per surviving mutant"
+    )
+
+
 def test_a_transcript_may_quote_a_historical_count_but_prose_may_not():
     """`docs/REPRODUCE.md` legitimately records 281 — it is a dated transcript.
 
