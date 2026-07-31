@@ -2,11 +2,11 @@
   "schema_version": 1,
   "tool": "mutmut",
   "total_mutants": 566,
-  "killed": 342,
-  "survived": 124,
-  "no_tests": 100,
-  "score": 73.4,
-  "score_including_uncovered": 60.4,
+  "killed": 394,
+  "survived": 132,
+  "no_tests": 40,
+  "score": 74.9,
+  "score_including_uncovered": 69.6,
   "by_module": {
     "retrieval.text": {
       "killed": 35,
@@ -24,9 +24,9 @@
       "no tests": 10
     },
     "eval.scoring": {
-      "killed": 0,
-      "survived": 0,
-      "no tests": 60
+      "killed": 52,
+      "survived": 8,
+      "no tests": 0
     },
     "eval.probes": {
       "killed": 94,
@@ -162,6 +162,14 @@
     "eval.regression_gate.x_main__mutmut_97",
     "eval.regression_gate.x_main__mutmut_98",
     "eval.regression_gate.x_main__mutmut_99",
+    "eval.scoring.x_score_rows__mutmut_10",
+    "eval.scoring.x_score_rows__mutmut_11",
+    "eval.scoring.x_score_rows__mutmut_29",
+    "eval.scoring.x_score_rows__mutmut_33",
+    "eval.scoring.x_score_rows__mutmut_34",
+    "eval.scoring.x_score_rows__mutmut_35",
+    "eval.scoring.x_score_rows__mutmut_8",
+    "eval.scoring.x_score_rows__mutmut_9",
     "retrieval.fusion.x_reciprocal_rank_fusion__mutmut_22",
     "retrieval.fusion.x_reciprocal_rank_fusion__mutmut_40"
   ],

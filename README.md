@@ -40,10 +40,12 @@ findings a leaderboard would have hidden:
    **41/41 hint precision** — zero false positives, which is what licenses using it as a
    hard filter instead of a soft boost.
 2. **The expensive, fashionable component did not pay for itself.** The cross-encoder
-   reranker costs **+2.2 s of p95 latency** and is *actively harmful* without the
-   metadata filter (MRR −0.039, rank-1 meeting −0.146). It reorders by semantic fit, and
-   semantic fit is precisely the signal that cannot tell two Copom meetings apart. With
-   the filter it buys +0.005 MRR. Under a latency budget it would be cut.
+   reranker costs **+2.2 s of p95 latency** and buys **+0.005 MRR** — 95% CI
+   [−0.103, +0.115], p = 0.93. That is nothing, precisely measured. Without the
+   metadata filter its point estimates are negative (MRR −0.039, rank-1 meeting
+   −0.146) but both intervals include zero (p = 0.54 and p = 0.21), so the
+   defensible claim is **"it does not help"**, not "it hurts" — at n=49 this repo
+   cannot tell those apart. Under a latency budget it would still be cut.
 3. **Fusing a strong arm with a weak one drags the strong one down.** BM25 alone scores
    0.927 on rank-1 meeting; fused with dense (0.098) the pair gives 0.341. RRF weights
    arms equally, which is the wrong prior when one is near-random on the decisive axis.
@@ -53,6 +55,26 @@ findings a leaderboard would have hidden:
 > between arms on a fixed question set is the defensible reading; absolute levels are
 > not. `--min-status validated` is the flag that changes that, and it deliberately
 > returns nothing today.
+
+**Which of those differences are real?** n = 49, so one query is 2% of the question
+set. `eval/significance.py` puts a 95% CI on every arm and a *paired* bootstrap CI
+plus a randomisation-test p-value on every contrast — computed from the committed
+per-query data, no re-run required:
+
+| contrast | ΔMRR | 95% CI | p |
+|---|--:|:--:|--:|
+| metadata filter, on `dense` | **+0.498** | [+0.390, +0.605] | 0.0001 |
+| sparse (BM25 fused into dense) | **+0.190** | [+0.111, +0.276] | 0.0001 |
+| the whole stack | **+0.550** | [+0.439, +0.660] | 0.0001 |
+| reranker, *without* the filter | −0.039 | [−0.164, +0.080] | 0.54 |
+| reranker, *with* the filter | +0.005 | [−0.103, +0.115] | 0.93 |
+
+The three that matter survive; the two reranker contrasts are indistinguishable
+from zero. Full table incl. the wrong-meeting probe:
+[`eval/reports/significance.json`](eval/reports/significance.json).
+
+An interval is about noise, not validity — it describes variability *given* these
+49 questions and says nothing about whether they measure the right thing.
 
 Full numbers, per-metric deltas, latency and probe definitions: **[`docs/ablation.md`](docs/ablation.md)**.
 
@@ -146,9 +168,9 @@ in **[`docs/REPRODUCE.md`](docs/REPRODUCE.md)**.
 
 ## How much is the test suite worth?
 
-**391 tests pass. The mutation score is 73.4%** — of 466 mutants with a covering
-test, 342 were killed and 124 survived, and a further 100 mutants sit in code no
-in-scope test imports at all (60.4% if those count as unkilled).
+**424 tests pass. The mutation score is 74.9%** — of 526 mutants with a covering
+test, 394 were killed and 132 survived, and a further 40 mutants sit in code no
+in-scope test imports at all (69.6% if those count as unkilled).
 
 A passing suite says the code runs. Mutation testing asks whether the suite would
 *notice* if the code were wrong, and here the answer splits by layer:
@@ -157,14 +179,17 @@ A passing suite says the code runs. Mutation testing asks whether the suite woul
 |---|--:|
 | `retrieval/text.py`, `retrieval/metadata.py` | **100.0%** |
 | `retrieval/fusion.py` | **96.6%** (both survivors provably equivalent) |
+| `eval/scoring.py` | **86.7%** — was zero-covered; see below |
 | `eval/regression_gate.py`, `eval/probes.py` | ~63% |
-| `eval/scoring.py` | **nothing covered — 60 mutants, zero killed** |
 
 That shape is deliberate and it is the honest reading: the ranking arithmetic,
 where a bug produces a plausible number instead of a crash, is near-total; the
-reporting layer is not. It also found four genuine holes — most importantly that
+reporting layer is not. It found four genuine holes — most importantly that
 **the RRF tie-break was never pinned**, which is the property this repo's
-±0.0000 reproducibility claim actually rests on.
+±0.0000 reproducibility claim actually rests on — and it identified
+`eval/scoring.py`, the function every published retrieval number comes from, as
+having **no direct test at all**. That gap is now closed: 0% → 86.7%, and
+uncovered mutants across the repo fell from 100 to 40.
 
 **The run is wired into CI** (~28.5 s measured locally), with no `if:` guard,
 gating on a score floor and failing if the survivor inventory is stale — because
