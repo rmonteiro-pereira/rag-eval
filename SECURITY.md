@@ -2,19 +2,27 @@
 
 ## Reporting a vulnerability
 
-Open a [private security advisory](https://github.com/rmonteiro-pereira/rag-eval/security/advisories/new).
-Please do not open a public issue for anything exploitable.
+Please report security issues **privately** rather than opening a public issue.
 
-I will acknowledge within **7 days**. This is a portfolio and research project
+- Use GitHub's [private vulnerability reporting](https://github.com/rmonteiro-pereira/rag-eval/security/advisories/new)
+  — preferred.
+- Or email **rmonteiropereira1@gmail.com** with `SECURITY` in the subject.
+
+Include the commit, the command you ran, and what you observed. Expect an
+acknowledgement within **7 days**. This is a portfolio and research project
 maintained by one person in his own time — that is the honest expectation to set,
 rather than an SLA nobody is on call for.
 
 ## What this project is, and what that means for its threat model
 
-`rag-eval` is a **local, single-user research harness**. Every service it talks to
-is on `localhost`: Qdrant, Postgres, Langfuse, Ollama. There is no
-authentication layer, no multi-tenancy, and no network exposure by default. It is
-not hardened for deployment and it does not claim to be.
+`rag-eval` is a retrieval-evaluation harness over **public** Banco Central do
+Brasil Copom minutes. The corpus is not redistributed — only a manifest of URLs,
+titles, dates and SHA-256 digests is committed.
+
+It is a **local, single-user research harness**. Every service it talks to is on
+`localhost`: Qdrant, Postgres, Langfuse, Ollama. There is no authentication
+layer, no multi-tenancy, and no network exposure by default. It is not hardened
+for deployment and it does not claim to be.
 
 Two consequences worth stating plainly, because both look like vulnerabilities and
 neither is a secret:
@@ -32,10 +40,37 @@ neither is a secret:
    stack at anything you care about, generate real ones (`openssl rand -hex 32`)
    and move them to `.env`, which is gitignored.
 
+Beyond those, **no credentials belong in this repository.** If you find anything
+credential-shaped committed, report it privately rather than opening an issue.
+
+## Areas worth reporting
+
+This project is partly *about* adversarial input, so the line between a finding
+and a measured result matters:
+
+- **A guardrail bypass that the harness does not detect.** Prompt-injection and
+  PII cases that succeed *and* are scored as safe are genuine findings — the suite
+  exists to measure exactly this, so a gap in the measurement is worth more than a
+  gap in the defence.
+- **Document-level ACL leakage** — any path where a filtered retrieval returns a
+  restricted document.
+- **PII reaching an artifact.** Masking runs before persistence; anything that
+  writes unmasked entities to a report, a log or the vector store is a finding.
+- **Deserialisation or path traversal** in the ingestion and reporting paths.
+- **Dependency vulnerabilities** reachable from the CLI entry points.
+
+## Out of scope
+
+- Injection attempts the suite **already detects and reports** — those are
+  measured results, and the measured attack-success rate is published rather than
+  hidden.
+- The behaviour of third-party model backends run locally.
+- Availability of the upstream BACEN site.
+
 ## Security-relevant behaviour that *is* implemented and measured
 
-These are controls, and each is measured against an ungoverned arm running the
-identical inputs — see [`docs/governance.md`](docs/governance.md) and
+Each control is measured against an ungoverned arm running the identical inputs —
+see [`docs/governance.md`](docs/governance.md) and
 [`eval/reports/adversarial.json`](eval/reports/adversarial.json).
 
 | Control | Where | Measured |
@@ -79,3 +114,9 @@ defence, and neither number substitutes for the other.
 - The full pre-publication audit of this repository — secrets, entire git
   history, blob sizes, and what was remediated — is
   [`docs/PUBLICATION-SCAN.md`](docs/PUBLICATION-SCAN.md).
+
+## A note on the numbers
+
+Metrics here are computed against a gold set whose pairs are **draft and not
+human-validated**; `--min-status validated` deliberately returns nothing today.
+That is a stated epistemic limit, not a security issue.
