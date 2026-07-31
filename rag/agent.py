@@ -251,7 +251,7 @@ def render_demo(
         "Read the `expected` tag against the `tools` tag in the transcript below.",
         "",
         f"- **Tool routing works.** All {len(sql_runs)} numeric questions reached SQL and",
-        f"  all the narrative ones reached retrieval; the model picks the right source.",
+        "  all the narrative ones reached retrieval; the model picks the right source.",
         "- **Tool *composition* does not.** The two questions tagged `expected: both`",
         "  need one fact from each source, and the agent answered them from retrieval",
         "  alone — it gathers the qualitative half and stops rather than following up",

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import duckdb
 import pytest
 
 from agent.hitl import (
@@ -229,7 +230,8 @@ class _StubLLM:
         from generation.llm import LLMResponse
 
         self.calls += 1
-        text = self.responses.pop(0) if self.responses else '{"tool": "final", "args": {"answer": "fim"}}'
+        exhausted = '{"tool": "final", "args": {"answer": "fim"}}'
+        text = self.responses.pop(0) if self.responses else exhausted
         return LLMResponse(text=text, model=self.name, backend=self.backend)
 
 
@@ -299,7 +301,10 @@ def test_the_real_marts_are_readable_and_read_only():
     )
     assert result.ok and result.row_count > 0
 
-    # A write must fail at the engine, not only at the validator.
+    # A write must fail at the engine, not only at the validator. Asserting
+    # `duckdb.Error` rather than bare `Exception` matters here: a typo in the
+    # statement would also raise, and would pass a blind assertion while proving
+    # nothing about read-only enforcement.
     with tool.connect() as con:
-        with pytest.raises(Exception):
+        with pytest.raises(duckdb.Error, match="(?i)read.?only"):
             con.execute("CREATE TABLE should_not_exist (x INT)")

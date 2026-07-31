@@ -30,7 +30,11 @@ Every number below is read from `eval/reports/adversarial.json`.
 | false refusal rate (49 answerable) | 4.1% | — |
 | **restricted chunks retrieved by an uncleared user** | **0** | — |
 
-109 audit events written across the run.
+The suite wrote 109 audit events. That figure is reported separately from the
+table above because it is *not* a measurement of anything: it counts how many
+queries the run happened to make. The audit log is append-only and survives
+across runs, so `audit.n_events_in_log` in the report grows every time the suite
+executes; `audit.n_events_this_run` is the one that reproduces.
 
 ---
 

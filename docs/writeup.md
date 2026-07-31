@@ -371,7 +371,7 @@ Ordered by how much they should change your reading.
 
 ```bash
 docker compose up -d                       # Qdrant + Langfuse + Postgres
-uv sync
+uv sync --extra dev
 uv run python -m ingest.pipeline --download 30
 
 uv run python -m eval.run_eval --min-status draft --out eval/reports/baseline_dense.json
@@ -386,6 +386,15 @@ uv run python -m eval.regression_gate --baseline eval/reports/ablation.json \
 uv run pytest -q && uv run ruff check .
 uv run uvicorn serving.api:app --port 8000
 ```
+
+That list is a claim. [`REPRODUCE.md`](REPRODUCE.md) is the evidence for it: the
+same sequence executed from a **destroyed** stack (`docker compose down -v`, empty
+Qdrant), with the real transcript, including the step that regenerates the whole
+ablation and gates it against the committed report.
+
+[`PUBLICATION-SCAN.md`](PUBLICATION-SCAN.md) is the pre-publication audit of this
+repository — secrets, history, blob sizes, and what was remediated before it went
+public.
 
 **The two human gates neither an agent nor a model may close:**
 
