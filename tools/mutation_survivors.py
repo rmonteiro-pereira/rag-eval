@@ -1,0 +1,172 @@
+"""Generate the complete, per-mutant survivor inventory from a mutmut run.
+
+    uv run mutmut run
+    uv run python -m tools.mutation_survivors > docs/mutation-survivors.md
+
+Categories are summarised in `docs/mutation.md`; this produces the exhaustive
+list behind them, because "mostly harmless report-key mutations" is a claim a
+reader cannot check without seeing all of them.
+
+Classification is mechanical and deliberately conservative: a mutant is only
+called EQUIVALENT when the reason is recorded in `EQUIVALENT` below with the
+argument for it. Everything else is a gap, even where the gap is cheap — a
+generated file that quietly downgraded survivors to "fine" would be the same
+failure as a mutation config that never ran.
+"""
+
+from __future__ import annotations
+
+import argparse
+import re
+import subprocess
+import sys
+from collections import defaultdict
+
+RESULT = re.compile(r"^\s+([\w.]+)\.x_(\w+)__mutmut_(\d+): (\w[\w ]*)$")
+
+#: mutant name -> why no test can kill it. Each needs an argument from the source,
+#: not an assertion. Anything not listed here is reported as a gap.
+EQUIVALENT: dict[str, str] = {
+    "retrieval.fusion.x_reciprocal_rank_fusion__mutmut_22": (
+        "`score=0.0` is a placeholder on a freshly built `Retrieved`; "
+        "`record.score = score` overwrites it unconditionally before return, so "
+        "the value is never observable."
+    ),
+    "retrieval.fusion.x_reciprocal_rank_fusion__mutmut_40": (
+        "Same placeholder as mutant 22, set to `1.0` instead of `None`."
+    ),
+}
+
+#: Coarse buckets, applied to the mutated line, for the summary table only. The
+#: full diff is printed for every mutant regardless.
+BUCKETS = (
+    ("report schema / payload key", re.compile(r'"XX|XX"|"[A-Z_]+":')),
+    ("prose in a note string", re.compile(r"^\s*[-+]\s*\"[a-z].{20,}\"")),
+    ("CLI / argparse plumbing", re.compile(r"add_argument|help=|metavar|prog=")),
+    ("default value", re.compile(r"=\s*(None|\(\)|\[\]|\{\}|0|1|True|False)\s*[,)]")),
+)
+
+
+def _results() -> list[tuple[str, str]]:
+    out = subprocess.run(
+        ["mutmut", "results", "--all", "true"], capture_output=True, text=True, check=True
+    ).stdout.replace("\r", "\n")
+    rows = []
+    for line in out.splitlines():
+        m = RESULT.match(line)
+        if m:
+            rows.append((f"{m.group(1)}.x_{m.group(2)}__mutmut_{m.group(3)}", m.group(4).strip()))
+    return rows
+
+
+def _diff(name: str) -> list[str]:
+    out = subprocess.run(
+        ["mutmut", "show", name], capture_output=True, text=True, check=False
+    ).stdout.replace("\r", "\n")
+    return [
+        line
+        for line in out.splitlines()
+        if line[:1] in "-+" and not line.startswith(("---", "+++"))
+    ]
+
+
+def _bucket(diff: list[str]) -> str:
+    joined = "\n".join(diff)
+    for label, pattern in BUCKETS:
+        if pattern.search(joined):
+            return label
+    return "logic"
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="tools.mutation_survivors",
+        description="Print the full survivor inventory, or gate on the mutation score.",
+    )
+    parser.add_argument(
+        "--check-score",
+        type=float,
+        default=None,
+        metavar="MIN",
+        help=(
+            "print the score and exit 1 if killed/(killed+survived) falls below MIN "
+            "percent. A floor rather than an exact pin: adding a test should never "
+            "fail the build, and the number moves whenever the mutated code does."
+        ),
+    )
+    args = parser.parse_args(argv)
+
+    rows = _results()
+    if not rows:
+        print("no mutmut results — run `uv run mutmut run` first", file=sys.stderr)
+        return 2
+
+    survived = [name for name, status in rows if status == "survived"]
+    counts: defaultdict[str, int] = defaultdict(int)
+    for _name, status in rows:
+        counts[status] += 1
+
+    killed, surv, none = counts["killed"], counts["survived"], counts["no tests"]
+
+    if args.check_score is not None:
+        covered = killed + surv
+        if not covered:
+            print(
+                "MUTATION GATE FAILED: no mutant had a covering test, so the score "
+                "is undefined. This is what a config that mutates the wrong paths "
+                "looks like — it is a failure, not a pass.",
+                file=sys.stderr,
+            )
+            return 1
+        score = 100 * killed / covered
+        print(
+            f"mutation score {score:.1f}%  ({killed} killed / {covered} covered, "
+            f"{none} uncovered, {len(rows)} mutants)"
+        )
+        if score < args.check_score:
+            print(
+                f"MUTATION GATE FAILED: {score:.1f}% is below the {args.check_score:.1f}% floor",
+                file=sys.stderr,
+            )
+            return 1
+        print(f"at or above the {args.check_score:.1f}% floor")
+        return 0
+
+    print("# Surviving mutants — the complete list\n")
+    print("Generated by `uv run python -m tools.mutation_survivors`. Do not hand-edit;")
+    print("re-run it after `uv run mutmut run` so the list cannot drift from the score.\n")
+    print(
+        f"**{killed} killed · {surv} survived · {none} uncovered** "
+        f"of {len(rows)} mutants — see [`mutation.md`](mutation.md) for the score,"
+    )
+    print("the scope, and what is deliberately not fixed.\n")
+    print("Every survivor is listed. Two are marked EQUIVALENT with the argument for why")
+    print("no test can kill them; everything else is a gap, including the cheap ones.\n")
+
+    by_module: dict[str, list[str]] = defaultdict(list)
+    for name in survived:
+        by_module[name.rsplit(".x_", 1)[0]].append(name)
+
+    print("| module | survivors |\n|---|--:|")
+    for module in sorted(by_module):
+        print(f"| `{module}` | {len(by_module[module])} |")
+    print()
+
+    for module in sorted(by_module):
+        print(f"\n## `{module}`\n")
+        for name in by_module[module]:
+            diff = _diff(name)
+            short = name.rsplit(".x_", 1)[1]
+            if name in EQUIVALENT:
+                print(f"### `{short}` — EQUIVALENT\n")
+                print(f"{EQUIVALENT[name]}\n")
+            else:
+                print(f"### `{short}` — {_bucket(diff)}\n")
+            print("```diff")
+            print("\n".join(diff) if diff else "(diff unavailable)")
+            print("```\n")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

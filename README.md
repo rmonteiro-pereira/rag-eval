@@ -164,9 +164,15 @@ That shape is deliberate and it is the honest reading: the ranking arithmetic,
 where a bug produces a plausible number instead of a crash, is near-total; the
 reporting layer is not. It also found four genuine holes — most importantly that
 **the RRF tie-break was never pinned**, which is the property this repo's
-±0.0000 reproducibility claim actually rests on. Full survivor list, the two
-equivalent mutants, and what is deliberately unfixed:
-**[`docs/mutation.md`](docs/mutation.md)**.
+±0.0000 reproducibility claim actually rests on.
+
+**The run is in CI** (~30 s), with no `if:` guard, gating on a score floor and
+failing if the survivor inventory is stale — because a mutation setup that never
+executes is worse than none, implying a check the reader cannot know did not
+happen. **All 124 survivors are listed individually with their diffs** in
+[`docs/mutation-survivors.md`](docs/mutation-survivors.md); the score, the scope,
+the two provably equivalent mutants and what is deliberately unfixed are in
+[`docs/mutation.md`](docs/mutation.md).
 
 ---
 
@@ -226,7 +232,7 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
 | an interest in security | [`docs/governance.md`](docs/governance.md) — attacks, ASR, the two that succeed |
 | an interest in the eval method | [`eval/probes.py`](eval/probes.py), [`eval/calibration.py`](eval/calibration.py), [`eval/regression_gate.py`](eval/regression_gate.py) |
 | **an interest in why, not what** | **[`docs/adr/`](docs/adr/)** — nine decisions, each with the alternative rejected and the condition that reverses it |
-| doubts about the tests themselves | [`docs/mutation.md`](docs/mutation.md) — 73.4% mutation score, the survivor list, and what it is not fixing |
+| doubts about the tests themselves | [`docs/mutation.md`](docs/mutation.md) — 73.4% mutation score, gated in CI — and [`mutation-survivors.md`](docs/mutation-survivors.md), all 124 listed |
 | doubts about what shipped | [`docs/REPRODUCE.md`](docs/REPRODUCE.md), [`docs/PUBLICATION-SCAN.md`](docs/PUBLICATION-SCAN.md) |
 | to contribute or to probe the threat model | [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md) |
 

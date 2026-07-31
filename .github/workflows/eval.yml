@@ -139,6 +139,42 @@ jobs:
           fi
           echo "gate correctly rejected the degraded fixture"
 
+  mutation:
+    name: mutation score
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - run: uv sync --extra dev
+
+      # ~30 seconds. This job exists because a mutation setup that never runs is
+      # worse than none: it implies a check the reader has no way to know did not
+      # happen. There is no `if:` on this job for the same reason.
+      - name: mutmut run
+        run: uv run mutmut run --max-children 4
+
+      # A floor, not a pin. Adding a test must never fail the build, and the
+      # number legitimately moves when the mutated code does. It fails on a drop,
+      # and — the case that matters — it fails when NOTHING was covered, because
+      # 0 killed / 0 covered is undefined rather than perfect. That is exactly
+      # what a config pointed at paths which do not exist produces.
+      - name: gate on the score
+        run: uv run python -m tools.mutation_survivors --check-score 70
+
+      # The committed inventory must match the run. If a survivor appears or is
+      # killed and `docs/mutation-survivors.md` was not regenerated, the docs are
+      # describing a different codebase.
+      - name: the committed survivor list is current
+        run: |
+          uv run python -m tools.mutation_survivors > /tmp/survivors.md
+          diff -u docs/mutation-survivors.md /tmp/survivors.md \
+            || { echo "::error::docs/mutation-survivors.md is stale — regenerate it"; exit 1; }
+
   eval-full:
     name: full ablation (manual)
     if: github.event_name == 'workflow_dispatch' && inputs.run_full_eval
