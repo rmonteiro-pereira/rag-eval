@@ -18,385 +18,495 @@ no test can kill them; everything else is a gap, including the cheap ones.
 
 ## `eval.probes`
 
-### `_summarise__mutmut_4` — default value
+### `_summarise__mutmut_4` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            name=name,
 +            name=None,
 ```
 
-### `_summarise__mutmut_5` — default value
+### `_summarise__mutmut_5` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -            description=PROBE_DESCRIPTIONS[name],
 +            description=None,
 ```
 
-### `_summarise__mutmut_6` — default value
+### `_summarise__mutmut_6` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            ids=(),
 +            ids=None,
 ```
 
-### `_summarise__mutmut_7` — default value
+### `_summarise__mutmut_7` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            n=0,
 +            n=None,
 ```
 
-### `_summarise__mutmut_8` — default value
+### `_summarise__mutmut_8` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            rank1_doc_accuracy=0.0,
 +            rank1_doc_accuracy=None,
 ```
 
-### `_summarise__mutmut_9` — default value
+### `_summarise__mutmut_9` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            doc_in_top3=0.0,
 +            doc_in_top3=None,
 ```
 
-### `_summarise__mutmut_10` — default value
+### `_summarise__mutmut_10` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            doc_in_top5=0.0,
 +            doc_in_top5=None,
 ```
 
-### `_summarise__mutmut_11` — default value
+### `_summarise__mutmut_11` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            failures=(),
 +            failures=None,
 ```
 
-### `_summarise__mutmut_20` — default value
+### `_summarise__mutmut_20` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            n=0,
 +            n=1,
 ```
 
-### `_summarise__mutmut_21` — logic
+### `_summarise__mutmut_21` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            rank1_doc_accuracy=0.0,
 +            rank1_doc_accuracy=1.0,
 ```
 
-### `_summarise__mutmut_22` — logic
+### `_summarise__mutmut_22` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            doc_in_top3=0.0,
 +            doc_in_top3=1.0,
 ```
 
-### `_summarise__mutmut_23` — logic
+### `_summarise__mutmut_23` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -            doc_in_top5=0.0,
 +            doc_in_top5=1.0,
 ```
 
-### `_summarise__mutmut_28` — report schema / payload key
+### `_summarise__mutmut_28` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -            "question": sq.row.question,
 +            "XXquestionXX": sq.row.question,
 ```
 
-### `_summarise__mutmut_29` — report schema / payload key
+### `_summarise__mutmut_29` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "question": sq.row.question,
 +            "QUESTION": sq.row.question,
 ```
 
-### `_summarise__mutmut_30` — report schema / payload key
+### `_summarise__mutmut_30` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -            "expected_doc_id": sq.row.source_doc_id,
 +            "XXexpected_doc_idXX": sq.row.source_doc_id,
 ```
 
-### `_summarise__mutmut_31` — report schema / payload key
+### `_summarise__mutmut_31` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "expected_doc_id": sq.row.source_doc_id,
 +            "EXPECTED_DOC_ID": sq.row.source_doc_id,
 ```
 
-### `_summarise__mutmut_32` — report schema / payload key
+### `_summarise__mutmut_32` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -            "rank1_doc_id": sq.rank1_doc_id,
 +            "XXrank1_doc_idXX": sq.rank1_doc_id,
 ```
 
-### `_summarise__mutmut_33` — logic
+### `_summarise__mutmut_33` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "rank1_doc_id": sq.rank1_doc_id,
 +            "RANK1_DOC_ID": sq.rank1_doc_id,
 ```
 
-### `_summarise__mutmut_34` — report schema / payload key
+### `_summarise__mutmut_34` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -            "expected_doc_in_top5": sq.doc_in_top(5),
 +            "XXexpected_doc_in_top5XX": sq.doc_in_top(5),
 ```
 
-### `_summarise__mutmut_35` — logic
+### `_summarise__mutmut_35` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "expected_doc_in_top5": sq.doc_in_top(5),
 +            "EXPECTED_DOC_IN_TOP5": sq.doc_in_top(5),
 ```
 
-### `_summarise__mutmut_36` — logic
+### `_summarise__mutmut_36` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "expected_doc_in_top5": sq.doc_in_top(5),
 +            "expected_doc_in_top5": sq.doc_in_top(None),
 ```
 
-### `_summarise__mutmut_37` — logic
+### `_summarise__mutmut_37` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "expected_doc_in_top5": sq.doc_in_top(5),
 +            "expected_doc_in_top5": sq.doc_in_top(6),
 ```
 
-### `_summarise__mutmut_39` — default value
+### `_summarise__mutmut_39` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        name=name,
 +        name=None,
 ```
 
-### `_summarise__mutmut_40` — default value
+### `_summarise__mutmut_40` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        description=PROBE_DESCRIPTIONS[name],
 +        description=None,
 ```
 
-### `_summarise__mutmut_41` — default value
+### `_summarise__mutmut_41` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        ids=tuple(sq.row.id for sq in members),
 +        ids=None,
 ```
 
-### `_summarise__mutmut_45` — default value
+### `_summarise__mutmut_45` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        doc_in_top5=sum(sq.doc_in_top(5) for sq in members) / n,
 +        doc_in_top5=None,
 ```
 
-### `_summarise__mutmut_60` — logic
+### `_summarise__mutmut_60` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        doc_in_top3=sum(sq.doc_in_top(3) for sq in members) / n,
 +        doc_in_top3=sum(sq.doc_in_top(None) for sq in members) / n,
 ```
 
-### `_summarise__mutmut_61` — logic
+### `_summarise__mutmut_61` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        doc_in_top3=sum(sq.doc_in_top(3) for sq in members) / n,
 +        doc_in_top3=sum(sq.doc_in_top(4) for sq in members) / n,
 ```
 
-### `_summarise__mutmut_62` — logic
+### `_summarise__mutmut_62` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        doc_in_top5=sum(sq.doc_in_top(5) for sq in members) / n,
 +        doc_in_top5=sum(sq.doc_in_top(5) for sq in members) * n,
 ```
 
-### `_summarise__mutmut_64` — logic
+### `_summarise__mutmut_64` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        doc_in_top5=sum(sq.doc_in_top(5) for sq in members) / n,
 +        doc_in_top5=sum(sq.doc_in_top(None) for sq in members) / n,
 ```
 
-### `_summarise__mutmut_65` — logic
+### `_summarise__mutmut_65` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        doc_in_top5=sum(sq.doc_in_top(5) for sq in members) / n,
 +        doc_in_top5=sum(sq.doc_in_top(6) for sq in members) / n,
 ```
 
-### `hint_diagnostics__mutmut_7` — logic
+### `hint_diagnostics__mutmut_7` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            continue
 +            break
 ```
 
-### `hint_diagnostics__mutmut_17` — logic
+### `hint_diagnostics__mutmut_17` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            continue
 +            break
 ```
 
-### `hint_diagnostics__mutmut_22` — logic
+### `hint_diagnostics__mutmut_22` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            correct += 1
 +            correct = 1
 ```
 
-### `hint_diagnostics__mutmut_28` — report schema / payload key
+### `hint_diagnostics__mutmut_28` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -                    "question": sq.row.question,
 +                    "XXquestionXX": sq.row.question,
 ```
 
-### `hint_diagnostics__mutmut_29` — report schema / payload key
+### `hint_diagnostics__mutmut_29` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -                    "question": sq.row.question,
 +                    "QUESTION": sq.row.question,
 ```
 
-### `hint_diagnostics__mutmut_30` — report schema / payload key
+### `hint_diagnostics__mutmut_30` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -                    "hint": hint.describe(),
 +                    "XXhintXX": hint.describe(),
 ```
 
-### `hint_diagnostics__mutmut_31` — report schema / payload key
+### `hint_diagnostics__mutmut_31` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                    "hint": hint.describe(),
 +                    "HINT": hint.describe(),
 ```
 
-### `hint_diagnostics__mutmut_32` — report schema / payload key
+### `hint_diagnostics__mutmut_32` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -                    "resolved_to": sorted(doc_ids),
 +                    "XXresolved_toXX": sorted(doc_ids),
 ```
 
-### `hint_diagnostics__mutmut_33` — report schema / payload key
+### `hint_diagnostics__mutmut_33` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -                    "resolved_to": sorted(doc_ids),
 +                    "RESOLVED_TO": sorted(doc_ids),
 ```
 
-### `hint_diagnostics__mutmut_35` — report schema / payload key
+### `hint_diagnostics__mutmut_35` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -                    "expected_doc_id": sq.row.source_doc_id,
 +                    "XXexpected_doc_idXX": sq.row.source_doc_id,
 ```
 
-### `hint_diagnostics__mutmut_36` — report schema / payload key
+### `hint_diagnostics__mutmut_36` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -                    "expected_doc_id": sq.row.source_doc_id,
 +                    "EXPECTED_DOC_ID": sq.row.source_doc_id,
 ```
 
-### `hint_diagnostics__mutmut_37` — report schema / payload key
+### `hint_diagnostics__mutmut_37` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -        "n_scored": len(scored),
 +        "XXn_scoredXX": len(scored),
 ```
 
-### `hint_diagnostics__mutmut_38` — report schema / payload key
+### `hint_diagnostics__mutmut_38` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        "n_scored": len(scored),
 +        "N_SCORED": len(scored),
 ```
 
-### `hint_diagnostics__mutmut_50` — report schema / payload key
+### `hint_diagnostics__mutmut_50` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -        "note": (
 +        "XXnoteXX": (
 ```
 
-### `hint_diagnostics__mutmut_51` — report schema / payload key
+### `hint_diagnostics__mutmut_51` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        "note": (
 +        "NOTE": (
 ```
 
-### `hint_diagnostics__mutmut_52` — report schema / payload key
+### `hint_diagnostics__mutmut_52` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -            "hint_present counts questions naming a month+year or a meeting ordinal; "
 +            "XXhint_present counts questions naming a month+year or a meeting ordinal; XX"
 ```
 
-### `hint_diagnostics__mutmut_53` — prose in a note string
+### `hint_diagnostics__mutmut_53` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "hint_present counts questions naming a month+year or a meeting ordinal; "
 +            "HINT_PRESENT COUNTS QUESTIONS NAMING A MONTH+YEAR OR A MEETING ORDINAL; "
 ```
 
-### `hint_diagnostics__mutmut_54` — report schema / payload key
+### `hint_diagnostics__mutmut_54` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -            "hint_resolved counts those that matched a document in this corpus. A hint "
 +            "XXhint_resolved counts those that matched a document in this corpus. A hint XX"
 ```
 
-### `hint_diagnostics__mutmut_55` — prose in a note string
+### `hint_diagnostics__mutmut_55` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "hint_resolved counts those that matched a document in this corpus. A hint "
 +            "hint_resolved counts those that matched a document in this corpus. a hint "
 ```
 
-### `hint_diagnostics__mutmut_56` — prose in a note string
+### `hint_diagnostics__mutmut_56` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "hint_resolved counts those that matched a document in this corpus. A hint "
 +            "HINT_RESOLVED COUNTS THOSE THAT MATCHED A DOCUMENT IN THIS CORPUS. A HINT "
 ```
 
-### `hint_diagnostics__mutmut_57` — report schema / payload key
+### `hint_diagnostics__mutmut_57` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -            "that resolves to nothing (e.g. the 280th meeting) disables the filter "
 +            "XXthat resolves to nothing (e.g. the 280th meeting) disables the filter XX"
 ```
 
-### `hint_diagnostics__mutmut_58` — prose in a note string
+### `hint_diagnostics__mutmut_58` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "that resolves to nothing (e.g. the 280th meeting) disables the filter "
 +            "THAT RESOLVES TO NOTHING (E.G. THE 280TH MEETING) DISABLES THE FILTER "
 ```
 
-### `hint_diagnostics__mutmut_59` — report schema / payload key
+### `hint_diagnostics__mutmut_59` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -            "rather than emptying the candidate pool."
 +            "XXrather than emptying the candidate pool.XX"
 ```
 
-### `hint_diagnostics__mutmut_60` — prose in a note string
+### `hint_diagnostics__mutmut_60` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -            "rather than emptying the candidate pool."
@@ -406,104 +516,134 @@ no test can kill them; everything else is a gap, including the cheap ones.
 
 ## `eval.regression_gate`
 
-### `extract__mutmut_14` — logic
+### `extract__mutmut_14` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            raise GateError(f"arm {name!r} not in report; available: {', '.join(sorted(arms))}")
 +            raise GateError(f"arm {name!r} not in report; available: {'XX, XX'.join(sorted(arms))}")
 ```
 
-### `extract__mutmut_21` — logic
+### `extract__mutmut_21` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            group: values["rank1_doc_accuracy"] for group, values in entry.get("probes", {}).items()
 +            group: values["rank1_doc_accuracy"] for group, values in entry.get("probes", None).items()
 ```
 
-### `extract__mutmut_23` — logic
+### `extract__mutmut_23` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            group: values["rank1_doc_accuracy"] for group, values in entry.get("probes", {}).items()
 +            group: values["rank1_doc_accuracy"] for group, values in entry.get("probes", ).items()
 ```
 
-### `extract__mutmut_34` — report schema / payload key
+### `extract__mutmut_34` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -    raise GateError("report has neither `arms` nor `aggregate` — not an eval report")
 +    raise GateError("XXreport has neither `arms` nor `aggregate` — not an eval reportXX")
 ```
 
-### `compare__mutmut_7` — logic
+### `compare__mutmut_7` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -    base_agg, base_probes = extract(baseline, arm)
 +    base_agg, base_probes = extract(baseline, None)
 ```
 
-### `compare__mutmut_9` — logic
+### `compare__mutmut_9` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -    base_agg, base_probes = extract(baseline, arm)
 +    base_agg, base_probes = extract(baseline, )
 ```
 
-### `compare__mutmut_12` — logic
+### `compare__mutmut_12` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -    cand_agg, cand_probes = extract(candidate, arm)
 +    cand_agg, cand_probes = extract(candidate, None)
 ```
 
-### `compare__mutmut_14` — logic
+### `compare__mutmut_14` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -    cand_agg, cand_probes = extract(candidate, arm)
 +    cand_agg, cand_probes = extract(candidate, )
 ```
 
-### `compare__mutmut_17` — logic
+### `compare__mutmut_17` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            continue
 +            break
 ```
 
-### `compare__mutmut_30` — logic
+### `compare__mutmut_30` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            continue
 +            break
 ```
 
-### `compare__mutmut_44` — report schema / payload key
+### `compare__mutmut_44` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -        raise GateError("no comparable metrics found — refusing to pass vacuously")
 +        raise GateError("XXno comparable metrics found — refusing to pass vacuouslyXX")
 ```
 
-### `main__mutmut_2` — CLI / argparse plumbing
+### `main__mutmut_2` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        prog="eval.regression_gate",
 +        prog=None,
 ```
 
-### `main__mutmut_3` — default value
+### `main__mutmut_3` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        description="Fail CI when retrieval quality drops against a committed baseline.",
 +        description=None,
 ```
 
-### `main__mutmut_4` — CLI / argparse plumbing
+### `main__mutmut_4` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        prog="eval.regression_gate",
 ```
 
-### `main__mutmut_5` — logic
+### `main__mutmut_5` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        description="Fail CI when retrieval quality drops against a committed baseline.",
@@ -511,76 +651,98 @@ no test can kill them; everything else is a gap, including the cheap ones.
 +        )
 ```
 
-### `main__mutmut_6` — report schema / payload key
+### `main__mutmut_6` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -        prog="eval.regression_gate",
 +        prog="XXeval.regression_gateXX",
 ```
 
-### `main__mutmut_7` — CLI / argparse plumbing
+### `main__mutmut_7` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        prog="eval.regression_gate",
 +        prog="EVAL.REGRESSION_GATE",
 ```
 
-### `main__mutmut_8` — report schema / payload key
+### `main__mutmut_8` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -        description="Fail CI when retrieval quality drops against a committed baseline.",
 +        description="XXFail CI when retrieval quality drops against a committed baseline.XX",
 ```
 
-### `main__mutmut_9` — logic
+### `main__mutmut_9` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        description="Fail CI when retrieval quality drops against a committed baseline.",
 +        description="fail ci when retrieval quality drops against a committed baseline.",
 ```
 
-### `main__mutmut_10` — logic
+### `main__mutmut_10` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        description="Fail CI when retrieval quality drops against a committed baseline.",
 +        description="FAIL CI WHEN RETRIEVAL QUALITY DROPS AGAINST A COMMITTED BASELINE.",
 ```
 
-### `main__mutmut_13` — CLI / argparse plumbing
+### `main__mutmut_13` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -    parser.add_argument("--baseline", type=Path, default=DEFAULT_BASELINE)
 +    parser.add_argument("--baseline", type=Path, default=None)
 ```
 
-### `main__mutmut_16` — CLI / argparse plumbing
+### `main__mutmut_16` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -    parser.add_argument("--baseline", type=Path, default=DEFAULT_BASELINE)
 +    parser.add_argument("--baseline", type=Path, )
 ```
 
-### `main__mutmut_21` — default value
+### `main__mutmut_21` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        default=DEFAULT_BASELINE,
 +        default=None,
 ```
 
-### `main__mutmut_22` — CLI / argparse plumbing
+### `main__mutmut_22` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        help="the fresh report; defaults to the baseline, which self-checks the gate",
 +        help=None,
 ```
 
-### `main__mutmut_25` — logic
+### `main__mutmut_25` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        default=DEFAULT_BASELINE,
 ```
 
-### `main__mutmut_26` — CLI / argparse plumbing
+### `main__mutmut_26` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        help="the fresh report; defaults to the baseline, which self-checks the gate",
@@ -588,161 +750,207 @@ no test can kill them; everything else is a gap, including the cheap ones.
 +        )
 ```
 
-### `main__mutmut_29` — report schema / payload key
+### `main__mutmut_29` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -        help="the fresh report; defaults to the baseline, which self-checks the gate",
 +        help="XXthe fresh report; defaults to the baseline, which self-checks the gateXX",
 ```
 
-### `main__mutmut_30` — CLI / argparse plumbing
+### `main__mutmut_30` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -        help="the fresh report; defaults to the baseline, which self-checks the gate",
 +        help="THE FRESH REPORT; DEFAULTS TO THE BASELINE, WHICH SELF-CHECKS THE GATE",
 ```
 
-### `main__mutmut_32` — CLI / argparse plumbing
+### `main__mutmut_32` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -    parser.add_argument("--arm", default=DEFAULT_ARM)
 +    parser.add_argument("--arm", default=None)
 ```
 
-### `main__mutmut_34` — CLI / argparse plumbing
+### `main__mutmut_34` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -    parser.add_argument("--arm", default=DEFAULT_ARM)
 +    parser.add_argument("--arm", )
 ```
 
-### `main__mutmut_38` — CLI / argparse plumbing
+### `main__mutmut_38` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -    parser.add_argument("--json", action="store_true")
 +    parser.add_argument("--json", action=None)
 ```
 
-### `main__mutmut_40` — CLI / argparse plumbing
+### `main__mutmut_40` — ACCEPTED — CLI plumbing
+
+Mutates argparse help text, metavars or the program name. Tests call `main([...])` and assert exit codes and behaviour, which is the contract that matters; asserting help strings tests argparse, not this code.
 
 ```diff
 -    parser.add_argument("--json", action="store_true")
 +    parser.add_argument("--json", )
 ```
 
-### `main__mutmut_56` — logic
+### `main__mutmut_56` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                raise GateError(f"report not found: {path}")
 +                raise GateError(None)
 ```
 
-### `main__mutmut_59` — default value
+### `main__mutmut_59` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
 +        baseline = json.loads(args.baseline.read_text(encoding=None))
 ```
 
-### `main__mutmut_61` — logic
+### `main__mutmut_61` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
 +        baseline = json.loads(args.baseline.read_text(encoding="UTF-8"))
 ```
 
-### `main__mutmut_64` — default value
+### `main__mutmut_64` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        candidate = json.loads(args.candidate.read_text(encoding="utf-8"))
 +        candidate = json.loads(args.candidate.read_text(encoding=None))
 ```
 
-### `main__mutmut_66` — logic
+### `main__mutmut_66` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        candidate = json.loads(args.candidate.read_text(encoding="utf-8"))
 +        candidate = json.loads(args.candidate.read_text(encoding="UTF-8"))
 ```
 
-### `main__mutmut_70` — default value
+### `main__mutmut_70` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        checks = compare(baseline, candidate, arm=args.arm)
 +        checks = compare(baseline, candidate, arm=None)
 ```
 
-### `main__mutmut_73` — logic
+### `main__mutmut_73` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        checks = compare(baseline, candidate, arm=args.arm)
 +        checks = compare(baseline, candidate, )
 ```
 
-### `main__mutmut_74` — logic
+### `main__mutmut_74` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(f"gate error: {exc}", file=sys.stderr)
 +        print(None, file=sys.stderr)
 ```
 
-### `main__mutmut_75` — default value
+### `main__mutmut_75` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        print(f"gate error: {exc}", file=sys.stderr)
 +        print(f"gate error: {exc}", file=None)
 ```
 
-### `main__mutmut_76` — logic
+### `main__mutmut_76` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(f"gate error: {exc}", file=sys.stderr)
 +        print(file=sys.stderr)
 ```
 
-### `main__mutmut_77` — logic
+### `main__mutmut_77` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(f"gate error: {exc}", file=sys.stderr)
 +        print(f"gate error: {exc}", )
 ```
 
-### `main__mutmut_79` — logic
+### `main__mutmut_79` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(f"gate error: report is not valid JSON — {exc}", file=sys.stderr)
 +        print(None, file=sys.stderr)
 ```
 
-### `main__mutmut_80` — default value
+### `main__mutmut_80` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -        print(f"gate error: report is not valid JSON — {exc}", file=sys.stderr)
 +        print(f"gate error: report is not valid JSON — {exc}", file=None)
 ```
 
-### `main__mutmut_81` — logic
+### `main__mutmut_81` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(f"gate error: report is not valid JSON — {exc}", file=sys.stderr)
 +        print(file=sys.stderr)
 ```
 
-### `main__mutmut_82` — logic
+### `main__mutmut_82` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(f"gate error: report is not valid JSON — {exc}", file=sys.stderr)
 +        print(f"gate error: report is not valid JSON — {exc}", )
 ```
 
-### `main__mutmut_83` — logic
+### `main__mutmut_83` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        return 2
 +        return 3
 ```
 
-### `main__mutmut_86` — logic
+### `main__mutmut_86` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -            json.dumps(
@@ -756,7 +964,9 @@ no test can kill them; everything else is a gap, including the cheap ones.
 +            None
 ```
 
-### `main__mutmut_87` — logic
+### `main__mutmut_87` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                {
@@ -767,14 +977,18 @@ no test can kill them; everything else is a gap, including the cheap ones.
 +                None,
 ```
 
-### `main__mutmut_88` — default value
+### `main__mutmut_88` — ACCEPTED — unobservable default
+
+Mutates a default or placeholder that is overwritten or never read on any path a test can reach. Distinct from the two provably-equivalent mutants in `EQUIVALENT`: those have a line-level proof, these are judged unreachable rather than proven so, which is why they are ACCEPTED and not EQUIVALENT.
 
 ```diff
 -                indent=2,
 +                indent=None,
 ```
 
-### `main__mutmut_89` — logic
+### `main__mutmut_89` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                {
@@ -784,7 +998,9 @@ no test can kill them; everything else is a gap, including the cheap ones.
 -                },
 ```
 
-### `main__mutmut_90` — logic
+### `main__mutmut_90` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                indent=2,
@@ -792,98 +1008,126 @@ no test can kill them; everything else is a gap, including the cheap ones.
 +                )
 ```
 
-### `main__mutmut_91` — report schema / payload key
+### `main__mutmut_91` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -                    "arm": args.arm,
 +                    "XXarmXX": args.arm,
 ```
 
-### `main__mutmut_92` — report schema / payload key
+### `main__mutmut_92` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                    "arm": args.arm,
 +                    "ARM": args.arm,
 ```
 
-### `main__mutmut_93` — report schema / payload key
+### `main__mutmut_93` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -                    "passed": not failed,
 +                    "XXpassedXX": not failed,
 ```
 
-### `main__mutmut_94` — report schema / payload key
+### `main__mutmut_94` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                    "passed": not failed,
 +                    "PASSED": not failed,
 ```
 
-### `main__mutmut_95` — logic
+### `main__mutmut_95` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                    "passed": not failed,
 +                    "passed": failed,
 ```
 
-### `main__mutmut_96` — report schema / payload key
+### `main__mutmut_96` — ACCEPTED — report payload key
+
+Mutates a JSON key or string literal in the report payload (e.g. `expected_doc_id` -> `XXexpected_doc_idXX`). The metric VALUES are asserted by tests; the report SCHEMA is not. Accepted for now, and the gap is real rather than harmless: `regression_gate.extract()` reads `probes[group]["rank1_doc_accuracy"]` by name, so a silent key rename would break the gate. Killing these needs one test that round-trips a probe report through the gate — recorded in `mutation.md` as owed work.
 
 ```diff
 -                    "checks": [c.to_json() for c in checks],
 +                    "XXchecksXX": [c.to_json() for c in checks],
 ```
 
-### `main__mutmut_97` — report schema / payload key
+### `main__mutmut_97` — ACCEPTED — prose inside an explanatory note
+
+Mutates human-readable prose in a `note`/`description` field that exists to explain a number to a reader, not to be computed on. Asserting the wording of an explanation would pin the docs to the tests in the wrong direction — the next person improving a sentence would have to update a test. Deliberately not killed.
 
 ```diff
 -                    "checks": [c.to_json() for c in checks],
 +                    "CHECKS": [c.to_json() for c in checks],
 ```
 
-### `main__mutmut_98` — logic
+### `main__mutmut_98` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -                indent=2,
 +                indent=3,
 ```
 
-### `main__mutmut_99` — logic
+### `main__mutmut_99` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -    elif not args.quiet:
 +    elif args.quiet:
 ```
 
-### `main__mutmut_100` — logic
+### `main__mutmut_100` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(render(checks, args.arm))
 +        print(None)
 ```
 
-### `main__mutmut_101` — logic
+### `main__mutmut_101` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(render(checks, args.arm))
 +        print(render(None, args.arm))
 ```
 
-### `main__mutmut_102` — logic
+### `main__mutmut_102` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(render(checks, args.arm))
 +        print(render(checks, None))
 ```
 
-### `main__mutmut_103` — logic
+### `main__mutmut_103` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(render(checks, args.arm))
 +        print(render(args.arm))
 ```
 
-### `main__mutmut_104` — logic
+### `main__mutmut_104` — OWED — logic not covered by a test
+
+Mutates real logic and survived, so a test is missing. These are the ones worth spending on. Tracked in `mutation.md`; the largest cluster is `eval/scoring.py`, whose `score_rows` computes every published retrieval metric and has no direct unit test.
 
 ```diff
 -        print(render(checks, args.arm))
@@ -893,7 +1137,7 @@ no test can kill them; everything else is a gap, including the cheap ones.
 
 ## `retrieval.fusion`
 
-### `reciprocal_rank_fusion__mutmut_22` — EQUIVALENT
+### `reciprocal_rank_fusion__mutmut_22` — EQUIVALENT — no test can kill it
 
 `score=0.0` is a placeholder on a freshly built `Retrieved`; `record.score = score` overwrites it unconditionally before return, so the value is never observable.
 
@@ -902,7 +1146,7 @@ no test can kill them; everything else is a gap, including the cheap ones.
 +                    score=None,
 ```
 
-### `reciprocal_rank_fusion__mutmut_40` — EQUIVALENT
+### `reciprocal_rank_fusion__mutmut_40` — EQUIVALENT — no test can kill it
 
 Same placeholder as mutant 22, set to `1.0` instead of `None`.
 
