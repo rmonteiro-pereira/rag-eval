@@ -324,12 +324,24 @@ def test_the_readme_mutation_claims_match_the_mutation_artifact():
     """
     readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
 
-    survivor_claims = re.findall(r"[Aa]ll (\d+) survivors", readme)
-    assert survivor_claims, "the README no longer states how many survivors are listed"
+    # Both phrasings the README uses. The second was found missing by mutating
+    # each claim in turn and checking the suite went red: `all 132 survivors`
+    # was covered and `…, all 132 listed` in the nav table was not — the same
+    # shape as the original defect, one sentence away from it. A scraper that
+    # covers one phrasing of a claim and not another is a scraper that will go
+    # quiet on the next rewording, so both are matched and at least one of each
+    # must be found.
+    survivor_patterns = (r"[Aa]ll (\d+) survivors", r"all (\d+) listed")
+    survivor_claims: list[str] = []
+    for pattern in survivor_patterns:
+        found = re.findall(pattern, readme)
+        assert found, f"the README no longer contains a claim matching {pattern!r}"
+        survivor_claims += found
+
     mutation = _load("mutation.json")
     for claim in survivor_claims:
         assert int(claim) == mutation["survived"], (
-            f"README says 'all {claim} survivors'; the artifact says {mutation['survived']}"
+            f"README claims {claim} survivors; the artifact says {mutation['survived']}"
         )
 
     score_claims = re.findall(r"(\d{2}\.\d)% mutation score", readme)
