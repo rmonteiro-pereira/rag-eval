@@ -7,25 +7,46 @@ downloads at runtime. Neither is redistributed here.
 
 Corpus — Atas do Copom
 ----------------------
-Published by the Banco Central do Brasil at
-https://www.bcb.gov.br/publicacoes/atascopom
+Published by the Banco Central do Brasil. The documents are fetched from the
+institutional site (https://www.bcb.gov.br/publicacoes/atascopom); the same
+material is published as a dataset on the BCB open-data portal,
+https://dadosabertos.bcb.gov.br/dataset/atas-comunicados-copom, under the
+**Open Data Commons Open Database License (ODbL) v1.0**.
 
-Public information, free to use. The PDFs are **not** committed: `data/raw/` is
-gitignored. Only `data/manifest.json` ships, recording each document's URL,
-title, reference date and SHA-256, so the corpus is reproducible without
-redistributing it. `uv run python -m ingest.pipeline --download 30` fetches it.
+"Public information" is not the same as "no conditions", so the conditions are
+stated here rather than assumed. ODbL requires **attribution**, requires the
+licence **notice to travel** with any redistributed database, and is
+**share-alike**: a derived database that you distribute must be offered under
+ODbL too.
+
+What this repository actually distributes:
+
+  * **Not the PDFs.** `data/raw/` is gitignored and no corpus document is
+    committed. `uv run python -m ingest.pipeline --download 30` fetches them from
+    BCB at run time, so the reader obtains the data from the source under the
+    source's terms.
+  * **`data/manifest.json`** — URL, title, reference date and SHA-256 per
+    document. This is a small derived database, so it is offered under ODbL
+    rather than under this repository's MIT licence, and BCB is credited above.
+    The MIT licence in LICENSE covers the code; it does not and cannot relicense
+    BCB's data.
 
 Models, downloaded at runtime and never committed
 -------------------------------------------------
-  BAAI/bge-m3                       MIT              embeddings
-  BAAI/bge-reranker-base            MIT              cross-encoder reranker
-  spaCy pt_core_news_sm             MIT (CC BY-SA 4.0 training data)
+  BAAI/bge-m3                       MIT                embeddings
+  BAAI/bge-reranker-base            MIT                cross-encoder reranker
+  spaCy (the library)               MIT                NLP runtime
+  spaCy pt_core_news_sm             CC BY-SA 4.0       Portuguese model for Presidio
   Ollama: llama3.1                  Llama 3.1 Community License
   Ollama: qwen2.5:3b                Qwen Research License
 
-The Llama 3.1 and Qwen licences carry conditions the MIT licence does not. They
-apply to those weights, not to this code, and both models are optional: the
-`extractive` backend needs no language model at all.
+Three of these are **not** MIT and the distinction matters. `pt_core_news_sm` is
+CC BY-SA 4.0 — the *library* is MIT, the *model* is not, and it is the model that
+is pinned by URL in `pyproject.toml`. The Llama 3.1 and Qwen licences carry
+acceptable-use and naming conditions of their own. All apply to those artifacts,
+not to this code, and every one is optional at run time: the `extractive` backend
+needs no language model, and `guardrails/pii.py` degrades to a regex backend
+without the spaCy model (loudly — see `docs/REPRODUCE.md` step 2b).
 
 Synthetic data, labelled as such wherever it appears
 ----------------------------------------------------

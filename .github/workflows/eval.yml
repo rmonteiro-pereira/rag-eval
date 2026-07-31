@@ -8,15 +8,20 @@
 #
 # It then ran, unmodified, and passed:
 #
-#     run 30599034168 · 2026-07-31T02:27:47Z · 1m03s
+#     run 30599034168 · 2026-07-31T02:27:47Z · 1m03s   (PRE-MYPY)
 #       tests + lint             success   ruff clean, 278 passed, 3 deselected
 #       regression gate          success   BOTH steps, including the one that
 #                                          requires the gate to FAIL
 #       full ablation (manual)   skipped   workflow_dispatch-only, as designed
 #
-# 278 + 3 deselected, versus 281 passed locally: the three `integration` tests
-# need a live Qdrant, which CI does not have. They are deselected explicitly
-# rather than left to self-skip, so a skip cannot be read as a pass.
+# That run predates the `ruff format --check` and `mypy` steps below, so its
+# summary reports neither — it is a historical record of the workflow's first
+# green build, not of the job as it now stands. Test counts move with the tests
+# and are not maintained here; `uv run pytest -q` is the source of truth.
+#
+# 278 + 3 deselected: the three `integration` tests need a live Qdrant, which CI
+# does not have. They are deselected explicitly rather than left to self-skip, so
+# a skip cannot be read as a pass.
 #
 # The same three commands are what hold the line locally:
 #

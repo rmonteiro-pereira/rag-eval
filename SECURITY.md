@@ -109,8 +109,14 @@ defence, and neither number substitutes for the other.
   pinned by release-wheel URL, because `guardrails/pii.py` **silently degrades to
   a regex backend** without it rather than failing — `docs/REPRODUCE.md` step 2b
   asserts the loaded backend before anything measures with it.
-- `.github/workflows/eval.yml` requests `permissions: contents: read` and pins
-  actions to major-version tags.
+- `.github/workflows/eval.yml` requests `permissions: contents: read`.
+- **Actions are referenced by major-version tag, not pinned to a commit SHA**, and
+  that is a weaker guarantee rather than a pin: a tag is mutable, so
+  `actions/checkout@v4` can be repointed by its maintainer. The trade is
+  deliberate — SHA pinning without Dependabot to move the pins produces actions
+  that silently rot, and this repository has one maintainer. Anyone forking it
+  into an environment where a compromised action would matter should replace the
+  tags with 40-character SHAs.
 - The full pre-publication audit of this repository — secrets, entire git
   history, blob sizes, and what was remediated — is
   [`docs/PUBLICATION-SCAN.md`](docs/PUBLICATION-SCAN.md).

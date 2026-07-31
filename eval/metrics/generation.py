@@ -82,19 +82,32 @@ def numeric_recall(reference: str, generated: str) -> float | None:
     return len(expected & numbers_in(generated)) / len(expected)
 
 
-#: Citation markers the prompt asks for: `[2]`, `[2, 19]`, `[1, Tabela 1 e 17]`.
-#: Stripped before numbers are extracted, because their digits are *pointers to
-#: passages*, not claims about the world. Missing this produced a measured
-#: hallucination that was not one: `[2, 19]` normalises to the decimal `2,19`
-#: (see `_SPLIT_DECIMAL` in `retrieval/text.py`), which then appears in no
-#: passage and is indistinguishable from an invented rate. One row of one arm,
-#: enough to move `hallucinated_number_rate` from 0.000 to 0.020 and to put a
-#: false claim in the README.
-_CITATION = re.compile(r"\[[^\]\n]{0,80}\]")
+#: Citation markers the prompt asks for (`generation/prompt.py`: "com citacoes
+#: [n]"): `[2]`, `[2, 19]`, `[1, Tabela 1 e 17]`. Stripped before numbers are
+#: extracted, because their digits are *pointers to passages*, not claims about
+#: the world. Missing this produced a measured hallucination that was not one:
+#: `[2, 19]` normalises to the decimal `2,19` (see `_SPLIT_DECIMAL` in
+#: `retrieval/text.py`), which appears in no passage and is indistinguishable
+#: from an invented rate. One row of one arm, enough to move
+#: `hallucinated_number_rate` from 0.000 to 0.020 and put a false claim in the
+#: README.
+#:
+#: The shape is deliberately narrow, because a permissive `\[.*\]` would be a
+#: hole in the metric rather than a fix for it: it would swallow `[9,99%]` — a
+#: fabricated rate a model could put in brackets — and report no hallucination.
+#: So the marker must OPEN with a one- or two-digit passage index that is not
+#: glued to a decimal mark. `[2, 19]` qualifies; `[9,99%]` and `[14,25]` do not.
+_CITATION = re.compile(
+    r"\[\s*\d{1,2}(?![.,]\d)(?:\s*[,;]\s*[^\]\n]{0,60})?\s*\]",
+)
 
 
 def strip_citations(text: str) -> str:
-    """Remove `[...]` citation markers so their digits are not read as claims."""
+    """Remove `[n]`-style citation markers so their digits are not read as claims.
+
+    Anything that is not citation-shaped is left in place — see `_CITATION` for
+    why that restraint is the point rather than an oversight.
+    """
     return _CITATION.sub(" ", text)
 
 

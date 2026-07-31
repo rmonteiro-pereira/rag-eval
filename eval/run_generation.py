@@ -31,6 +31,7 @@ import sys
 import time
 from datetime import UTC, datetime
 from pathlib import Path
+from statistics import median
 from typing import Any
 
 from eval.calibration import (
@@ -145,9 +146,16 @@ def run_generation(
                 "backend": llm.backend,
                 "deterministic": aggregate_generation(scores, is_abstention),
                 "judge": aggregate_judgements(judgements) if judgements else None,
+                # `statistics.median`, not `sorted(...)[n // 2]`: the latter picks
+                # the upper-middle value on an even count, and raises IndexError
+                # on an empty one. Empty is a *documented* state, not a
+                # hypothetical — `--min-status validated` returns zero rows today
+                # by design, so the summary path has to survive it.
                 "latency": {
-                    "median_ms": round(
-                        sorted(float(item["latency_ms"]) for item in per_row)[len(per_row) // 2], 1
+                    "median_ms": (
+                        round(median(float(item["latency_ms"]) for item in per_row), 1)
+                        if per_row
+                        else None
                     ),
                 },
                 "per_row": per_row,
@@ -237,7 +245,7 @@ def _render_summary(report: dict) -> str:
             f"{arm['arm']:<16} {cell(d['numeric_recall'])} "
             f"{cell(d['lexical_groundedness'], 9)} {cell(d['hallucinated_number_rate'])} "
             f"{cell(d['citation_correctness'], 8)} {cell(d['abstention_correctness'])} "
-            f"{cell(d['false_refusal_rate'], 10)} {arm['latency']['median_ms']:>8.0f}"
+            f"{cell(d['false_refusal_rate'], 10)} {cell(arm['latency']['median_ms'], 8, 0)}"
         )
 
     lines += [

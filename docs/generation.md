@@ -118,9 +118,15 @@ with an independent judge. No human labels required:
 
 **On faithfulness, two local judges disagree with each other more than half the
 time**, at a kappa of 0.109 — "slight" agreement on the Landis–Koch scale, barely
-distinguishable from chance. Answer relevance fares better at 0.487 ("moderate"),
-which fits: "does this address the question" is a shallower judgement than "is
-every claim supported by this evidence".
+distinguishable from chance. Answer relevance fares better at 0.589
+("moderate"), which fits: "does this address the question" is a shallower
+judgement than "is every claim supported by this evidence".
+
+Both figures are themselves unstable across runs — an earlier run of the same
+command gave 0.138 and 0.487. The direction never changes (faithfulness is
+near-chance, relevance is moderate), but the second decimal is not a quantity to
+quote. Judge scores come from an LLM, and re-running moved them on every arm; see
+the reproducibility note in the README.
 
 Two raters that disagree with each other cannot both be right, so **the
 faithfulness column above carries almost no information**. That is the finding.
