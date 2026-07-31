@@ -11,6 +11,32 @@
 # "Dependabot alerts are disabled for this repository". No file in this repo can
 # turn them on; it is a toggle in Settings → Code security. They are worth
 # enabling, and they are a separate decision from this file.
+#
+# ---------------------------------------------------------------------------
+# HOW TO TRIAGE THESE PRs — learned from the sibling `energy-forecast-drift`
+# lane, which triaged eight of them.
+#
+#   **"CLEAN" means no merge conflict. It does not mean it works.**
+#
+# GitHub's mergeable-state and a green tick answer different questions from
+# "will this break anything". That lane merged four CI action bumps after
+# reading them, and *closed* four major frontend/tool bumps once it checked the
+# breaking changes — closing them was the correct outcome, not a failure to
+# keep up. It also found that `actions/upload-artifact` needed
+# `include-hidden-files: true`, and that the setting had already been wrong at
+# v4 — a latent defect the bump surfaced rather than caused.
+#
+# Concretely, for this repo:
+#
+#   * A major bump gets its changelog read before merge. Never auto-merge, and
+#     never merge on green alone: this repo's CI does not exercise every path,
+#     and `eval-full` has never executed at all (see eval.yml).
+#   * An action bump is a chance to re-check that action's *current* inputs
+#     against how we call it, not only that the version number moved. The
+#     upload-artifact finding above was of exactly that shape.
+#   * Closing a bump with a reason recorded in the PR is a legitimate outcome.
+#     A stale open bot PR is worse than a closed one.
+# ---------------------------------------------------------------------------
 
 version: 2
 updates:
