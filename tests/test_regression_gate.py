@@ -40,18 +40,13 @@ def test_the_gate_passes_on_the_real_committed_report():
     """Exit 0 against the report the project actually ships."""
     assert REAL_REPORT.exists(), "eval/reports/ablation.json is a committed artifact"
     assert (
-        gate_main(
-            ["--baseline", str(REAL_REPORT), "--candidate", str(REAL_REPORT), "--quiet"]
-        )
-        == 0
+        gate_main(["--baseline", str(REAL_REPORT), "--candidate", str(REAL_REPORT), "--quiet"]) == 0
     )
 
 
 def test_the_gate_fails_on_the_degraded_fixture():
     """Exit 1. The fixture simulates the meeting resolver breaking."""
-    assert (
-        gate_main(["--baseline", str(BASELINE), "--candidate", str(DEGRADED), "--quiet"]) == 1
-    )
+    assert gate_main(["--baseline", str(BASELINE), "--candidate", str(DEGRADED), "--quiet"]) == 1
 
 
 def test_the_gate_passes_when_the_candidate_equals_the_baseline():

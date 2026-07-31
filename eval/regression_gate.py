@@ -115,8 +115,7 @@ def extract(report: dict, arm: str | None = None) -> tuple[dict[str, float], dic
             raise GateError(f"arm {name!r} not in report; available: {', '.join(sorted(arms))}")
         entry = arms[name]
         probes = {
-            group: values["rank1_doc_accuracy"]
-            for group, values in entry.get("probes", {}).items()
+            group: values["rank1_doc_accuracy"] for group, values in entry.get("probes", {}).items()
         }
         return entry["aggregate"], probes
 
@@ -154,9 +153,7 @@ def compare(
             continue
         if group not in cand_probes:
             raise GateError(f"candidate report is missing probe group {group!r}")
-        checks.append(
-            Check(f"probe:{group}", base_probes[group], cand_probes[group], threshold)
-        )
+        checks.append(Check(f"probe:{group}", base_probes[group], cand_probes[group], threshold))
 
     if not checks:
         raise GateError("no comparable metrics found — refusing to pass vacuously")
@@ -168,8 +165,7 @@ def render(checks: list[Check], arm: str) -> str:
     lines = [
         "",
         f"regression gate — arm `{arm}`",
-        f"{'metric':<34} {'baseline':>10} {'candidate':>10} {'delta':>9} "
-        f"{'tol':>6}  status",
+        f"{'metric':<34} {'baseline':>10} {'candidate':>10} {'delta':>9} {'tol':>6}  status",
         "-" * 78,
     ]
     for check in checks:

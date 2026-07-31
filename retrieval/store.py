@@ -139,7 +139,16 @@ def search(
         with_payload=True,
         query_filter=query_filter,
     ).points
-    return [_from_payload(hit.payload, hit.score, {"dense": hit.score}) for hit in hits]
+    # A point with no payload is a corrupt collection, not an empty result: every
+    # field the retriever cites (doc_id, page, text) lives there. Failing loudly
+    # beats returning a hit whose citation is blank.
+    for hit in hits:
+        if hit.payload is None:
+            raise RuntimeError(
+                f"point {hit.id} in collection '{name}' has no payload; "
+                "re-run `python -m ingest.pipeline` to rebuild the collection"
+            )
+    return [_from_payload(hit.payload or {}, hit.score, {"dense": hit.score}) for hit in hits]
 
 
 def scroll_all(client: QdrantClient, name: str | None = None) -> list[Retrieved]:

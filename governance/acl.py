@@ -159,11 +159,7 @@ def apply_classifications(
             collection_name=collection,
             payload={PAYLOAD_FIELD: classification},
             points=qmodels.Filter(
-                must=[
-                    qmodels.FieldCondition(
-                        key="doc_id", match=qmodels.MatchAny(any=doc_ids)
-                    )
-                ]
+                must=[qmodels.FieldCondition(key="doc_id", match=qmodels.MatchAny(any=doc_ids))]
             ),
             wait=True,
         )
@@ -178,9 +174,5 @@ def restricted_doc_ids(assignments: dict[str, str]) -> set[str]:
 def leaked(hits: Iterable, assignments: dict[str, str], user: User) -> list[str]:
     """Retrieved chunks this user was not cleared to see. Must always be empty."""
     return sorted(
-        {
-            hit.doc_id
-            for hit in hits
-            if not user.may_see(assignments.get(hit.doc_id, PUBLIC))
-        }
+        {hit.doc_id for hit in hits if not user.may_see(assignments.get(hit.doc_id, PUBLIC))}
     )

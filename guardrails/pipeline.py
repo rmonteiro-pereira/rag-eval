@@ -106,9 +106,7 @@ class GovernedPipeline:
         self.classifications = classify_documents(
             self.context.documents,
             restricted_count=(
-                restricted_count
-                if restricted_count is not None
-                else settings.acl_restricted_count
+                restricted_count if restricted_count is not None else settings.acl_restricted_count
             ),
         )
         if apply_acl_payload:
@@ -134,9 +132,7 @@ class GovernedPipeline:
         rankings: list[list[Retrieved]] = []
         if self.retriever.config.dense:
             vector = self.context.embedder.embed_query(question)
-            rankings.append(
-                search(self.context.client, vector, top_k=depth, query_filter=filters)
-            )
+            rankings.append(search(self.context.client, vector, top_k=depth, query_filter=filters))
         if self.retriever.config.sparse:
             # BM25 is in-process, so the ACL is applied as an allow-list of the
             # documents this user may see — the same restriction the payload
@@ -193,8 +189,13 @@ class GovernedPipeline:
         injection_input = self.detector.inspect(question)
         if injection_input.detected and self.block_on_injection:
             return self._blocked(
-                question, query, user, DECISION_BLOCKED_INJECTION,
-                pii_input, injection_input, started,
+                question,
+                query,
+                user,
+                DECISION_BLOCKED_INJECTION,
+                pii_input,
+                injection_input,
+                started,
             )
 
         passages = self._retrieve(query, user, top_k)
@@ -206,16 +207,28 @@ class GovernedPipeline:
             # Should be unreachable: the filter is inside the query. Reaching it
             # means the control failed, and failing closed is the only safe move.
             return self._blocked(
-                question, query, user, DECISION_BLOCKED_ACL,
-                pii_input, injection_input, started, acl_leaks=acl_leaks,
+                question,
+                query,
+                user,
+                DECISION_BLOCKED_ACL,
+                pii_input,
+                injection_input,
+                started,
+                acl_leaks=acl_leaks,
             )
 
         injection_context = self.detector.inspect_passages(passages)
         if injection_context.detected and self.block_on_injection:
             return self._blocked(
-                question, query, user, DECISION_BLOCKED_INJECTION,
-                pii_input, injection_input, started,
-                passages=passages, injection_context=injection_context,
+                question,
+                query,
+                user,
+                DECISION_BLOCKED_INJECTION,
+                pii_input,
+                injection_input,
+                started,
+                passages=passages,
+                injection_context=injection_context,
             )
 
         answer = generate_answer(query, passages, self.llm)

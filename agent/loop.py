@@ -240,9 +240,14 @@ class Agent:
                 # failure, not a model decision — and the loop moves on with
                 # whatever observations it already has.
                 steps.append(
-                    Step(index, "llm_error", {}, f"{type(exc).__name__}: {exc}",
-                         (time.perf_counter() - started) * 1000,
-                         error="llm_call_failed")
+                    Step(
+                        index,
+                        "llm_error",
+                        {},
+                        f"{type(exc).__name__}: {exc}",
+                        (time.perf_counter() - started) * 1000,
+                        error="llm_call_failed",
+                    )
                 )
                 stopped = "llm_error"
                 break
@@ -251,8 +256,14 @@ class Agent:
 
             if error:
                 steps.append(
-                    Step(index, "parse_error", {}, response.text[:400],
-                         (time.perf_counter() - started) * 1000, error=error)
+                    Step(
+                        index,
+                        "parse_error",
+                        {},
+                        response.text[:400],
+                        (time.perf_counter() - started) * 1000,
+                        error=error,
+                    )
                 )
                 transcript += (
                     f"\nOBSERVACAO: sua saida nao era JSON valido ({error}). "
@@ -264,8 +275,7 @@ class Agent:
                 answer = str(args.get("answer", "")).strip()
                 stopped = "final"
                 steps.append(
-                    Step(index, "final", args, answer,
-                         (time.perf_counter() - started) * 1000)
+                    Step(index, "final", args, answer, (time.perf_counter() - started) * 1000)
                 )
                 break
 
@@ -275,7 +285,9 @@ class Agent:
                 step = self._run_rag(args, index, started)
             else:
                 step = Step(
-                    index, tool, args,
+                    index,
+                    tool,
+                    args,
                     f"ferramenta desconhecida: {tool!r}",
                     (time.perf_counter() - started) * 1000,
                     error="unknown_tool",

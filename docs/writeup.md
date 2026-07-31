@@ -152,7 +152,7 @@ differences are generation differences only.
 |---|--:|--:|--:|--:|--:|
 | `extractive` | **0.913** | **0.988** | **0.000** | **0.000** | 0.000 |
 | `qwen2.5:3b` | 0.777 | 0.838 | **0.000** | 1.000 | 0.082 |
-| `llama3.1` | 0.826 | 0.907 | **0.000** | 1.000 | 0.041 |
+| `llama3.1` | 0.837 | 0.887 | **0.000** | 1.000 | 0.041 |
 
 - **Zero hallucinated numbers across 168 answers.** No arm asserted a rate absent
   from the retrieved evidence or the question. Narrow claim, narrowly stated: it
@@ -289,11 +289,28 @@ Exit 2 is reserved for "could not compare" (missing file, unknown arm, absent
 metric), because a gate that passes because it could not find the numbers is
 worse than no gate.
 
-`.github/workflows/eval.yml` is committed and **inert** — this repo is remote-less
-by design, so it has never run. The hermetic `gate-selfcheck` job (no Qdrant, no
-models, seconds) is the one meant to be required for merge; the full ablation is
-`workflow_dispatch`-only, because a 20-minute CPU job with a model download on
-every PR is how a gate gets disabled.
+`.github/workflows/eval.yml` was committed **unrun**, while this repo was still
+remote-less, because a CI gate written after the first regression is a CI gate
+that missed the first regression. It went live when the repo was published on
+2026-07-31 and **passed on its first run, unmodified**:
+
+```
+run 30599034168 · 1m03s
+  tests + lint            success   ruff clean · 278 passed, 3 deselected
+  regression gate         success   both steps, including the one that
+                                    requires the gate to FAIL
+  full ablation (manual)  skipped   workflow_dispatch-only, as designed
+```
+
+278 + 3 deselected against 281 locally: the three `integration` tests need a live
+Qdrant, which CI has none of. They are deselected **explicitly** rather than left
+to self-skip, so a skip cannot be mistaken for a pass in the summary.
+
+One green run says the workflow is valid. It does not say it is load-bearing —
+nothing has yet tried to push a regression past it. The hermetic `gate-selfcheck`
+job (no Qdrant, no models, seconds) is the one meant to be required for merge; the
+full ablation stays `workflow_dispatch`-only, because a 20-minute CPU job with a
+model download on every PR is how a gate gets disabled.
 
 **Serving** (`serving/api.py`) exposes `/ask`, `/health`, `/config` and a minimal
 UI over the **governed** pipeline — there is no code path to retrieval that skips
