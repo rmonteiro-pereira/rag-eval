@@ -43,8 +43,19 @@ easy to average.
 - **Exit 2 is reserved for "could not compare"** — missing file, unknown arm,
   absent metric. A missing metric raises rather than being skipped, because a
   gate that passes because it could not find the numbers is worse than no gate.
-- Tolerances are per-metric and hand-set (mrr 0.02, hit_rate 0.03, reverse_lookup
-  0.13). The reverse-lookup tolerance is wide because n=8 and one query is 0.125.
+- Tolerances are per-metric and hand-set. Both probes have one, and they differ by
+  an order of magnitude for a reason:
+
+  | metric | tolerance | why |
+  |---|--:|---|
+  | `recall@1`, `recall@5`, `ndcg@5`, `ndcg@10`, `mrr` | 0.02 | aggregate noise floor on n=49 |
+  | `hit_rate@1`, `hit_rate@5` | 0.03 | coarser — one query is 1/49 ≈ 0.020 |
+  | **`probe:meeting_disambiguation`** | **0.02** | it sits at **1.000**. There is no noise above a ceiling: any real drop means the meeting resolver broke, so the tolerance only absorbs a single query flipping (1/41 ≈ 0.024 — deliberately *just* under, so even one regression fires) |
+  | **`probe:reverse_lookup`** | **0.13** | n=8, so one query is 0.125. A tighter bound would fire on noise, and a gate that cries wolf gets disabled |
+
+  The asymmetry is the decision: a ceiling metric and a small-n metric need
+  opposite treatment, and averaging them into one global tolerance would make one
+  of them useless.
 
 ## Reverses if
 

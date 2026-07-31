@@ -35,7 +35,7 @@ destroyed stack, with real output, if you want to know what it should look like.
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
-uv run pytest -q                             # 283 passed
+uv run pytest -q
 uv run python -m eval.regression_gate \
     --baseline eval/reports/ablation.json --candidate eval/reports/ablation.json
 ```
@@ -44,6 +44,11 @@ CI runs the first four on every push. The gate runs there too, **in both
 directions** — passing on the committed report and failing on the degraded
 fixture — because a gate that has only ever passed is not evidence of anything.
 
+Expect CI to report three fewer passes than you see locally: the `integration`
+tests need a live Qdrant and are deselected there. No test count is written down
+in this repository's docs, deliberately — a hard-coded count is wrong the first
+time anyone adds a test. `uv run pytest -q` is the source of truth.
+
 ## The rules that make the results mean anything
 
 Hard constraints, not style preferences. Breaking one of these does not make the
@@ -51,7 +56,10 @@ code worse; it makes the measurements worthless.
 
 1. **Never promote a gold-set row to `validated`.** Validation is a human act: it
    asserts that a person read the question against the source PDF and confirmed it
-   is unambiguous, correctly scoped, and not answerable from three other atas. An
+   is unambiguous, correctly scoped, and not answerable from three other *atas*
+   (an **ata** is the published minutes of one Copom meeting — the corpus is 30 of
+   them, and their near-identical wording is the failure mode this repo measures).
+   An
    agent-written, agent-graded gold set measures nothing. `--min-status validated`
    returning nothing today is intentional, not a bug to be fixed by relabelling,
    and `tests/test_gold.py` fails if a row is ever flipped. The same applies to
