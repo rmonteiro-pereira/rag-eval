@@ -48,3 +48,16 @@ def test_tokenize_drops_stopwords_but_keeps_content():
 
 def test_tokenize_can_keep_stopwords():
     assert "qual" in tokenize("Qual decisao?", drop_stopwords=False)
+
+
+def test_normalise_returns_exactly_the_repaired_text():
+    """Kills `_SPLIT_DECIMAL.sub(r"\1\2\3", ...)` -> `r"XX\1\2\3XX"`.
+
+    Every other tokenizer test asserts membership — `"13,25" in tokens` — which
+    stays true when the substitution injects garbage around the match, because
+    the tokenizer then simply yields the garbage as separate tokens. Asserting
+    the exact string is what makes the repair itself testable.
+    """
+    assert normalise("taxa de 13. 25%") == "taxa de 13.25%"
+    assert normalise("Reuniao de MARCO") == "reuniao de marco"
+    assert normalise("em 2022, 2023 e 2024") == "em 2022, 2023 e 2024"
