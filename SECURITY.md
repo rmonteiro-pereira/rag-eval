@@ -110,6 +110,17 @@ defence, and neither number substitutes for the other.
   a regex backend** without it rather than failing — `docs/REPRODUCE.md` step 2b
   asserts the loaded backend before anything measures with it.
 - `.github/workflows/eval.yml` requests `permissions: contents: read`.
+- **Dependabot security alerts are currently OFF.** `GET
+  /repos/rmonteiro-pereira/rag-eval/vulnerability-alerts` returns 404 and the
+  alerts API returns *"Dependabot alerts are disabled for this repository"*. That
+  is a repository setting, not something a file here can change. Stated rather
+  than left for a reader to discover: nothing is watching this dependency tree
+  for published CVEs today. `.github/dependabot.yml` configures *version* updates
+  only, which is a different thing.
+- Dependency **version** updates are monthly, grouped and capped at 3 open PRs,
+  with `torch`, `qdrant-client` and the spaCy model excluded by argument rather
+  than by oversight — each is pinned for a reason recorded in
+  `.github/dependabot.yml`.
 - **Actions are referenced by major-version tag, not pinned to a commit SHA**, and
   that is a weaker guarantee rather than a pin: a tag is mutable, so
   `actions/checkout@v4` can be repointed by its maintainer. The trade is
