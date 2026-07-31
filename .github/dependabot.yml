@@ -79,3 +79,13 @@ updates:
       # cannot resolve it and a bump would silently drop the PII backend to
       # regex — see docs/REPRODUCE.md step 2b.
       - dependency-name: "pt-core-news-sm"
+      # The SDK major must equal the self-hosted server major, and the server is
+      # pinned to `langfuse/langfuse:2` by a recorded decision — v3+ additionally
+      # requires ClickHouse, Redis and MinIO, which is a different project from
+      # "runs on a laptop, free". Triaged and CLOSED once already (PR #6,
+      # 2.60.10 -> 4.14.1): v4 removes `Langfuse.trace()`, the single entry point
+      # `rag/tracing.py` uses, and that module's `except Exception` turns the
+      # removal into a silent no-op rather than an error. Moving this pin is a
+      # migration — server and SDK together — not a bump.
+      - dependency-name: "langfuse"
+        update-types: ["version-update:semver-major"]
