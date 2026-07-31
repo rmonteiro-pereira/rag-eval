@@ -145,6 +145,38 @@ component that improves the probe group the metadata filter structurally cannot
 help, and reverse lookup is where the remaining headroom is. That is a research
 justification, not a serving one, and the writeup says so.
 
+#### The 2.2 s is a CPU number, and that qualifier is load-bearing
+
+Every latency in this document was measured with **`torch 2.13.0+cpu`** — a
+CPU-only build, which is what `uv.lock` pins. A cross-encoder scoring 30
+candidate pairs is exactly the workload a GPU eats, so the 2.2 s is close to a
+worst case rather than an intrinsic property of reranking.
+
+Two things follow, and only one of them is a code change:
+
+- **The device is already configurable.** `settings.reranker_device` and
+  `settings.embedding_device` (both defaulting to `cpu`) are passed straight to
+  `CrossEncoder(device=...)` and `SentenceTransformer(device=...)`. On a machine
+  with CUDA torch installed, `RERANKER_DEVICE=cuda` in `.env` is the whole
+  change. Nothing here hardcodes CPU.
+- **Shipping a CUDA torch is a trade, not an upgrade.** The CUDA wheels are
+  platform-specific and roughly 2.5 GB, and pinning them would mean this
+  repository no longer installs and reproduces on the CPU-only machine that
+  `docs/REPRODUCE.md` demonstrates it installs and reproduces on. That is a
+  worse default for a repository whose point is that its numbers come back.
+
+So the honest status is: **the accuracy findings above are device-independent —
+identical rankings, identical metrics — and only the latency column would move.**
+The conclusion that the reranker buys +0.005 MRR for the money does not depend
+on how fast the money is spent; what a GPU would change is how easy that trade
+is to accept. Nothing in this repository has measured it, so nothing in this
+repository claims it.
+
+(The generation and judge numbers in `docs/generation.md` are *not* affected by
+this: they run through Ollama, which uses the GPU on its own, independently of
+torch. On the machine these were measured on, `ollama ps` reports `llama3.1`
+fully resident in VRAM.)
+
 ### 3. Fusing a strong arm with a weak one drags the strong one down
 
 `bm25` alone gets rank-1 meeting accuracy **0.927**. Fusing it with `dense`

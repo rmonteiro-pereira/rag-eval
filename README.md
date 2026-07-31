@@ -161,6 +161,12 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
    across all seven arms, so they remain available as future ablation arms rather than
    as unmeasured changes.
 9. **Latency is single-machine CPU** and there is no cost or token-economics arm.
+   `uv.lock` pins `torch 2.13.0+cpu`, so the reranker's +2.2 s is close to a worst
+   case; the device is a one-line setting (`RERANKER_DEVICE`) but shipping CUDA
+   wheels would cost the CPU-only reproducibility that `docs/REPRODUCE.md` proves.
+   The accuracy findings are device-independent — only the latency column moves.
+   (Ollama, and therefore every generation and judge number, already uses the GPU
+   where one exists.)
 10. **`.github/workflows/eval.yml` has never run.** The repo was remote-less until
     publication; the header says so.
 
