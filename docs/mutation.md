@@ -192,7 +192,12 @@ WALL CLOCK: 28.51 seconds
 ```
 
 **28.5 seconds.** The entire argument for keeping it manual evaporates at that
-price, so the `mutation` job now runs on every push, with no `if:` guard. It:
+price, so a `mutation` job is now wired to every push with no `if:` guard.
+
+That timing is measured; the CI execution is not yet — the job ships in the same
+commit as this document, so the PR introducing it is its first real run. Saying
+"runs in CI" of a job that has never run would be the same error this document
+was written about, one level up. It:
 
 1. runs `mutmut run` on `ubuntu-latest`, where mutmut works;
 2. **gates on the score** — `--check-score 70`, a floor rather than a pin, so

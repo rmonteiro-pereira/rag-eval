@@ -175,8 +175,16 @@ jobs:
           diff -u docs/mutation-survivors.md /tmp/survivors.md \
             || { echo "::error::docs/mutation-survivors.md is stale — regenerate it"; exit 1; }
 
+  # ---------------------------------------------------------------------------
+  # UNVERIFIED. This job has been *skipped* on all 7 runs so far and has never
+  # executed a single step. `workflow_dispatch` + a 60-minute CPU job with a
+  # 2.5 GB model download is the right trade for the PR path, but it means the
+  # ingest, the regeneration, the gate-against-baseline and the artifact upload
+  # below are written and unproven. Treat a green workflow as saying nothing
+  # about this job until someone dispatches it with `run_full_eval: true`.
+  # ---------------------------------------------------------------------------
   eval-full:
-    name: full ablation (manual)
+    name: full ablation (manual, never yet executed)
     if: github.event_name == 'workflow_dispatch' && inputs.run_full_eval
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -216,6 +224,17 @@ jobs:
             --baseline eval/reports/ablation.json \
             --candidate /tmp/ablation.json
 
+      # `include-hidden-files` is deliberately NOT set here, and that is a
+      # checked decision rather than an omission. upload-artifact v4 silently
+      # excludes dot-prefixed paths, which has bitten a sibling project; this
+      # path is `/tmp/ablation.json`, with no hidden component and no hidden
+      # parent inside the upload root, so the flag would be noise. If the path
+      # ever moves under a dot-directory, the flag becomes mandatory and the
+      # failure is a *missing artifact*, not a red job.
+      #
+      # `if-no-files-found` is left at its `warn` default on purpose: this step
+      # runs `if: always()`, so on a failed ingest there is legitimately nothing
+      # to upload and the job should not fail twice for one cause.
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -166,10 +166,12 @@ reporting layer is not. It also found four genuine holes — most importantly th
 **the RRF tie-break was never pinned**, which is the property this repo's
 ±0.0000 reproducibility claim actually rests on.
 
-**The run is in CI** (~30 s), with no `if:` guard, gating on a score floor and
-failing if the survivor inventory is stale — because a mutation setup that never
-executes is worse than none, implying a check the reader cannot know did not
-happen. **All 124 survivors are listed individually with their diffs** in
+**The run is wired into CI** (~28.5 s measured locally), with no `if:` guard,
+gating on a score floor and failing if the survivor inventory is stale — because
+a mutation setup that never executes is worse than none, implying a check the
+reader cannot know did not happen. The job ships in the same commit as this
+paragraph, so its first execution on GitHub is the PR that introduces it; until
+that PR is green, treat "runs in CI" as configured rather than demonstrated. **All 124 survivors are listed individually with their diffs** in
 [`docs/mutation-survivors.md`](docs/mutation-survivors.md); the score, the scope,
 the two provably equivalent mutants and what is deliberately unfixed are in
 [`docs/mutation.md`](docs/mutation.md).

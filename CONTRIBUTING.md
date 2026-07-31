@@ -120,6 +120,24 @@ decision falsifiable.
 - Tests cover the failure path. `pytest.raises(Exception)` is not a test; assert
   the specific error, and match its message where the message is the point.
 
+## Dependency PRs
+
+Dependabot opens these monthly, grouped and capped — see `.github/dependabot.yml`
+for what is excluded and why. Two rules, both learned the hard way in a sibling
+project:
+
+- **"CLEAN" means no merge conflict. It does not mean it works.** A green tick
+  and a mergeable state answer a different question from "does this break
+  anything". Read the changelog on any major bump.
+- **An action bump is a prompt to re-check that action's inputs**, not just its
+  version. The sibling lane found `actions/upload-artifact` needed
+  `include-hidden-files: true` — a setting that had *already* been wrong at v4,
+  which the bump surfaced rather than caused.
+
+Closing a bump with the reason recorded is a legitimate outcome. Never
+auto-merge, and never merge on green alone: CI here does not exercise every
+path, and the `eval-full` job has never executed at all.
+
 ## Pull requests
 
 - Branch from `main`; never commit to it directly, never force-push, never
