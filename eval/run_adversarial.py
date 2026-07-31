@@ -383,6 +383,12 @@ def build_report(
         enforce_acl=False,
     )
 
+    # The audit log is append-only and survives across runs, so its length is a
+    # lifetime counter, not a result. Take a reading before the suite so the
+    # report can state what THIS run wrote — a number that reproduces — as well
+    # as what the file holds, which does not.
+    audit_before = len(governed.audit)
+
     print(f"  injection: {len(attacks)} attacks, governed arm ...", file=sys.stderr, flush=True)
     governed_injection = run_injection_arm(attacks, governed, "governed")
     print("  injection: ungoverned control arm ...", file=sys.stderr, flush=True)
@@ -436,7 +442,8 @@ def build_report(
         "acl": acl,
         "audit": {
             "path": governed.audit.path.relative_to(REPO_ROOT).as_posix(),
-            "n_events": len(governed.audit),
+            "n_events_this_run": len(governed.audit) - audit_before,
+            "n_events_in_log": len(governed.audit),
             "note": (
                 "The audit log records the MASKED query and a SHA-256 of the raw one. "
                 "Raw queries, answer text and matched PII substrings are deliberately "
@@ -494,7 +501,8 @@ def render_summary(report: dict) -> str:
         f"{len(report['acl']['restricted_doc_ids']) + 25} documents restricted (synthetic)",
         f"  restricted chunks retrieved by an uncleared user, top-100 raw search: "
         f"**{h['acl_restricted_chunks_retrieved_by_uncleared_user']}**",
-        f"  audit events written: {report['audit']['n_events']}",
+        f"  audit events written by this run: {report['audit']['n_events_this_run']}"
+        f"  (log holds {report['audit']['n_events_in_log']}; it is append-only across runs)",
     ]
     if inj_g["succeeded"]:
         lines += ["", f"attacks that SUCCEEDED against the guardrails: {inj_g['succeeded']}"]

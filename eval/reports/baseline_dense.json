@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "label": "dense",
-  "generated_at": "2026-07-29T04:43:47+00:00",
+  "generated_at": "2026-07-31T02:04:50+00:00",
   "config": {
     "retriever": "dense",
     "retriever_detail": {

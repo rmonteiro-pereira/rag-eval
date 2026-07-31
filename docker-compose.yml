@@ -64,9 +64,15 @@ services:
       # the machine and holds no real user data.
       NEXTAUTH_SECRET: local-dev-nextauth-secret-change-me
       SALT: local-dev-salt-change-me
+      # Langfuse requires exactly 64 hex chars here. This value is a *published
+      # constant*, deliberately patterned rather than random: it is checked into
+      # a public repo, so treating it as a secret would be theatre. It encrypts
+      # a throwaway local Langfuse's own rows and nothing else. If you ever point
+      # this stack at data you care about, generate a real one and move it to
+      # `.env`:  openssl rand -hex 32
       # Must stay quoted: an unquoted hex string of digits is parsed as a YAML
       # integer and reaches the container mangled.
-      ENCRYPTION_KEY: "5c2b8f1a9d3e47061b8c4a7f2e9d05c3a6178b4e2f9c0d5a8b3e6f1c4d7092ab"
+      ENCRYPTION_KEY: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
       TELEMETRY_ENABLED: "false"
       LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "false"
       # Auto-provision an org/project/user + API keys on first boot so the
