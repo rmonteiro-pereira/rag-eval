@@ -259,31 +259,85 @@ def test_the_m1_baseline_still_says_what_the_readme_says_it_says():
 # --------------------------------------------------------------------------
 
 
-def test_the_documented_test_count_is_the_real_one():
-    """Collect the suite and compare, rather than trusting a number in prose.
+_SELF = "tests/test_published_numbers.py::test_the_documented_test_count_is_the_real_one"
+_CHILD_MARKER = "RAG_EVAL_TEST_COUNT_CHILD"
 
-    This is self-referential — the count includes this test — which is fine, and
-    is why the docs quote the total. It caught a real drift: README and
-    docs/mutation.md both said 380 after four tests had been added.
+
+def test_the_documented_test_count_is_the_real_one():
+    """Run the suite and compare against the tests that PASS, not the ones found.
+
+    This check used to run `--collect-only` and compare the docs against
+    "N tests collected". That is the defect described above rather than a guard
+    against it: 429 was the collected total while the suite reported 426 passed,
+    so the docs said "429 tests pass" and this test agreed with them. Collection
+    counts every test that could be *found* — a suite in which all of them error
+    collects exactly as many as a suite in which all of them pass.
+
+    Two details keep the pass count stable enough to publish:
+
+    * `-m "not integration"`, the command CI runs. The three `integration` tests
+      self-skip with no Qdrant listening and pass with one, so a plain
+      `pytest -q` yields a property of the reader's machine (427 here, 426 on
+      the reviewer's). Deselecting them is the one count that is the same
+      everywhere, and it is the count CI reports.
+    * this test is deselected from the child run and added back by hand.
+      Without that, running it would spawn a run that runs it. The published
+      figure is the total, this test included — self-referential deliberately,
+      which is why the docs quote a total rather than a subset.
+
+    The doc side is scraped, and scraped in the direction that fails loudly:
+    if the phrasing changes so the regex stops matching, the missing claim is
+    an assertion failure rather than a silent pass. Same rule as
+    `test_the_readme_mutation_claims_match_the_mutation_artifact` below.
     """
+    import os
     import subprocess
     import sys
 
-    out = subprocess.run(
-        [sys.executable, "-m", "pytest", "-q", "--collect-only", "-p", "no:cacheprovider"],
+    assert not os.environ.get(_CHILD_MARKER), (
+        f"this test ran inside its own child process, so {_SELF!r} no longer names it; "
+        "fix _SELF or the child run will recurse"
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "-q",
+            "-m",
+            "not integration",
+            "--deselect",
+            _SELF,
+            "-p",
+            "no:cacheprovider",
+        ],
         capture_output=True,
         text=True,
         encoding="utf-8",
         errors="replace",
         cwd=REPO_ROOT,
-    ).stdout
-    collected = int(re.search(r"(\d+) tests? collected", out).group(1))
+        env={**os.environ, _CHILD_MARKER: "1"},
+    )
+    lines = result.stdout.strip().splitlines()
+    summary = lines[-1] if lines else "<no output>"
+    assert "failed" not in summary and "error" not in summary, (
+        f"the child suite did not come out clean, so its pass count means nothing: {summary}"
+    )
+    match = re.search(r"(\d+) passed", result.stdout)
+    assert match, f"no pass count in pytest's summary: {summary}"
+    passed = int(match.group(1)) + 1  # this test, deselected from the child run above
 
     for doc_name in ("README.md", "docs/mutation.md"):
         doc = (REPO_ROOT / doc_name).read_text(encoding="utf-8")
-        for m in re.finditer(r"(\d{3}) (?:tests pass|passing tests|tests against)", doc):
-            assert int(m.group(1)) == collected, (
-                f"{doc_name} claims {m.group(1)} tests; pytest collects {collected}"
+        claims = re.findall(r"(\d{3}) (?:tests pass|passing tests|tests against)", doc)
+        assert claims, (
+            f"{doc_name} no longer states a test count in any phrasing this test reads; "
+            "either restore one or drop the document from this loop"
+        )
+        for claim in claims:
+            assert int(claim) == passed, (
+                f"{doc_name} claims {claim} tests pass; the suite reports {passed}"
             )
 
 

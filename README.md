@@ -10,7 +10,10 @@ the apparatus to find out whether it actually works. A versioned gold set. An ab
 where each component is contrasted against its own absence. Adversarial suites with
 ungoverned control arms. A regression gate proven to fail. Everything is local and free:
 local embeddings, local vector store, local LLM, self-hosted tracing, no paid API and no
-key anywhere in this repo.
+key you have to obtain. The only credentials in this repository are the local-only
+constants the self-hosted stack boots with — the Langfuse login in
+[step 1](#1-infrastructure) and the auto-provisioned `LANGFUSE_*` values in
+`.env.example` — deliberate, inert outside `localhost`, and documented where they appear.
 
 The interesting results are the ones that contradict the usual story — see below.
 
@@ -168,9 +171,15 @@ in **[`docs/REPRODUCE.md`](docs/REPRODUCE.md)**.
 
 ## How much is the test suite worth?
 
-**429 tests pass. The mutation score is 74.9%** — of 526 mutants with a covering
+**426 tests pass**, and the mutation score is **74.9%** — of 526 mutants with a covering
 test, 394 were killed and 132 survived, and a further 40 mutants sit in code no
 in-scope test imports at all (69.6% if those count as unkilled).
+
+426 is what `uv run pytest -q -m "not integration"` reports, which is the command CI
+runs. It is deliberately not the collected total of 429: the three `integration` tests
+need a live Qdrant, and a figure that moves depending on whether one happens to be
+listening is not a figure worth publishing. `tests/test_published_numbers.py` re-derives
+it from a real run on every build.
 
 A passing suite says the code runs. Mutation testing asks whether the suite would
 *notice* if the code were wrong, and here the answer splits by layer:
@@ -194,9 +203,10 @@ uncovered mutants across the repo fell from 100 to 40.
 **The run is wired into CI** (~28.5 s measured locally), with no `if:` guard,
 gating on a score floor and failing if the survivor inventory is stale — because
 a mutation setup that never executes is worse than none, implying a check the
-reader cannot know did not happen. The job ships in the same commit as this
-paragraph, so its first execution on GitHub is the PR that introduces it; until
-that PR is green, treat "runs in CI" as configured rather than demonstrated. **All 132 survivors are listed individually with their diffs** in
+reader cannot know did not happen. That is now demonstrated rather than
+configured: the job landed in #4 (`5e293a7`) and the `mutation score` job has
+been green on every workflow run since, with no skip and no `if:` — check it with
+`gh run list --workflow=eval.yml` and `gh run view <id>`. **All 132 survivors are listed individually with their diffs** in
 [`docs/mutation-survivors.md`](docs/mutation-survivors.md); the score, the scope,
 the two provably equivalent mutants and what is deliberately unfixed are in
 [`docs/mutation.md`](docs/mutation.md).
@@ -243,12 +253,16 @@ list, with reasoning, is in [`docs/writeup.md`](docs/writeup.md#10-honest-limits
    The accuracy findings are device-independent — only the latency column moves.
    (Ollama, and therefore every generation and judge number, already uses the GPU
    where one exists.)
-10. **CI has now run exactly once.** `.github/workflows/eval.yml` was committed
-    unrun while the repo was remote-less, and passed unmodified on publication
-    (run `30599034168`, 1m03s: ruff clean, 278 passed / 3 deselected, and the
-    gate-selfcheck job green on *both* directions). One green run is evidence the
-    workflow is valid, not that it is load-bearing — nothing has yet tried to
-    merge a regression past it.
+10. **CI has never had to fail anything.** `.github/workflows/eval.yml` was
+    committed unrun while the repo was remote-less, and passed unmodified on
+    publication (run `30599034168`, 1m03s — a run that predates the
+    `ruff format --check` and `mypy` steps the job carries today). It has run on
+    every push since and every run has been green
+    (`gh run list --workflow=eval.yml`). That is evidence the workflow is valid,
+    not that it is load-bearing: no run has yet had to reject a regression, and
+    the `eval-full` job has been skipped on all of them — it is
+    `workflow_dispatch`-only and has never executed a single step, so a green
+    workflow says nothing about the code inside it.
 
 ---
 
@@ -511,8 +525,8 @@ project exists to measure.
 | milestone | state | evidence |
 |---|---|---|
 | **M0 — scaffolding** | done | `docker compose ps` reports Qdrant, Langfuse and Postgres `(healthy)` |
-| **M0 — corpus** | done | 30 Copom minutes (Oct 2022 → Jun 2026), 194 text pages, in `data/manifest.json` |
-| **M0 — ingest** | done | **636 chunks**, bge-m3 1024-d, embedded on CPU in ~135 s (4.7 chunks/s) |
+| **M0 — corpus** | done | 30 Copom minutes (Oct 2022 → Jun 2026), one row each in `data/manifest.json` with URL, date and SHA-256 |
+| **M0 — ingest** | done | **636 chunks**, bge-m3 1024-d, embedded on CPU in 202 s (3.2 chunks/s) — [`docs/REPRODUCE.md`](docs/REPRODUCE.md#step-3--corpus-chunking-embedding-upsert) |
 | **M1 — baseline + tracing** | done | `rag.ask` answers end to end with citations; traces visible in Langfuse |
 | **M2 — gold set** | draft | **56 Q/A pairs**, 24 documents cited, **pending human validation** |
 | **M2 — eval harness** | done | `eval/run_eval.py`; `eval/reports/baseline_dense.json` — MRR 0.191 |
