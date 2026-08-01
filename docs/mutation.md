@@ -1,6 +1,6 @@
 # Mutation testing
 
-429 passing tests says the suite runs. It does not say the suite would notice if
+426 passing tests says the suite runs. It does not say the suite would notice if
 the code were wrong. Mutation testing answers that second question: change the
 code in a small, plausible way, and see whether any test fails.
 
@@ -151,16 +151,17 @@ clean-state reproduction in [`REPRODUCE.md`](REPRODUCE.md), neither of which run
 here.
 
 Test selection is likewise scoped to the seven files that import the mutated
-modules. Running all 429 tests against 566 mutants would cost hours to prove that
+modules. Running all 426 tests against 566 mutants would cost hours to prove that
 a test which never imports `fusion.py` cannot catch a mutation in it.
 
-## The configuration is checked even though the run is not
+## The configuration is checked, not only the run
 
 A mutation setup can be present in a repository and absent from every run — a
 config naming directories that do not exist, or a job pinned to `if: false`.
-Both produce a green tick over nothing. Since the run itself is deliberately out
-of CI (below), `tests/test_mutation_config.py` checks the *config* in the suite
-that does run:
+Both produce a green tick over nothing. The run is in CI (below), but mutmut is
+Linux-only and cannot run in the suite people execute locally, so
+`tests/test_mutation_config.py` checks the *config* in the suite that runs
+everywhere:
 
 - every path in `source_paths`, `also_copy` and the test selection exists;
 - none of those keys is empty;
@@ -200,10 +201,11 @@ WALL CLOCK: 28.51 seconds
 **28.5 seconds.** The entire argument for keeping it manual evaporates at that
 price, so a `mutation` job is now wired to every push with no `if:` guard.
 
-That timing is measured; the CI execution is not yet — the job ships in the same
-commit as this document, so the PR introducing it is its first real run. Saying
-"runs in CI" of a job that has never run would be the same error this document
-was written about, one level up. It:
+That timing is measured, and so is the CI execution. Until #4 (`5e293a7`) landed
+this paragraph said "not yet", because claiming "runs in CI" of a job that had
+never run would be the same error this document was written about, one level up.
+It has run since, green every time — `gh run list --workflow=eval.yml` for the
+runs, `gh run view <id>` for the `mutation score` job inside them. It:
 
 1. runs `mutmut run` on `ubuntu-latest`, where mutmut works;
 2. **gates on the score** — `--check-score 70`, a floor rather than a pin, so
