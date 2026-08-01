@@ -57,7 +57,7 @@ serving/      FastAPI /ask + a minimal UI, over the governed pipeline
 | Tracing | Langfuse v2 | self-hosted |
 | Marts | DuckDB export from Open-Finance-LakeHouse | real data from the sibling project |
 
-**Corpus.** 30 Copom minutes, Oct 2022 – Jun 2026, 194 text pages, **636 chunks**.
+**Corpus.** 30 Copom minutes, Oct 2022 – Jun 2026, **636 chunks**.
 Only `data/manifest.json` (URL, title, date, SHA-256 per document) is committed;
 the PDFs are reproducible from it, so no binaries enter git.
 
@@ -309,13 +309,20 @@ run 30599034168 · 1m03s
 
 278 + 3 deselected against 281 locally: the three `integration` tests need a live
 Qdrant, which CI has none of. They are deselected **explicitly** rather than left
-to self-skip, so a skip cannot be mistaken for a pass in the summary.
+to self-skip, so a skip cannot be mistaken for a pass in the summary. That block
+is a dated transcript and is left as it was recorded — the job has since grown a
+`ruff format --check` step, a `mypy` step and a `mutation score` job, and the
+suite has grown with it.
 
-One green run says the workflow is valid. It does not say it is load-bearing —
-nothing has yet tried to push a regression past it. The hermetic `gate-selfcheck`
-job (no Qdrant, no models, seconds) is the one meant to be required for merge; the
-full ablation stays `workflow_dispatch`-only, because a 20-minute CPU job with a
-model download on every PR is how a gate gets disabled.
+Every run since has also been green (`gh run list --workflow=eval.yml`). That says
+the workflow is valid; it does not say it is load-bearing — nothing has yet tried
+to push a regression past it, and the `eval-full` job has been skipped on every
+run without executing a step. The hermetic `gate-selfcheck` job (no Qdrant, no
+models, seconds) is the required status check on `main` — `gh api
+repos/rmonteiro-pereira/rag-eval/branches/main/protection` shows it, with
+`enforce_admins` off so the owner can still push directly. The full ablation
+stays `workflow_dispatch`-only, because a 20-minute CPU job with a model download
+on every PR is how a gate gets disabled.
 
 **Serving** (`serving/api.py`) exposes `/ask`, `/health`, `/config` and a minimal
 UI over the **governed** pipeline — there is no code path to retrieval that skips

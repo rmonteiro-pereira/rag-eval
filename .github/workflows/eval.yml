@@ -1,5 +1,5 @@
 # =============================================================================
-# LIVE since 2026-07-31. Green on its first run, unchanged.
+# LIVE since 2026-07-31. Green on its first run, and on every run since.
 #
 # This file was written and committed while `rag-eval` was still remote-less —
 # a local `main` with no `origin` — precisely because a CI gate written after
@@ -36,7 +36,12 @@
 #
 #   * `gate-selfcheck` re-runs the committed report against itself plus the
 #     degraded fixture. It is hermetic: no Qdrant, no Ollama, no model weights,
-#     a few seconds. This is the job that must be required for merge.
+#     a few seconds. This is the job required for merge — `main` carries branch
+#     protection with `regression gate (hermetic)` as its required status check,
+#     which is checkable with
+#     `gh api repos/rmonteiro-pereira/rag-eval/branches/main/protection`.
+#     `enforce_admins` is off, so the repository owner can still push directly;
+#     the required check is a gate on merges, not a lock on the owner.
 #   * `eval-full` regenerates the ablation from scratch and needs Qdrant, ~2.5 GB
 #     of model weights and the ingested corpus. It is `workflow_dispatch` only,
 #     because putting a 20-minute CPU-bound job with a model download on every PR
@@ -194,7 +199,7 @@ jobs:
             || { echo "::error::docs/mutation-survivors.md is stale — regenerate it"; exit 1; }
 
   # ---------------------------------------------------------------------------
-  # UNVERIFIED. This job has been *skipped* on all 7 runs so far and has never
+  # UNVERIFIED. This job has been *skipped* on every run so far and has never
   # executed a single step. `workflow_dispatch` + a 60-minute CPU job with a
   # 2.5 GB model download is the right trade for the PR path, but it means the
   # ingest, the regeneration, the gate-against-baseline and the artifact upload
