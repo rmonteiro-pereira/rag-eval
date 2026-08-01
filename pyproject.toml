@@ -35,7 +35,7 @@ dependencies = [
     "pt-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.8.0/pt_core_news_sm-3.8.0-py3-none-any.whl",
     "duckdb>=1.5.5",
     "fastapi>=0.140.13",
-    "uvicorn[standard]>=0.51.0",
+    "uvicorn[standard]>=0.52.0",
 ]
 
 [project.optional-dependencies]
